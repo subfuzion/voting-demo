@@ -1,23 +1,26 @@
 {
-  "name": "@subfuzion/database",
+  "name": "@subfuzion/frontend",
   "version": "2.0.1",
-  "description": "Simple Mongo database package for voting app demo",
-  "main": "index.js",
+  "description": "Frontend voting app demo",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
   "license": "MIT",
   "repository": "https://github.com/subfuzion/voting-app.git",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha --ui tdd"
   },
   "engines": {
     "node": ">=v14.0.0"
   },
   "dependencies": {
-    "mongodb": "^4.1.1",
-    "uuid": "^8.3.2"
+    "@subfuzion/database": "^2.0.1",
+    "axios": "^0.21.1",
+    "body-parser": "~1.19.0",
+    "debug": "~4.3.2",
+    "express": "~4.17.1",
+    "morgan": "~1.10.0"
   },
   "devDependencies": {
-    "mocha": "^9.1.0",
-    "shortid": "^2.2.16"
+    "mocha": "^9.1.0"
   }
 }
