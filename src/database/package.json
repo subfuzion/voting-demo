@@ -1,0 +1,23 @@
+{
+  "name": "@subfuzion/database",
+  "version": "2.0.1",
+  "description": "Simple Mongo database package Docker voting app demo",
+  "main": "index.js",
+  "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
+  "license": "MIT",
+  "repository": "https://github.com/subfuzion/voting-app.git",
+  "scripts": {
+    "test": "mocha --ui tdd"
+  },
+  "engines": {
+    "node": ">=v14.0.0"
+  },
+  "dependencies": {
+    "mongodb": "^4.1.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.0",
+    "shortid": "^2.2.16"
+  }
+}
