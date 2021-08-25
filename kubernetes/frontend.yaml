@@ -15,7 +15,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: frontend
-          image: gcr.io/tpujals-autopilot5/frontend:latest
+          image: gcr.io/PROJECT_ID/frontend:latest
           ports:
             - containerPort: 8080
           env:
@@ -37,6 +37,19 @@ metadata:
   name: frontend
 spec:
   type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-external
+spec:
+  type: LoadBalancer
   selector:
     app: frontend
   ports:
