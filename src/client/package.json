@@ -1,0 +1,23 @@
+{
+  "name": "@subfuzion/vote-client",
+  "version": "1.0.1",
+  "description": "Client for voting app",
+  "repository": "https://github.com/subfuzion/voting-app",
+  "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
+  "license": "MIT",
+  "scripts": {
+    "start": "node main.js",
+    "test": "mocha --ui tdd"
+  },
+  "bin": {
+    "client": "./bin/client"
+  },
+  "engines": {
+    "node": ">=v14.0.0"
+  },
+  "dependencies": {
+    "commander": "^8.1.0",
+    "express": "4.17.1",
+    "inquirer": "^8.1.2"
+  }
+}
