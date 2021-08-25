@@ -16,6 +16,7 @@
     "node": ">=v14.0.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "commander": "^8.1.0",
     "express": "4.17.1",
     "inquirer": "^8.1.2"
