@@ -80,6 +80,13 @@ gcloud builds submit --tag gcr.io/$PROJECT_ID/frontend:latest
 cd -
 ```
 
+> HACK: for now, manually edit line 18 of `kubernetes/frontend.yaml` and
+> replace PROJECT_ID as appropriate.
+
+```text
+18:          image: gcr.io/PROJECT_ID/frontend:latest
+```
+
 Deploy the app.
 
 ```text
