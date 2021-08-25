@@ -1,7 +1,7 @@
 {
-  "name": "@subfuzion/frontend",
-  "version": "2.0.1",
-  "description": "Frontend voting app demo",
+  "name": "@subfuzion/vote-frontend",
+  "version": "1.0.1",
+  "description": "Frontend for voting app",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
   "license": "MIT",
   "repository": "https://github.com/subfuzion/voting-app.git",
@@ -13,7 +13,7 @@
     "node": ">=v14.0.0"
   },
   "dependencies": {
-    "@subfuzion/database": "^2.0.1",
+    "@subfuzion/vote-database": "^1.0.1",
     "axios": "^0.21.1",
     "body-parser": "~1.19.0",
     "debug": "~4.3.2",

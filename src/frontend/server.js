@@ -1,4 +1,4 @@
-const Database = require('@subfuzion/database').Database;
+const Database = require('@subfuzion/vote-database').Database;
 const express= require('express');
 const http = require('http');
 const morgan = require('morgan');
@@ -12,7 +12,7 @@ const morgan = require('morgan');
 // and "port" properties.
 const databaseConfig = Database.createStdConfig();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 const server = http.createServer(app);
 
