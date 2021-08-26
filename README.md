@@ -67,9 +67,17 @@ gcloud config set compute/region us-central1
 gcloud container clusters create-auto $CLUSTER_NAME
 ```
 
-This may take a little longer than you're used to with Standard mode because
+Deployment will take longer than you might be used to with Standard mode because
 Google automatically applies recommendations for availability and security to
 clusters created in Autopilot mode.
+
+While deploying, you'll notice warnings about features being enabled that are
+normal and that you can't override. For example, Container-Optimized OS with
+containerd, and other
+[hardening features](https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster),
+including
+[shielded GKE nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/shielded-gke-nodes)
+are enabled by default and cannot be overridden.
 
 ## Deploy the demo
 
