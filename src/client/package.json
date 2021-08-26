@@ -10,7 +10,7 @@
     "test": "mocha --ui tdd"
   },
   "bin": {
-    "client": "./bin/client"
+    "client": "node main.js"
   },
   "engines": {
     "node": ">=v14.0.0"
