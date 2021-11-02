@@ -62,17 +62,17 @@ Add the dependency to your package:
 
 npm:
 
-    $ npm install @subfuzion/database
+    $ npm install @subfuzion/vote-database
 
 yarn:
 
-    $ yarn add @subfuzion/database
+    $ yarn add @subfuzion/vote-database
 
 ### Create a Database object
 
 Require the package in your module:
 
-    const Database = require('@subfuzion/database').Database;
+    const Database = require('@subfuzion/vote-database').Database;
 
 Create a new instance
 
