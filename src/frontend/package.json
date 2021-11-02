@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --ui tdd",
-    "docker-test": "docker compose -f ./docker-compose.test.yml run sut"
+    "docker-test": "docker compose -f ./docker-compose.test.yml run sut",
+    "docker-down": "docker compose -f ./docker-compose.test.yml down"
   },
   "engines": {
     "node": ">=v14.0.0"

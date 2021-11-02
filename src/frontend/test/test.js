@@ -1,6 +1,6 @@
 const assert = require('assert');
 const axios = require('axios');
-const Database = require('@subfuzion/database').Database;
+const Database = require('@subfuzion/vote-database').Database;
 
 const serviceName = process.env.SERVICE_NAME || 'frontend';
 const port = process.env.PORT || 8080;
