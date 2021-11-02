@@ -1,6 +1,6 @@
 {
   "name": "@subfuzion/vote-database",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple MongoDB database package for voting app",
   "main": "index.js",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
