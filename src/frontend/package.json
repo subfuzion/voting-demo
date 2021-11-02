@@ -7,13 +7,14 @@
   "repository": "https://github.com/subfuzion/voting-app.git",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --ui tdd"
+    "test": "mocha --ui tdd",
+    "docker-test": "docker compose -f ./docker-compose.test.yml run sut"
   },
   "engines": {
     "node": ">=v14.0.0"
   },
   "dependencies": {
-    "@subfuzion/vote-database": "^1.0.1",
+    "@subfuzion/vote-database": "^1.0.2",
     "axios": "^0.21.1",
     "body-parser": "~1.19.0",
     "debug": "~4.3.2",
