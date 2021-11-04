@@ -1,0 +1,18 @@
+version: '2.4'
+
+services:
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+
+  postgres:
+    image: postgres:14.0
+    ports:
+      - "5432:5432"
+    environment:
+      # Read password from shell environment
+      - POSTGRES_PASSWORD
+      # For psql
+      - PGPASSWORD

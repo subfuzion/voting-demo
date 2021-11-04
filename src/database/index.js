@@ -1,3 +1,4 @@
 module.exports = {
-  Database: require('./lib/Database')
+  Mongo: require('./lib/Mongo'),
+  Postgres: require('./lib/Postgres')
 };

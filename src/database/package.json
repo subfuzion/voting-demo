@@ -7,14 +7,15 @@
   "license": "MIT",
   "repository": "https://github.com/subfuzion/voting-app.git",
   "scripts": {
-    "test": "mocha --ui tdd",
-    "docker-test": "docker compose -f docker-compose.test.yml run sut"
+    "test": "mocha test/*test.js --ui tdd",
+    "local-docker-test": "docker compose -f docker-compose.test.yml run sut"
   },
   "engines": {
     "node": ">=v14.0.0"
   },
   "dependencies": {
     "mongodb": "^4.1.1",
+    "pg": "^8.7.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

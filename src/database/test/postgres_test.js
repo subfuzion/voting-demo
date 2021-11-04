@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Database = require('../lib/Database');
+const Database = require('../lib/Postgres');
 const shortid = require('shortid');
 
 const TEST_TIMEOUT = 10000;
@@ -7,32 +7,30 @@ const TEST_TIMEOUT = 10000;
 suite('database tests', function() {
   this.timeout(TEST_TIMEOUT);
 
-  suite('basic mongo wrapper tests', () => {
+  suite('basic postgres wrapper tests', () => {
 
     let db;
 
     // randomly generated database name used for testing, dropped when finished
     let dbName = `testdb_${shortid.generate()}`;
+    dbName = 'postgres';
 
-    setup(async () => {
-      // Create a standard config and override db
+    suiteSetup(async () => {
+      // Create a standard config and override db with generated db name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
       let config = Database.createStdConfig({ db: dbName });
 
       db = new Database(config);
-      assert.equal(db.connectionURL, config.uri || `mongodb://${config.host}:${config.port}/${config.db}`);
       await db.connect();
-      assert.ok(db.instance);
-      assert.equal(db.instance.databaseName, config.db);
       assert.equal(db.isConnected, true);
     });
 
-    teardown(async () => {
-      await db.instance.dropDatabase();
-      await db.close();
+    suiteTeardown(() => {
+      // TODO
+      // await db.instance.dropDatabase();
+      db.close();
       assert.equal(db.isConnected, false);
       assert.equal(db.client, null);
-      assert.equal(db.instance, null);
     });
 
     test('add vote to database', async () => {

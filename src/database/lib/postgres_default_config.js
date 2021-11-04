@@ -1,7 +1,8 @@
 const config = {
-  host: 'database',
-  port: 27017,
-  db: 'voting'
+  host: 'postgres',
+  port: 5432,
+  db: 'votes',
+  user: 'postgres',
 };
 
 // Exported objects are copies

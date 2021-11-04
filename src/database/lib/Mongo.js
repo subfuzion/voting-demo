@@ -1,17 +1,17 @@
-const Backoff = require('./Backoff');
-const defaults = require('./defaults');
 const mongodb = require('mongodb');
-const { v4: uuid } = require('uuid');
-// import { v4 as uuid } from 'uuid';
+
+const Backoff = require('./Backoff');
+const defaults = require('./mongo_default_config');
+const uuid = require('./uuid');
 
 const Client = mongodb.MongoClient;
 
 // The `votes` collection
 const VOTES = 'votes';
 
-class Database {
+class Mongo {
   /**
-   * Create a new Database instance.
+   * Create a new Mongo instance.
    * @param {object} [config] Object with valid url or uri property for connection string, or
    *                        else host, port, and db properties. Can also have an options property.
    * @throws {Error} if invalid config is provided.
@@ -20,7 +20,7 @@ class Database {
     this._client = null;
     this._instance = null;
     this._isConnected = false;
-    this._config = Object.assign(Database.defaults().config(), config || {});
+    this._config = Object.assign(Mongo.defaults().config(), config || {});
     checkConfig(this._config);
   }
 
@@ -34,7 +34,7 @@ class Database {
 
   /**
    * Creates a config object initialized with the defaults, then overridden the following
-   * environment variables, then finally overridden by any explicit props set by the 
+   * environment variables, then finally overridden by any explicit props set by the
    * supplied config object.
    * For environment variables, it checks first for DATABASE_URI and sets the uri property;
    * else if not present, then checks for DATABASE_HOST and DATABASE_PORT and sets the
@@ -43,7 +43,7 @@ class Database {
    * @returns {{}}
    */
   static createStdConfig(config) {
-    let c = Database.defaults().config();
+    let c = Mongo.defaults().config();
 
     if (process.env.DATABASE_URI) {
       c.uri = process.env.DATABASE_URI;
@@ -198,7 +198,7 @@ class Database {
 
 }
 
-module.exports = Database;
+module.exports = Mongo;
 
 // validate configs before accepting
 function checkConfig(c) {

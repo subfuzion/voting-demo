@@ -9,12 +9,24 @@ services:
   sut:
     build: .
     command: npm test
+    environment:
+      # Read password from shell environment
+      - POSTGRES_PASSWORD
     networks:
       - test_net
     depends_on:
-      - database
+      - mongo
+      - postgres
 
-  database:
+  mongo:
     image: mongo:5.0
+    networks:
+      - test_net
+
+  postgres:
+    image: postgres:14.0
+    environment:
+      # Read password from shell environment
+      - POSTGRES_PASSWORD
     networks:
       - test_net

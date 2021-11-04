@@ -12,7 +12,7 @@ Votes are stored as documents in the `votes` collection of the `voting` database
 
 The easiest way is to test using Docker Compose.
 
-The following will build an image for running the tests under `test/test.js` and then start
+The following will build an image for running the tests under `test/` and then start
 the environment declared in `./docker-compose.test.yml`.
 
     $ docker compose -f ./docker-compose.test.yml run sut
@@ -68,17 +68,17 @@ yarn:
 
     $ yarn add @subfuzion/vote-database
 
-### Create a Database object
+### Create a Mongo object
 
 Require the package in your module:
 
-    const Database = require('@subfuzion/vote-database').Database;
+    const Mongo = require('@subfuzion/vote-database').Mongo;
 
 Create a new instance
 
-    var db = new Database([options])
+    var db = new Mongo([options])
 
-`options` is an optional object that defaults to the values in `lib/defaults.js` for any missing properties.
+`options` is an optional object that defaults to the values in `lib/mongo_default_config.js` for any missing properties.
 
 ```js
 const config = {
@@ -88,14 +88,14 @@ const config = {
 };
 ```
 
-There is a Database helper static method that will create the configuration that can be overridden by
+There is a Mongo helper static method that will create the configuration that can be overridden by
 environment variables:
 
 ```js
 let defaults = {};
 // explicit defaults will override environment variables, environment overrides internal defaults
-let config = Database.createStdConfig(defaults);
-let db = new Database(config);
+let config = Mongo.createStdConfig(defaults);
+let db = new Mongo(config);
 await db.connect();
 ```
 
@@ -112,8 +112,8 @@ environment.
 ### Storing votes
 
 ```js
-var db = new Database([options])
-let vote = { vote: 'a' } // valid values are 'a' or 'b'
+var db = new Mongo([options])
+let vote = {vote: 'a'} // valid values are 'a' or 'b'
 await db.updateVote(vote)
 // when finished with the database
 await db.close()
@@ -122,7 +122,7 @@ await db.close()
 ### Tallying votes
 
 ```js
-var db = new Database([options])
+var db = new Mongo([options])
 let tally = await db.tallyVotes()
 // tally is an object: { a: <number>, b: <number> }
 // when finished with the database
