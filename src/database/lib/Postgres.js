@@ -46,7 +46,8 @@ class Postgres {
     if (process.env.PGPORT) c.port = process.env.PORT
     if (process.env.PGDATABASE) c.db = process.env.PGDATABASE
     if (process.env.PGUSER) c.user = process.env.PGUSER
-    if (process.env.POSTGRES_PASSWORD) c.password = process.env.POSTGRES_PASSWORD
+    // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
+    if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
 
     return Object.assign(c, config || {});
   }

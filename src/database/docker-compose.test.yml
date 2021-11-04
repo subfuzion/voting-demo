@@ -11,7 +11,7 @@ services:
     command: npm test
     environment:
       # Read password from shell environment
-      - POSTGRES_PASSWORD
+      - PGPASSWORD
     networks:
       - test_net
     depends_on:
