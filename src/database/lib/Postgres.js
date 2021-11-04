@@ -27,12 +27,12 @@ class Postgres {
   }
 
   /**
-   * Creates a config object initialized with the defaults (see postgres_default_config.js)
-   * then overrides defaults with the following environment variables
-   * - PGHOST       -> host
-   * - PGPORT       -> port
-   * - PGDATABASE   -> db
-   * - PGUSER       -> user
+   * Creates a config object initialized with the following keys (see postgres_default_config.js)
+   * then overrides default values from environment variables that map to these keys
+   * - PGHOST       -> host (= postgres)
+   * - PGPORT       -> port (= 5432)
+   * - PGDATABASE   -> db (= votes)
+   * - PGUSER       -> user (= postgres)
    * - PGPASSWORD   -> password
    *
    * then overrides with any explicit properties set by the config parameter.
@@ -43,7 +43,7 @@ class Postgres {
     let c = Postgres.defaults().config();
 
     if (process.env.PGHOST) c.host = process.env.PGHOST
-    if (process.env.PGPORT) c.port = process.env.PORT
+    if (process.env.PGPORT) c.port = process.env.PGPORT
     if (process.env.PGDATABASE) c.db = process.env.PGDATABASE
     if (process.env.PGUSER) c.user = process.env.PGUSER
     // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)

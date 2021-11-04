@@ -30,9 +30,7 @@ services:
     environment:
       # Read password from shell environment
       - PGPASSWORD
-      - PGHOST=postgres
-      - PGPORT=5432
-      - PGDATABASE=votes
       - PGUSER=postgres
+      - PGDATABASE=votes
     networks:
       - test_net
