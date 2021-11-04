@@ -69,9 +69,7 @@ class Postgres {
    */
   get connectionURL() {
     let c = this.config;
-    // sanitize password
-    let pw = c.password.replace(/./g, '#');
-    return `postgres://${c.user}:${pw}@${c.host}:${c.port}:${c.db}`
+    return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.db}`
   }
 
   /**
@@ -106,7 +104,7 @@ class Postgres {
       console.error(that.connectionURL)
       that._client = await client.connect();
       that._isConnected = true;
-    });
+    }, {retries: 10});
 
     await backoff.connect();
   }

@@ -123,6 +123,7 @@ class Mongo {
     let that = this;
     let backoff = new Backoff(async () => {
       let opts = { useNewUrlParser: true };
+      console.error(that.connectionURL)
       that._client = await Client.connect(that.connectionURL, opts);
       that._instance = await that._client.db(that.config.db);
       that._isConnected = true;

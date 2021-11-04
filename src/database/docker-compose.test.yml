@@ -29,6 +29,7 @@ services:
       - "5432:5432"
     environment:
       # Read password from shell environment
+      - POSTGRES_PASSWORD
       - PGPASSWORD
       - PGUSER=postgres
       - PGDATABASE=votes
