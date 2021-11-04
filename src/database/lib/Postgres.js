@@ -68,7 +68,9 @@ class Postgres {
    */
   get connectionURL() {
     let c = this.config;
-    return `postgres://${c.user}:${c.password}@${c.host}:${c.port}:${c.db}`
+    // sanitize password
+    let pw = c.password.replace(/./g, '#');
+    return `postgres://${c.user}:${pw}@${c.host}:${c.port}:${c.db}`
   }
 
   /**

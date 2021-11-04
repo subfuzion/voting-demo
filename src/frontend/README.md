@@ -56,7 +56,7 @@ This endpoint is used to query the voting results.
 
 The easiest way is to test using Docker Compose.
 
-The following will build an image for running the tests under `test/test.js` and then start
+The following will build an image for running the tests under `test/` and then start
 the environment declared in `./docker-compose.test.yml`.
 
     $ docker compose -f ./docker-compose.test.yml run sut
