@@ -2,7 +2,7 @@ const assert = require('assert');
 const Database = require('../lib/Postgres');
 const shortid = require('shortid');
 
-const TEST_TIMEOUT = 10000;
+const TEST_TIMEOUT = 15000;
 
 suite('database tests', function() {
   this.timeout(TEST_TIMEOUT);

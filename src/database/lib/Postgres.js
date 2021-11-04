@@ -88,6 +88,29 @@ class Postgres {
     return this._client;
   }
 
+  async initDatabase() {
+    let c = this.config;
+    let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
+
+    let client = new Client(conn);
+    console.error(`connecting to postgres database: ${conn}`);
+
+    try {
+      await client.connect();
+    } catch (c) {
+      console.error(e);
+    }
+
+    try {
+      await client.query(`CREATE DATABASE ${c.db};`);
+    } catch (e) {
+      console.error(e) ;
+    }
+
+    console.error('closing connection');
+    await client.end();
+  }
+
   /**
    * Establish a connection to the database.
    * @throws {Error} Connection error.
@@ -102,11 +125,28 @@ class Postgres {
     let backoff = new Backoff(async () => {
       let client = new Client(that.connectionURL);
       console.error(that.connectionURL)
-      that._client = await client.connect();
+      await client.connect();
+      that._client = client;
       that._isConnected = true;
-    }, {retries: 10});
+    });
 
-    await backoff.connect();
+    try {
+      await backoff.connect();
+    } catch (e) {
+      try {
+        await this.initDatabase();
+        try {
+          await this.connect();
+        } catch (e) {
+          console.error('we are foobared');
+          process.exit(1);
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    console.error('successfully created database')
   }
 
   /**
