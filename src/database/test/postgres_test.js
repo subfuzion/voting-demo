@@ -12,8 +12,9 @@ suite('database tests', function() {
     let db;
 
     // randomly generated database name used for testing, dropped when finished
-    let dbName = `testdb_${shortid.generate()}`;
-    dbName = 'postgres';
+    // TODO:
+    // let dbName = `testdb_${shortid.generate()}`;
+    let dbName = 'votes'
 
     suiteSetup(async () => {
       // Create a standard config and override db with generated db name

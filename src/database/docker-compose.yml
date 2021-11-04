@@ -13,8 +13,10 @@ services:
       - "5432:5432"
     environment:
       # Read password from shell environment
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=votes
+      - PGPASSWORD
+      - PGHOST=postgres
+      - PGPORT=5432
+      - PGDATABASE=votes
+      - PGUSER=postgres
       # For psql
       - PGPASSWORD
