@@ -24,13 +24,12 @@ services:
       - test_net
 
   postgres:
-    image: postgres:14.0
+    image: postgres:13.0
     ports:
       - "5432:5432"
     environment:
       # Read password from shell environment
       - POSTGRES_PASSWORD
-      - PGPASSWORD
       - PGUSER=postgres
       - PGDATABASE=votes
     networks:
