@@ -237,7 +237,17 @@ class Postgres {
    * @return {Promise<{a: number, b: number}>}
    */
   async tallyVotes() {
-    // TODO
+
+    let p = this._client;
+    p.query(`SELECT vote, COUNT(vote) FROM votes GROUP BY vote`)
+    .catch(e => console.error(e))
+    .then(r => {
+        obj = new Object()    
+        r.rows.forEach(row => obj[row.vote] = row.count);
+        console.log(obj);
+        c.end();
+        return obj;
+    });
     return {
       a: 0,
       b: 0
