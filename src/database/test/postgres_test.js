@@ -19,17 +19,18 @@ suite('database tests', function() {
     suiteSetup(async () => {
       // Create a standard config and override db with generated db name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({ db: dbName });
+      let config = Database.createStdConfig({ db: dbName, idleTimeoutMillis: 100 });
 
       db = new Database(config);
       await db.connect();
       assert.equal(db.isConnected, true);
     });
 
-    suiteTeardown(() => {
+    suiteTeardown(async () => {
       // TODO
-      // await db.instance.dropDatabase();
-      db.close();
+      db.dropDatabase()
+      .catch(e => console.error(e))
+      .then(db.close());
       assert.equal(db.isConnected, false);
       assert.equal(db.client, null);
     });

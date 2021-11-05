@@ -1,8 +1,10 @@
-const { Client } = require('pg');
+const { Client, Pool } = require('pg');
 
 const Backoff = require('./Backoff');
 const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
+
+const tableName = 'events';
 
 class Postgres {
   /**
@@ -12,10 +14,12 @@ class Postgres {
    * @throws {Error} if invalid config is provided.
    */
   constructor(config) {
-    this._client = null;
     this._isConnected = false;
     this._config = Object.assign(Postgres.defaults().config(), config || {});
     checkConfig(this._config);
+    this._client = new Pool({ connectionString: this.connectionURL,
+                              idleTimeoutMillis: this._config.idleTimeoutMillis })
+
   }
 
   /**
@@ -89,26 +93,32 @@ class Postgres {
   }
 
   async initDatabase() {
+    console.error('starting to initialize our database properly')
+    // first we create the pool and see if it can connect to anything
     let c = this.config;
     let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
 
     let client = new Client(conn);
     console.error(`connecting to postgres database: ${conn}`);
 
-    try {
-      await client.connect();
-    } catch (c) {
-      console.error(e);
-    }
-
-    try {
-      await client.query(`CREATE DATABASE ${c.db};`);
-    } catch (e) {
-      console.error(e) ;
-    }
-
-    console.error('closing connection');
-    await client.end();
+    // transaction block. First we create a DB, then upon completion, create
+    // our table, and then on completion close down our temporary client
+    client.connect()
+    .catch(e => { throw new Error(e); })
+    .then(r => { client.query(`CREATE DATABASE ${c.db};`)
+      .catch(e => console.error(e))
+      .then(r => {
+        console.error("Created database successfully");
+        client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+        .catch(e => { console.error(e); })
+        .then(r => {
+          console.error('Created table.')
+          client.end()
+          .catch(e => { throw new Error(e); })
+          .then(console.error('Closed temp db create connection.'))
+        });
+      });
+    });
   }
 
   /**
@@ -123,16 +133,19 @@ class Postgres {
 
     let that = this;
     let backoff = new Backoff(async () => {
-      let client = new Client(that.connectionURL);
-      console.error(that.connectionURL)
-      await client.connect();
-      that._client = client;
+      await that._client.query(`SELECT NOW()`);
       that._isConnected = true;
     });
 
     try {
       await backoff.connect();
     } catch (e) {
+      // if our code ISN'T "database 'votes' doesn't exist" then exit,
+      // because something else is wrong
+      if (e.code != "3D000") {
+        console.error(e);
+        throw new Error(e);
+      }
       try {
         await this.initDatabase();
         try {
@@ -146,7 +159,34 @@ class Postgres {
       }
     }
 
-    console.error('successfully created database')
+    console.error('finished connection call')
+  }
+
+  /**
+   * Clean up our database
+   * @throws {Error} Connection error.
+   * @return {Promise<void>}
+   */
+  async dropDatabase() {
+    console.error('starting to tear down our database')
+    let c = this.config;
+    let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
+
+    let client = new Client(conn);
+    console.error(`connecting to postgres database: ${conn}`);
+
+    client.connect()
+    .catch(e => { throw new Error(e); })
+    .then(r => {
+      client.query(`DROP DATABASE ${c.db};`)
+      .catch(e => { throw new Error(e); })
+      .then(r => {
+        console.error("Dropped database successfully");
+        client.end()
+        .catch(e => { throw new Error(e); })
+        .then(r => console.error("Closed drop db temp client."))
+      });
+    });
   }
 
   /**
@@ -155,9 +195,11 @@ class Postgres {
    * @return {Promise<void>}
    */
   async close() {
+    console.error('Closing postgresql class');
     if (this._client) {
-      await this._client.close();
-      this._client = null;
+      this._client.end()
+      .catch(e => { throw new Error(e); })
+      .then(r => { this._client = null; console.error("CLIENT SUCCESSFULLY ENDED"); });
     }
     this._isConnected = false;
   }
