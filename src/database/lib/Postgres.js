@@ -247,12 +247,11 @@ class Postgres {
     }
 
     let p = this._client;
-    p.query(`INSERT INTO ${tableName} (voter, vote) VALUES ('${vote.voter_id}', '${vote.vote}')`)
-    .catch(e => console.error(e))
-    .then(r => {
+    try {
+      p.query(`INSERT INTO ${tableName} (voter, vote) VALUES ('${vote.voter_id}', '${vote.vote}')`)
       console.error(`Inserted ${vote.voter_id}: ${vote.vote}`)
       return vote;
-    });
+    } finally {}
   }
 
   /**
@@ -262,19 +261,16 @@ class Postgres {
   async tallyVotes() {
 
     let p = this._client;
-    p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`)
-    .catch(e => console.error(e))
-    .then(r => {
-        obj = new Object();
-        r.rows.forEach(row => obj[row.vote] = row.count);
-        console.log(obj);
-        c.end();
-        return obj;
-    });
-    return {
-      a: 0,
-      b: 0
-    };
+    try {
+      let r = await p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`);
+      console.log(r);
+      let obj = new Object();
+      r.rows.forEach(row => obj[row.vote] = row.count);
+      return obj;
+    } catch (e) {
+      console.error(e);
+      return { a: 0, b: 0 };
+    }
   }
 
 }
