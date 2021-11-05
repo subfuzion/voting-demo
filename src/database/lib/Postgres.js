@@ -242,7 +242,7 @@ class Postgres {
     p.query(`SELECT vote, COUNT(vote) FROM votes GROUP BY vote`)
     .catch(e => console.error(e))
     .then(r => {
-        obj = new Object()    
+        obj = new Object();
         r.rows.forEach(row => obj[row.vote] = row.count);
         console.log(obj);
         c.end();
