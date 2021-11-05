@@ -28,11 +28,13 @@ suite('database tests', function() {
 
     suiteTeardown(async () => {
       // TODO
-      db.dropDatabase()
-      .catch(e => console.error(e))
-      .then(db.close());
-      assert.equal(db.isConnected, false);
-      assert.equal(db.client, null);
+      try {
+        await db.dropDatabase();
+        await db.close();
+      } finally {
+        assert.equal(db.isConnected, false);
+        assert.equal(db.client, null);
+      }
     });
 
     test('add vote to database', async () => {
@@ -44,6 +46,9 @@ suite('database tests', function() {
       assert.ok(doc);
       assert.equal(doc.vote, v.vote);
       assert.ok(doc.voter_id);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
     });
 
     test('missing vote property should throw', async () => {

@@ -154,37 +154,17 @@ class Postgres {
         throw e;
       }
     }
+  }
 
-    return;
-
-    let backoff = new Backoff(async () => {
-      await that._client.query(`SELECT NOW()`);
-      that._isConnected = true;
-    });
-
+  /**
+   * Clean the table so each test can be run clean
+   */
+  async truncateTable() {
+    console.error('Truncating table');
     try {
-      await backoff.connect();
-    } catch (e) {
-      // if our code ISN'T "database 'votes' doesn't exist" then exit,
-      // because something else is wrong
-      if (e.code != "3D000") {
-        console.error(e);
-        throw new Error(e);
-      }
-      try {
-        await this.initDatabase();
-        try {
-          await this.connect();
-        } catch (e) {
-          console.error('we are foobared');
-          process.exit(1);
-        }
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    console.error('finished connection call')
+      await this._client.query(`TRUNCATE TABLE ${tableName}`);
+      console.error(`Truncated table ${tableName}`)
+    } finally {}
   }
 
   /**
@@ -200,18 +180,13 @@ class Postgres {
     let client = new Client(conn);
     console.error(`connecting to postgres database: ${conn}`);
 
-    client.connect()
-    .catch(e => { throw new Error(e); })
-    .then(r => {
-      client.query(`DROP DATABASE ${c.db};`)
-      .catch(e => { throw new Error(e); })
-      .then(r => {
-        console.error("Dropped database successfully");
-        client.end()
-        .catch(e => { throw new Error(e); })
-        .then(r => console.error("Closed drop db temp client."))
-      });
-    });
+    try {
+      await client.connect();
+      await client.query(`DROP DATABASE ${c.db};`);
+      console.error("Dropped database successfully");
+      await client.end()
+      console.error("Closed drop db temp client.")
+    } finally {}
   }
 
   /**
@@ -222,9 +197,11 @@ class Postgres {
   async close() {
     console.error('Closing postgresql class');
     if (this._client) {
-      this._client.end()
-      .catch(e => { throw new Error(e); })
-      .then(r => { this._client = null; console.error("CLIENT SUCCESSFULLY ENDED"); });
+      try {
+        await this._client.end();
+        this._client = null;
+        console.error("CLIENT SUCCESSFULLY ENDED");
+      } finally {}
     }
     this._isConnected = false;
   }
@@ -263,7 +240,6 @@ class Postgres {
     let p = this._client;
     try {
       let r = await p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`);
-      console.log(r);
       let obj = new Object();
       r.rows.forEach(row => obj[row.vote] = row.count);
       return obj;
