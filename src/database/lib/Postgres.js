@@ -5,6 +5,7 @@ const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
 
 const tableName = 'events';
+let counter = 0;
 
 class Postgres {
   /**
@@ -103,24 +104,20 @@ class Postgres {
 
     // transaction block. First we create a DB, then upon completion, create
     // our table, and then on completion close down our temporary client
-    client.connect()
-    .catch(e => { throw new Error(e); })
-    .then(r => { client.query(`CREATE DATABASE ${c.db};`)
-      .catch(e => console.error(e))
-      .then(r => {
-        console.error("Created database successfully");
-        // TODO: change table creation to more data interesting schema
-//        client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
-        client.query(`CREATE TABLE ${tableName} (voter TEXT, vote TEXT)`)
-        .catch(e => { console.error(e); })
-        .then(r => {
-          console.error('Created table.')
-          client.end()
-          .catch(e => { throw new Error(e); })
-          .then(console.error('Closed temp db create connection.'))
-        });
-      });
-    });
+    try {
+      await client.connect();
+      await client.query(`CREATE DATABASE ${c.db};`);
+      console.error("Created database successfully");
+      client.end();
+      // TODO: change table creation to more data interesting schema
+//      client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+      // now we need to use our existing pool to create our table.
+      // this way the table actually gets created on our newly created
+      // database, rather than on the postgres database where it can't
+      // help us.
+      this._client.query(`CREATE TABLE ${tableName} (voter TEXT, vote TEXT)`);
+      console.error('Created table.')
+    } finally {}
   }
 
   /**
@@ -133,7 +130,33 @@ class Postgres {
       throw new Error('Already connected');
     }
 
-    let that = this;
+    try {
+      await this._client.query(`SELECT NOW()`);
+      this._isConnected = true;
+      console.error('finished connection call')
+    } catch (e) {
+      if (e.code != "3D000") {
+        console.error(e);
+        throw e;
+      }
+      try {
+        if (counter > 0) return;
+        counter++;
+        await this.initDatabase();
+        try {
+          await this.connect();
+        } catch (e) {
+          console.error('we are foobared');
+          process.exit(1);
+        }
+      } catch (e) {
+        console.error(e)
+        throw e;
+      }
+    }
+
+    return;
+
     let backoff = new Backoff(async () => {
       await that._client.query(`SELECT NOW()`);
       that._isConnected = true;
@@ -224,7 +247,7 @@ class Postgres {
     }
 
     let p = this._client;
-    p.query(`INSERT INTO ${tableName} (voter, vote) VALUES (${vote.voter_id}, ${vote.vote})`)
+    p.query(`INSERT INTO ${tableName} (voter, vote) VALUES ('${vote.voter_id}', '${vote.vote}')`)
     .catch(e => console.error(e))
     .then(r => {
       console.error(`Inserted ${vote.voter_id}: ${vote.vote}`)
@@ -239,7 +262,7 @@ class Postgres {
   async tallyVotes() {
 
     let p = this._client;
-    p.query(`SELECT vote, COUNT(vote) FROM votes GROUP BY vote`)
+    p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`)
     .catch(e => console.error(e))
     .then(r => {
         obj = new Object();
