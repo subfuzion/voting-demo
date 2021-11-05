@@ -109,7 +109,9 @@ class Postgres {
       .catch(e => console.error(e))
       .then(r => {
         console.error("Created database successfully");
-        client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+        // TODO: change table creation to more data interesting schema
+//        client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+        client.query(`CREATE TABLE ${tableName} (voter TEXT, vote TEXT)`)
         .catch(e => { console.error(e); })
         .then(r => {
           console.error('Created table.')
@@ -221,9 +223,13 @@ class Postgres {
       vote.voter_id = uuid();
     }
 
-    // TODO
-
-    return vote;
+    let p = this._client;
+    p.query(`INSERT INTO ${tableName} (voter, vote) VALUES (${vote.voter_id}, ${vote.vote})`)
+    .catch(e => console.error(e))
+    .then(r => {
+      console.error(`Inserted ${vote.voter_id}: ${vote.vote}`)
+      return vote;
+    });
   }
 
   /**
