@@ -1,8 +1,11 @@
-const { Client } = require('pg');
+const { Client, Pool } = require('pg');
 
 const Backoff = require('./Backoff');
 const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
+
+const tableName = 'events';
+let counter = 0;
 
 class Postgres {
   /**
@@ -12,10 +15,12 @@ class Postgres {
    * @throws {Error} if invalid config is provided.
    */
   constructor(config) {
-    this._client = null;
     this._isConnected = false;
     this._config = Object.assign(Postgres.defaults().config(), config || {});
     checkConfig(this._config);
+    this._client = new Pool({ connectionString: this.connectionURL,
+                              idleTimeoutMillis: this._config.idleTimeoutMillis })
+
   }
 
   /**
@@ -89,26 +94,30 @@ class Postgres {
   }
 
   async initDatabase() {
+    console.error('starting to initialize our database properly')
+    // first we create the pool and see if it can connect to anything
     let c = this.config;
     let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
 
     let client = new Client(conn);
     console.error(`connecting to postgres database: ${conn}`);
 
+    // transaction block. First we create a DB, then upon completion, create
+    // our table, and then on completion close down our temporary client
     try {
       await client.connect();
-    } catch (c) {
-      console.error(e);
-    }
-
-    try {
       await client.query(`CREATE DATABASE ${c.db};`);
-    } catch (e) {
-      console.error(e) ;
-    }
-
-    console.error('closing connection');
-    await client.end();
+      console.error("Created database successfully");
+      client.end();
+      // TODO: change table creation to more data interesting schema
+//      client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+      // now we need to use our existing pool to create our table.
+      // this way the table actually gets created on our newly created
+      // database, rather than on the postgres database where it can't
+      // help us.
+      this._client.query(`CREATE TABLE ${tableName} (voter TEXT, vote TEXT)`);
+      console.error('Created table.')
+    } finally {}
   }
 
   /**
@@ -121,19 +130,18 @@ class Postgres {
       throw new Error('Already connected');
     }
 
-    let that = this;
-    let backoff = new Backoff(async () => {
-      let client = new Client(that.connectionURL);
-      console.error(that.connectionURL)
-      await client.connect();
-      that._client = client;
-      that._isConnected = true;
-    });
-
     try {
-      await backoff.connect();
+      await this._client.query(`SELECT NOW()`);
+      this._isConnected = true;
+      console.error('finished connection call')
     } catch (e) {
+      if (e.code != "3D000") {
+        console.error(e);
+        throw e;
+      }
       try {
+        if (counter > 0) return;
+        counter++;
         await this.initDatabase();
         try {
           await this.connect();
@@ -143,10 +151,42 @@ class Postgres {
         }
       } catch (e) {
         console.error(e)
+        throw e;
       }
     }
+  }
 
-    console.error('successfully created database')
+  /**
+   * Clean the table so each test can be run clean
+   */
+  async truncateTable() {
+    console.error('Truncating table');
+    try {
+      await this._client.query(`TRUNCATE TABLE ${tableName}`);
+      console.error(`Truncated table ${tableName}`)
+    } finally {}
+  }
+
+  /**
+   * Clean up our database
+   * @throws {Error} Connection error.
+   * @return {Promise<void>}
+   */
+  async dropDatabase() {
+    console.error('starting to tear down our database')
+    let c = this.config;
+    let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
+
+    let client = new Client(conn);
+    console.error(`connecting to postgres database: ${conn}`);
+
+    try {
+      await client.connect();
+      await client.query(`DROP DATABASE ${c.db};`);
+      console.error("Dropped database successfully");
+      await client.end()
+      console.error("Closed drop db temp client.")
+    } finally {}
   }
 
   /**
@@ -155,9 +195,13 @@ class Postgres {
    * @return {Promise<void>}
    */
   async close() {
+    console.error('Closing postgresql class');
     if (this._client) {
-      await this._client.close();
-      this._client = null;
+      try {
+        await this._client.end();
+        this._client = null;
+        console.error("CLIENT SUCCESSFULLY ENDED");
+      } finally {}
     }
     this._isConnected = false;
   }
@@ -179,9 +223,12 @@ class Postgres {
       vote.voter_id = uuid();
     }
 
-    // TODO
-
-    return vote;
+    let p = this._client;
+    try {
+      p.query(`INSERT INTO ${tableName} (voter, vote) VALUES ('${vote.voter_id}', '${vote.vote}')`)
+      console.error(`Inserted ${vote.voter_id}: ${vote.vote}`)
+      return vote;
+    } finally {}
   }
 
   /**
@@ -189,11 +236,17 @@ class Postgres {
    * @return {Promise<{a: number, b: number}>}
    */
   async tallyVotes() {
-    // TODO
-    return {
-      a: 0,
-      b: 0
-    };
+
+    let p = this._client;
+    try {
+      let r = await p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`);
+      let obj = new Object();
+      r.rows.forEach(row => obj[row.vote] = row.count);
+      return obj;
+    } catch (e) {
+      console.error(e);
+      return { a: 0, b: 0 };
+    }
   }
 
 }

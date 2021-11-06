@@ -19,19 +19,22 @@ suite('database tests', function() {
     suiteSetup(async () => {
       // Create a standard config and override db with generated db name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({ db: dbName });
+      let config = Database.createStdConfig({ db: dbName, idleTimeoutMillis: 100 });
 
       db = new Database(config);
       await db.connect();
       assert.equal(db.isConnected, true);
     });
 
-    suiteTeardown(() => {
+    suiteTeardown(async () => {
       // TODO
-      // await db.instance.dropDatabase();
-      db.close();
-      assert.equal(db.isConnected, false);
-      assert.equal(db.client, null);
+      try {
+        await db.dropDatabase();
+        await db.close();
+      } finally {
+        assert.equal(db.isConnected, false);
+        assert.equal(db.client, null);
+      }
     });
 
     test('add vote to database', async () => {
@@ -43,6 +46,9 @@ suite('database tests', function() {
       assert.ok(doc);
       assert.equal(doc.vote, v.vote);
       assert.ok(doc.voter_id);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
     });
 
     test('missing vote property should throw', async () => {
