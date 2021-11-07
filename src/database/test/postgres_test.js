@@ -21,9 +21,13 @@ suite('database tests', function() {
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
       let config = Database.createStdConfig({ db: dbName, idleTimeoutMillis: 100 });
 
-      db = new Database(config);
-      await db.connect();
-      assert.equal(db.isConnected, true);
+      try {
+        db = new Database(config);
+        await db.connect();
+        assert.equal(db.isConnected, true);
+      } catch (e) {
+        exit(e);
+      }
     });
 
     suiteTeardown(async () => {
@@ -102,3 +106,17 @@ suite('database tests', function() {
 
   });
 });
+
+
+// Print error stack starting from the caller stack frame.
+// Suppress printing superfluous mocha stack frames.
+function exit(e) {
+  let localStack = new Error().stack;
+  let e_stack = e.stack.split('\n');
+  let local_stack = localStack.split('\n');
+  for (let i = 0; i < local_stack.length - 3; i++) {
+    e_stack.pop();
+  }
+  console.error(e_stack.join('\n'));
+  process.exit(1);
+}
