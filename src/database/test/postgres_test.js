@@ -1,43 +1,52 @@
 const assert = require('assert');
 const Database = require('../lib/Postgres');
-const shortid = require('shortid');
+const { nanoid } = require('nanoid');
 
 const TEST_TIMEOUT = 15000;
+
+
+function log(...v) {
+  console.log('[TEST]', ...v);
+}
+
+
+// Postgress database names can only be 31 characters long
+// and can only have lowercase letters, numbers, and underscores.
+function id() {
+  let id = `test_${nanoid()}`;
+  return id.slice(0, 32).toLowerCase().replace(/-/g, '_');
+}
 
 suite('database tests', function() {
   this.timeout(TEST_TIMEOUT);
 
   suite('basic postgres wrapper tests', () => {
-
     let db;
 
     // randomly generated database name used for testing, dropped when finished
-    // TODO:
-    // let dbName = `testdb_${shortid.generate()}`;
-    let dbName = 'votes'
+    let dbName = id();
 
     suiteSetup(async () => {
       // Create a standard config and override db with generated db name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({ db: dbName, idleTimeoutMillis: 100 });
+      let config = Database.createStdConfig({ database: dbName, idleTimeoutMillis: 100 });
 
       try {
         db = new Database(config);
         await db.connect();
-        assert.equal(db.isConnected, true);
       } catch (e) {
         exit(e);
       }
+
+      assert.equal(db.isConnected, true);
     });
 
     suiteTeardown(async () => {
-      // TODO
       try {
         await db.dropDatabase();
         await db.close();
       } finally {
         assert.equal(db.isConnected, false);
-        assert.equal(db.client, null);
       }
     });
 
@@ -117,6 +126,6 @@ function exit(e) {
   for (let i = 0; i < local_stack.length - 3; i++) {
     e_stack.pop();
   }
-  console.error(e_stack.join('\n'));
+  log(e_stack.join('\n'));
   process.exit(1);
 }
