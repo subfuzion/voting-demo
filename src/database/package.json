@@ -8,6 +8,8 @@
   "repository": "https://github.com/subfuzion/voting-app.git",
   "scripts": {
     "test": "mocha test/*test.js --ui tdd",
+    "test-mongo": "mocha test/mongo_test.js --ui tdd",
+    "test-postgres": "mocha test/postgres_test.js --ui tdd",
     "local-docker-test": "docker compose -f docker-compose.test.yml run sut"
   },
   "engines": {
