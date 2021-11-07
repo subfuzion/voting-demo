@@ -1,7 +1,7 @@
 const config = {
   host: 'postgres',
   port: 5432,
-  db: 'votes',
+  database: 'votes',
   user: 'postgres',
   idleTimeoutMillis: 5000,
 };

@@ -1,26 +1,87 @@
-const { Client, Pool } = require('pg');
+const {Client, Pool} = require('pg');
 
 const Backoff = require('./Backoff');
 const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
 
 const tableName = 'events';
-let counter = 0;
+
+
+// https://www.postgresql.org/docs/13/errcodes-appendix.html
+const E_INVALID_CATALOG_NAME = "3D000"
+
+
+function log(...v) {
+  if (process.env.NODE_ENV === "development") {
+    console.log('[postgres client]', ...v);
+  }
+}
+
 
 class Postgres {
   /**
    * Create a new Database instance.
    * @param {object} [config] Object with valid url or uri property for connection string, or
-   *                        else host, port, and db properties. Can also have an options property.
+   *                        else host, port, and database properties. Can also have an options property.
    * @throws {Error} if invalid config is provided.
    */
   constructor(config) {
     this._isConnected = false;
     this._config = Object.assign(Postgres.defaults().config(), config || {});
-    checkConfig(this._config);
-    this._client = new Pool({ connectionString: this.connectionURL,
-                              idleTimeoutMillis: this._config.idleTimeoutMillis })
+  }
 
+  /**
+   * Get a copy of the current config.
+   * The config is an object with `host`, `port`, `db`, `user`, and `password` properties
+   * @return {{}}
+   */
+  get config() {
+    return Object.assign({}, this._config);
+  }
+
+  /**
+   * Get the admin connection URL (to postgres database) based on the current config.
+   * Returns value of url property if present, else returns value of uri property
+   * if present, else returns generated string based on host, port, and db properties.
+   * @return {string}
+   */
+  get adminConnectionURL() {
+    let c = this.config;
+    return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`;
+  }
+
+  /**
+   * Get the connection URL based on the current config.
+   * Returns value of url property if present, else returns value of uri property
+   * if present, else returns generated string based on host, port, and db properties.
+   * @return {string}
+   */
+  get connectionURL() {
+    let c = this.config;
+    return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.database}`;
+  }
+
+  /**
+   * Return true if a client connection has been established, otherwise false.
+   * @return {boolean}
+   */
+  get isConnected() {
+    return this._isConnected;
+  }
+
+  /**
+   * Return the actual connected client after connecting.
+   * @return {*}
+   */
+  get client() {
+    if (!this._client) {
+      checkConfig(this._config);
+      this._client = new Pool({
+        connectionString: this.connectionURL,
+        idleTimeoutMillis: this._config.idleTimeoutMillis
+      });
+    }
+    return this._client;
   }
 
   /**
@@ -47,77 +108,50 @@ class Postgres {
   static createStdConfig(config) {
     let c = Postgres.defaults().config();
 
-    if (process.env.PGHOST) c.host = process.env.PGHOST
-    if (process.env.PGPORT) c.port = process.env.PGPORT
-    if (process.env.PGDATABASE) c.db = process.env.PGDATABASE
-    if (process.env.PGUSER) c.user = process.env.PGUSER
     // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
     if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
+    if (process.env.PGHOST) c.host = process.env.PGHOST
+    if (process.env.PGPORT) c.port = process.env.PGPORT
+    if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
+    if (process.env.PGUSER) c.user = process.env.PGUSER
 
     return Object.assign(c, config || {});
   }
 
-  /**
-   * Get a copy of the current config.
-   * The config is an object with `host`, `port`, `db`, `user`, and `password` properties
-   * @return {{}}
-   */
-  get config() {
-    return Object.assign({}, this._config);
-  }
-
-  /**
-   * Get the connection URL based on the current config.
-   * Returns value of url property if present, else returns value of uri property
-   * if present, else returns generated string based on host, port, and db properties.
-   * @return {string}
-   */
-  get connectionURL() {
-    let c = this.config;
-    return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.db}`
-  }
-
-  /**
-   * Return true if a client connection has been established, otherwise false.
-   * @return {boolean}
-   */
-  get isConnected() {
-    return this._isConnected;
-  }
-
-  /**
-   * Return the actual connected client after connecting.
-   * @return {*}
-   */
-  get client() {
-    return this._client;
-  }
-
   async initDatabase() {
-    console.error('starting to initialize our database properly')
-    // first we create the pool and see if it can connect to anything
+    log('Initialize database')
     let c = this.config;
-    let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
 
-    let client = new Client(conn);
-    console.error(`connecting to postgres database: ${conn}`);
+    let adminClient = new Client(this.adminConnectionURL);
+    log(`Connect to postgres database: ${this.adminConnectionURL}`);
 
-    // transaction block. First we create a DB, then upon completion, create
-    // our table, and then on completion close down our temporary client
+    // Create database using admin connection to postgres.
     try {
-      await client.connect();
-      await client.query(`CREATE DATABASE ${c.db};`);
-      console.error("Created database successfully");
-      client.end();
-      // TODO: change table creation to more data interesting schema
-//      client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
-      // now we need to use our existing pool to create our table.
-      // this way the table actually gets created on our newly created
-      // database, rather than on the postgres database where it can't
-      // help us.
-      this._client.query(`CREATE TABLE ${tableName} (voter TEXT, vote TEXT)`);
-      console.error('Created table.')
-    } finally {}
+      await adminClient.connect();
+      await adminClient.query(`CREATE DATABASE ${c.database};`);
+      await adminClient.end();
+      log(`Created database: ${c.database}`)
+    } catch (e) {
+      log(`Failed to create database: ${c.database}`);
+      throw e;
+    }
+
+    // Use connection pool to create table in newly created database.
+    // TODO: change table creation to more data interesting schema
+    // client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
+    try {
+      await this.client.query(`CREATE TABLE ${tableName}
+                               (
+                                   voter TEXT,
+                                   vote  TEXT
+                               )`);
+      log(`Created table: ${tableName}`);
+    } catch (e) {
+      log(`Failed to create table: ${tableName}`);
+      throw e;
+    }
+
+    log('init database success');
   }
 
   /**
@@ -130,41 +164,34 @@ class Postgres {
       throw new Error('Already connected');
     }
 
-    try {
-      await this._client.query(`SELECT NOW()`);
+    const _connect = async () => {
+      await this.client.query(`SELECT NOW()`);
       this._isConnected = true;
-      console.error('finished connection call')
+      log('Connected to database')
+    }
+
+    try {
+      await _connect();
     } catch (e) {
-      if (e.code != "3D000") {
-        console.error(e);
+      if (e.code != E_INVALID_CATALOG_NAME) {
         throw e;
       }
-      try {
-        if (counter > 0) return;
-        counter++;
-        await this.initDatabase();
-        try {
-          await this.connect();
-        } catch (e) {
-          console.error('we are foobared');
-          process.exit(1);
-        }
-      } catch (e) {
-        console.error(e)
-        throw e;
-      }
+
+      await this.initDatabase();
+
+      log('Attempting connect retry');
+      await _connect();
+      log('Connected to database')
     }
   }
 
   /**
-   * Clean the table so each test can be run clean
+   * Remove all rows from the `events` table.
    */
   async truncateTable() {
-    console.error('Truncating table');
-    try {
-      await this._client.query(`TRUNCATE TABLE ${tableName}`);
-      console.error(`Truncated table ${tableName}`)
-    } finally {}
+    log('Truncating table');
+    await this.client.query(`TRUNCATE TABLE ${tableName}`);
+    log(`Truncated table ${tableName}`)
   }
 
   /**
@@ -173,20 +200,15 @@ class Postgres {
    * @return {Promise<void>}
    */
   async dropDatabase() {
-    console.error('starting to tear down our database')
-    let c = this.config;
-    let conn  = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`
+    log('Drop database')
 
-    let client = new Client(conn);
-    console.error(`connecting to postgres database: ${conn}`);
+    let client = new Client(this.adminConnectionURL);
+    log(`Connect to postgres database: ${this.adminConnectionURL}`);
 
-    try {
-      await client.connect();
-      await client.query(`DROP DATABASE ${c.db};`);
-      console.error("Dropped database successfully");
-      await client.end()
-      console.error("Closed drop db temp client.")
-    } finally {}
+    await client.connect();
+    await client.query(`DROP DATABASE ${this.config.database};`);
+    await client.end()
+    log("Dropped database");
   }
 
   /**
@@ -195,15 +217,19 @@ class Postgres {
    * @return {Promise<void>}
    */
   async close() {
-    console.error('Closing postgresql class');
+    log('Close client');
     if (this._client) {
       try {
         await this._client.end();
+        log('Client closed');
+      } catch (e) {
+        log('Failed to close client');
+        throw e;
+      } finally {
         this._client = null;
-        console.error("CLIENT SUCCESSFULLY ENDED");
-      } finally {}
+        this._isConnected = false;
+      }
     }
-    this._isConnected = false;
   }
 
   /**
@@ -213,40 +239,31 @@ class Postgres {
    * @return vote (with generated `voter_id`)
    */
   async updateVote(vote) {
-    if (!this.isConnected) {
-      throw new Error('Not connected to database');
-    }
-
     checkVote(vote);
 
     if (!vote.voter_id) {
       vote.voter_id = uuid();
     }
 
-    let p = this._client;
-    try {
-      p.query(`INSERT INTO ${tableName} (voter, vote) VALUES ('${vote.voter_id}', '${vote.vote}')`)
-      console.error(`Inserted ${vote.voter_id}: ${vote.vote}`)
-      return vote;
-    } finally {}
+    await this.client.query(`INSERT INTO ${tableName} (voter, vote)
+                             VALUES ('${vote.voter_id}', '${vote.vote}')`)
+    log(`Inserted ${vote.voter_id}: ${vote.vote}`)
+    return vote;
   }
 
   /**
    * Get the tally of all 'a' and 'b' votes.
-   * @return {Promise<{a: number, b: number}>}
+   * @return {Promise<{}>}
    */
   async tallyVotes() {
 
     let p = this._client;
-    try {
-      let r = await p.query(`SELECT vote, COUNT(vote) FROM events GROUP BY vote`);
-      let obj = new Object();
-      r.rows.forEach(row => obj[row.vote] = row.count);
-      return obj;
-    } catch (e) {
-      console.error(e);
-      return { a: 0, b: 0 };
-    }
+    let r = await p.query(`SELECT vote, COUNT(vote)
+                           FROM events
+                           GROUP BY vote`);
+    let votes = {};
+    r.rows.forEach(row => votes[row.vote] = row.count);
+    return votes;
   }
 
 }
@@ -256,15 +273,20 @@ module.exports = Postgres;
 // validate configs before accepting
 function checkConfig(c) {
   let errors = [];
-  if (!c.host) errors.push('host');
-  if (!c.port) errors.push('port');
-  if (!c.db) errors.push('db');
-  if (!c.user) errors.push('user');
-  if (!c.password) errors.push('password');
+  if (!c.host) errors.push('missing host');
+  if (!c.port) errors.push('missing port');
+  if (!c.database) errors.push('missing database');
+  if (!c.user) errors.push('missing user');
+  if (!c.password) errors.push('missing password');
+
+  if (c.database) {
+    let name = c.database;
+    if (name.replace(/[a-z0-9_]/g, '').length > 0) errors.push(`not a valid database name: ${c.database}`);
+  }
 
   if (errors.length) {
     // don't forget to update test if the following error string is updated!
-    throw new Error(`Invalid config. Provide valid values for the following: ${errors.join(', ')}`);
+    throw new Error(`Invalid config: ${errors.join(', ')}`);
   }
 }
 

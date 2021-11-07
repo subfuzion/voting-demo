@@ -10,6 +10,7 @@ services:
     build: .
     command: npm run test-postgres
     environment:
+      - NODE_ENV=development
       # Read password from shell environment
       - PGPASSWORD
     networks:
