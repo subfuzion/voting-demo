@@ -4,7 +4,6 @@ set -eo pipefail
 # attempt to test external reachability instead of local unix socket
 host="$(hostname -i || echo '127.0.0.1')"
 user="${PGUSER:-postgres}"
-#db="${PGDATABASE:-$user}"
 db="postgres"
 export PGPASSWORD="${POSTGRES_PASSWORD:-}"
 
