@@ -1,7 +1,18 @@
 const Database = require('@subfuzion/vote-database').Database;
 const express= require('express');
 const http = require('http');
+const metrics = require('prom-client');
 const morgan = require('morgan');
+
+// Enable default prometheus-compatible metrics collection
+const register = metrics.register;
+metrics.collectDefaultMetrics();
+console.log(`Collecting metrics for ${metrics.collectDefaultMetrics.metricsList}`);
+const voteCounter = new metrics.Counter({
+  name: 'vote_received_counter',
+  help: 'Number of vote requests received',
+});
+
 
 // Create a database connection config object initialized with the defaults:
 // { "host": "database", "port": 27017 },
@@ -28,6 +39,7 @@ app.use(express.json());
 // vote route handler
 app.post('/vote', async (req, res) => {
   try {
+    voteCounter.inc();
     console.log('POST /vote: %j', req.body);
     let v = { vote: req.body.vote };
     let result = await db.updateVote(v);
@@ -49,6 +61,25 @@ app.get('/results', async (req, res) => {
   } catch (err) {
     console.log('ERROR: POST /results: %s', err.message || err.response || err);
     res.status(500).send({ success: false, reason: 'internal error' });
+  }
+});
+
+// metrics
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (e) {
+    res.status(500).end(e);
+  }
+});
+
+app.get('/metrics/counter', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.getSingleMetricAsString('vote_received_counter'));
+  } catch (e) {
+    res.status(500).end(e);
   }
 });
 
@@ -75,7 +106,7 @@ process.on('SIGTERM', handleSignal);
 
     await new Promise(resolve => {
       server.listen(port, () => {
-        console.log(`frontend listening on port ${port}`);
+        console.log(`frontend listening on port ${port}, metrics exposed on /metrics`);
         resolve();
       });
     });
