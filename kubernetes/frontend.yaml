@@ -18,6 +18,7 @@ spec:
           image: gcr.io/tpujals-gke-workload-demo/frontend:latest
           ports:
             - containerPort: 8080
+              name: frontend-port
           env:
             - name: PORT
               value: "8080"
