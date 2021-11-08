@@ -15,7 +15,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: frontend
-          image: gcr.io/PROJECT_ID/frontend:latest
+          image: gcr.io/tpujals-gke-workload-demo/frontend:latest
           ports:
             - containerPort: 8080
           env:

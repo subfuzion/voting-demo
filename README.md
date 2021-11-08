@@ -79,6 +79,12 @@ including
 [shielded GKE nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/shielded-gke-nodes)
 are enabled by default and cannot be overridden.
 
+7. Enable GKE workload metrics
+
+```text
+gcloud beta container clusters update $CLUSTER_NAME --monitoring=SYSTEM,WORKLOAD
+```
+
 ## Deploy the demo
 
 7. **Clone this repository and change directory to the project root.**
@@ -96,9 +102,16 @@ gcloud builds submit --tag gcr.io/$PROJECT_ID/frontend:latest
 cd -
 ```
 
-> HACK: for now, manually edit line 18 of `./kubernetes/frontend.yaml` and
-> replace PROJECT_ID as appropriate. If you changed directories to edit the
-> the file, make sure to return to the repo root when finished.
+Run the following command to update `kubernetes/frontend.yaml` to use
+the current `PROJECT_ID`.
+
+```text
+sed -i "s/PROJECT_ID/$PROJECT_ID/g" ./kubernetes/frontend.yaml
+```
+
+> Note: If you don't have `sed`, you can manually edit the file and
+> replace PROJECT_ID as apropriate.
+
 
 ```text
 18:          image: gcr.io/PROJECT_ID/frontend:latest
