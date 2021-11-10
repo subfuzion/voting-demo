@@ -4,7 +4,7 @@ const Backoff = require('./Backoff');
 const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
 
-const tableName = 'events';
+const eventTable = 'events';
 
 
 // https://www.postgresql.org/docs/13/errcodes-appendix.html
@@ -138,16 +138,18 @@ class Postgres {
 
     // Use connection pool to create table in newly created database.
     // TODO: change table creation to more data interesting schema
-    // client.query(`CREATE TABLE ${tableName} (ts TIMESTAMP, voter TEXT, state TEXT, vote TEXT)`)
     try {
-      await this.client.query(`CREATE TABLE ${tableName}
+      await this.client.query(`CREATE TABLE ${eventTable}
                                (
-                                   voter TEXT,
-                                   vote  TEXT
+                                  voter_id TEXT,
+                                  county TEXT,
+                                  state TEXT,
+                                  candidate TEXT,
+                                  party TEXT
                                )`);
-      log(`Created table: ${tableName}`);
+      log(`Created table: ${eventTable}`);
     } catch (e) {
-      log(`Failed to create table: ${tableName}`);
+      log(`Failed to create table: ${eventTable}`);
       throw e;
     }
 
@@ -190,8 +192,8 @@ class Postgres {
    */
   async truncateTable() {
     log('Truncating table');
-    await this.client.query(`TRUNCATE TABLE ${tableName}`);
-    log(`Truncated table ${tableName}`)
+    await this.client.query(`TRUNCATE TABLE ${eventTable}`);
+    log(`Truncated table ${eventTable}`)
   }
 
   /**
@@ -234,7 +236,12 @@ class Postgres {
 
   /**
    * Insert or update a vote and return the new/updated doc including voter_id property.
-   * @param {object} vote Must have a vote property set to either 'a' or 'b'.
+   * @param {object} vote Must have the following parameters:
+   *  county: County the vote was filed in
+   *  state: State the vote was filed in
+   *  candidate: Who the vote is filed for
+   *  party: 'Political affiliation' represented as a color
+   *  voter_id: random hash representing our individual voter
    * @throws {Error} if vote is not valid.
    * @return vote (with generated `voter_id`)
    */
@@ -245,28 +252,33 @@ class Postgres {
       vote.voter_id = uuid();
     }
 
-    await this.client.query(`INSERT INTO ${tableName} (voter, vote)
-                             VALUES ('${vote.voter_id}', '${vote.vote}')`)
+    await this.client.query(`INSERT INTO ${eventTable} 
+                            (voter_id, county, state, candidate, party)
+                             VALUES ('${vote.voter_id}', '${vote.county}', '${vote.state}', '${vote.candidate}', '${vote.party}')`);
     log(`Inserted ${vote.voter_id}: ${vote.vote}`)
     return vote;
   }
 
   /**
-   * Get the tally of all 'a' and 'b' votes.
+   * Get the tally of all candidate votes.
+   * This tallies vote grouped by candidate and doesn't care about
+   * location of votes
    * @return {Promise<{}>}
    */
   async tallyVotes() {
 
     let p = this._client;
-    let r = await p.query(`SELECT vote, COUNT(vote)
+    let r = await p.query(`SELECT candidate, COUNT(voter_id)
                            FROM events
-                           GROUP BY vote`);
+                           GROUP BY candidate`);
     let votes = {};
-    r.rows.forEach(row => votes[row.vote] = row.count);
+    r.rows.forEach(row => votes[row.candidate] = row.count);
     return votes;
   }
 
 }
+
+
 
 module.exports = Postgres;
 
@@ -296,12 +308,17 @@ function checkVote(vote) {
   if (!vote) {
     errors.push('missing vote');
   } else {
-    if (!vote.vote) {
-      errors.push('missing vote property');
-    } else {
-      if (vote.vote !== 'a' && vote.vote !== 'b') {
-        errors.push('invalid value for vote: (must be "a" or "b")');
-      }
+    if (!vote.county) {
+      errors.push('missing county');
+    }
+    if (!vote.state) {
+      errors.push('missing state');
+    }
+    if (!vote.candidate) {
+      errors.push('missing candidate');
+    }
+    if (!vote.party) {
+      errors.push('missing candidate');
     }
   }
   if (errors.length) {

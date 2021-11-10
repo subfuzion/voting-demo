@@ -52,7 +52,10 @@ suite('database tests', function() {
 
     test('add vote to database', async () => {
       let v = {
-        vote: 'a'
+        county: 'Alameda',
+        state: 'California',
+        party: 'blue',
+        candidate: 'panther'
       };
 
       let doc = await db.updateVote(v);
@@ -78,6 +81,10 @@ suite('database tests', function() {
         }
       }
     });
+/* This vote no longer applies since we're letting things be open
+ * for now. If we want to limit 'candidates' to a fixed list we
+ * can do that as well with some pre-filled data in a table that
+ * we draw from that's set up with the database
 
     test('bad vote value should throw', async () => {
       // invalid value for vote (must be 'a' or 'b')
@@ -95,22 +102,34 @@ suite('database tests', function() {
         }
       }
     });
-
+*/
     test('tally votes', async () => {
       let count_a = 4;
       for (let i = 0; i < count_a; i++) {
-        await db.updateVote({ vote: 'a' });
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'panther'
+        };
+        await db.updateVote(v);
       }
 
       let count_b = 5;
       for (let i = 0; i < count_b; i++) {
-        await db.updateVote({ vote: 'b' });
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
       }
 
       let tally = await db.tallyVotes();
       assert.ok(tally);
-      assert.equal(tally.a, count_a, `'a' => expected: ${count_a}, actual: ${tally.a}`);
-      assert.equal(tally.b, count_b, `'b' => expected: ${count_b}, actual: ${tally.b}`);
+      assert.equal(tally.panther, count_a, `'panther' => expected: ${count_a}, actual: ${tally.panther}`);
+      assert.equal(tally.tiger, count_b, `'tiger' => expected: ${count_b}, actual: ${tally.tiger}`);
     });
 
   });
