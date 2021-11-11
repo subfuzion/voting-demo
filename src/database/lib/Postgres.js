@@ -255,26 +255,83 @@ class Postgres {
     await this.client.query(`INSERT INTO ${eventTable} 
                             (voter_id, county, state, candidate, party)
                              VALUES ('${vote.voter_id}', '${vote.county}', '${vote.state}', '${vote.candidate}', '${vote.party}')`);
-    log(`Inserted ${vote.voter_id}: ${vote.vote}`)
+    log(`Inserted ${vote.voter_id}: ${vote.county} - ${vote.state} - ${vote.candidate} - ${vote.party}`)
     return vote;
   }
 
   /**
-   * Get the tally of all candidate votes.
+   * Get the tally of all votes grouped by candidate.
    * This tallies vote grouped by candidate and doesn't care about
    * location of votes
    * @return {Promise<{}>}
    */
-  async tallyVotes() {
-
+  async tallyVotesByCandidate() {
     let p = this._client;
     let r = await p.query(`SELECT candidate, COUNT(voter_id)
                            FROM events
                            GROUP BY candidate`);
     let votes = {};
-    r.rows.forEach(row => votes[row.candidate] = row.count);
+    for (const row in r.rows) {
+      let line = r.rows[row];
+      votes[line.candidate] = line.count;
+    }
     return votes;
   }
+
+  /**
+   * Get the tally of all votes grouped by county.
+   * @return {Promise<{}>}
+   */
+   async tallyVotesByCounty() {
+    let p = this._client;
+    let r = await p.query(`SELECT county, COUNT(voter_id)
+                           FROM events
+                           GROUP BY county`);
+    let votes = {};
+    for (const row in r.rows) {
+      let line = r.rows[row];
+      votes[line.county] = line.count;
+    }
+    return votes;
+  }
+
+  /**
+   * Get the tally of all votes grouped by state.
+   * @return {Promise<{}>}
+   */
+   async tallyVotesByState() {
+    let p = this._client;
+    let r = await p.query(`SELECT state, COUNT(voter_id)
+                           FROM events
+                           GROUP BY state`);
+    let votes = {};
+    for (const row in r.rows) {
+      let line = r.rows[row];
+      votes[line.state] = line.count;
+    }
+    return votes;
+  }
+
+  /**
+   * Get the tally of votes for each candidate grouped by state.
+   * @return {Promise<{}>}
+   */
+   async tallyCandidateVotesByState() {
+    let p = this._client;
+    let r = await p.query(`SELECT candidate, state, COUNT(voter_id) as votes
+                           FROM events
+                           GROUP BY state, candidate
+                           ORDER BY state, votes DESC`);
+    let votes = {};
+    for (const row of r.rows) {
+        let s = row.state;
+        let c = row.candidate;
+        if (!votes[s]) { votes[s] = {}; }
+        votes[s][c] = row.votes
+    };
+    return votes;
+  }
+
 
 }
 
