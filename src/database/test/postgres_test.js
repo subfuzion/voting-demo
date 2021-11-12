@@ -103,7 +103,7 @@ suite('database tests', function() {
       }
     });
 */
-    test('tally votes', async () => {
+    test('tally votes by candidate', async () => {
       let count_a = 4;
       for (let i = 0; i < count_a; i++) {
         let v = {
@@ -126,11 +126,198 @@ suite('database tests', function() {
         await db.updateVote(v);
       }
 
-      let tally = await db.tallyVotes();
+      let tally = await db.tallyVotesByCandidate();
       assert.ok(tally);
       assert.equal(tally.panther, count_a, `'panther' => expected: ${count_a}, actual: ${tally.panther}`);
       assert.equal(tally.tiger, count_b, `'tiger' => expected: ${count_b}, actual: ${tally.tiger}`);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
     });
+
+    test('tally votes by county', async () => {
+      let count_marin = 2;
+      for (let i = 0; i < count_marin; i++) {
+        let v = {
+          county: 'Marin',
+          state: 'California',
+          party: 'blue',
+          candidate: 'lion'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_alameda = 6;
+      for (let i = 0; i < count_alameda; i++) {
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let tally = await db.tallyVotesByCounty();
+      assert.ok(tally);
+      assert.equal(tally.Marin, count_marin, `'Marin' => expected: ${count_marin}, actual: ${tally.Marin}`);
+      assert.equal(tally.Alameda, count_alameda, `'Alameda' => expected: ${count_alameda}, actual: ${tally.Alameda}`);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
+    });
+
+    test('tally total votes by state', async () => {
+      let count_ca = 2;
+      for (let i = 0; i < count_ca; i++) {
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'panther'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_or = 4;
+      for (let i = 0; i < count_or; i++) {
+        let v = {
+          county: 'Harney',
+          state: 'Oregon',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_wa = 8;
+      for (let i = 0; i < count_wa; i++) {
+        let v = {
+          county: 'Okanogan',
+          state: 'Washington',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let tally = await db.tallyVotesByState();
+      assert.ok(tally);
+      assert.equal(tally.California, count_ca, `'California' => expected: ${count_ca}, actual: ${tally.california}`);
+      assert.equal(tally.Oregon, count_or, `'Oregon' => expected: ${count_or}, actual: ${tally.oregon}`);
+      assert.equal(tally.Washington, count_wa, `'Washington' => expected: ${count_wa}, actual: ${tally.washington}`);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
+    });
+
+    test('tally candidate votes by state', async () => {
+      let count_ca_panther = 2;
+      for (let i = 0; i < count_ca_panther; i++) {
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'panther'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_ca_lion = 1;
+      for (let i = 0; i < count_ca_lion; i++) {
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'lion'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_ca_tiger = 2;
+      for (let i = 0; i < count_ca_tiger; i++) {
+        let v = {
+          county: 'Alameda',
+          state: 'California',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_or_tiger = 4;
+      for (let i = 0; i < count_or_tiger; i++) {
+        let v = {
+          county: 'Harney',
+          state: 'Oregon',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_or_lion = 1;
+      for (let i = 0; i < count_or_lion; i++) {
+        let v = {
+          county: 'Harney',
+          state: 'Oregon',
+          party: 'blue',
+          candidate: 'lion'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_wa_tiger = 1;
+      for (let i = 0; i < count_wa_tiger; i++) {
+        let v = {
+          county: 'Okanogan',
+          state: 'Washington',
+          party: 'blue',
+          candidate: 'tiger'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_wa_panther = 1;
+      for (let i = 0; i < count_wa_panther; i++) {
+        let v = {
+          county: 'Okanogan',
+          state: 'Washington',
+          party: 'blue',
+          candidate: 'panther'
+        };
+        await db.updateVote(v);
+      }
+
+      let count_wa_leopard = 1;
+      for (let i = 0; i < count_wa_leopard; i++) {
+        let v = {
+          county: 'Okanogan',
+          state: 'Washington',
+          party: 'blue',
+          candidate: 'leopard'
+        };
+        await db.updateVote(v);
+      }
+
+      let tally = await db.tallyCandidateVotesByState();
+      assert.ok(tally);
+      assert.ok(tally.California)
+      assert.ok(tally.Oregon)
+      assert.ok(tally.Washington)
+      assert.equal(tally.California.panther, count_ca_panther, `'California panther' => expected: ${count_ca_panther}, actual: ${tally.California.panther}`);
+      assert.equal(tally.California.lion, count_ca_lion, `'California lion' => expected: ${count_ca_lion}, actual: ${tally.California.lion}`);
+      assert.equal(tally.California.tiger, count_ca_tiger, `'California tiger' => expected: ${count_ca_tiger}, actual: ${tally.California.tiger}`);
+      assert.equal(tally.Oregon.tiger, count_or_tiger, `'Oregon tiger' => expected: ${count_or_tiger}, actual: ${tally.Oregon_tiger}`);
+      assert.equal(tally.Oregon.lion, count_or_lion, `'Oregon lion' => expected: ${count_or_lion}, actual: ${tally.Oregon_lion}`);
+      assert.equal(tally.Washington.tiger, count_wa_tiger, `'Washington tiger' => expected: ${count_wa_tiger}, actual: ${tally.Washington.tiger}`);
+      assert.equal(tally.Washington.panther, count_wa_panther, `'Washington panther' => expected: ${count_wa_panther}, actual: ${tally.Washington.panther}`);
+      assert.equal(tally.Washington.leopard, count_wa_leopard, `'Washington leopard' => expected: ${count_wa_leopard}, actual: ${tally.Washington.leopard}`);
+      // clear table once test is done here so our tally
+      // is correct later
+      await db.truncateTable()
+    });
+
 
   });
 });
