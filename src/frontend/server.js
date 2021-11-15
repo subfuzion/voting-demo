@@ -31,7 +31,7 @@ const server = http.createServer(app);
 let db;
 
 // install route logging middleware
-app.use(morgan('dev'));
+app.use(morgan());
 
 // install json body parsing middleware
 app.use(express.json());
