@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta25
+kind: Config
+metadata:
+  name: voting-demo
+build:
+  artifacts:
+    - image: gcr.io/tpujals-autopilot-demo-1/frontend
+      context: src/frontend
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    sha256: {}
+  googleCloudBuild: {}
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/database.yaml
+      - kubernetes/frontend-external.yaml
+      - kubernetes/frontend.yaml
