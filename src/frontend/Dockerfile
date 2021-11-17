@@ -1,14 +1,14 @@
-FROM node:14.17.5-alpine3.14
+FROM python:3.9-slim
 
-ARG NODE_ENV
-ENV NODE_ENV ${NODE_ENV:-development}
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt
+COPY . .
 
-COPY package.json /usr/src/app/
-RUN npm install
-COPY . /usr/src/app
-
-EXPOSE 3000
-ENTRYPOINT [ "node", "server.js" ]
+EXPOSE 80
+CMD ["python", "app.py"]

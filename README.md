@@ -39,13 +39,32 @@ Install [Skaffold for CLI](https://skaffold.dev/).
 
 2. **Use scaffold to run the deployment**
 
-Ensure the PROJECT_ID environment variable is set to your project.
+Ensure the following environment variables are set:
+
+- PROJECT_ID set to your project
+- CLUSTER_ID set to your cluster
 
 ```text
 export PROJECT_ID=my-project
+export CLUSTER_ID=my-cluster
 ```
 
-Then run the following `skaffold` command. You may be prompted to enable various
+Get authorization to access your project.
+
+```text
+gcloud auth login
+```
+
+Get Kubernetes credentials for the GKE cluster in your project.
+
+```text
+gcloud container clusters get-credentials \
+--project $PROJECT_ID \
+--region $REGION \
+$CLUSTER_ID
+```
+
+Run the following `skaffold` command. You may be prompted to enable various
 APIs, such as Cloud Build.
 
 ```text

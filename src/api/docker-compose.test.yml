@@ -15,9 +15,9 @@ services:
     networks:
       - data_net
 
-  frontend:
+  api:
     build: .
-    image: frontend
+    image: api
     environment:
       - DATABASE_NAME=vote_test_db
       - PORT=8080
