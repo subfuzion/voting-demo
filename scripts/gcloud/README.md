@@ -12,6 +12,12 @@ export REGION=us-central1
 export CLUSTER_ID=my-autopilot-cluster-1
 ```
 
+Authorize `gcloud` to use your Google user credentials.
+
+```text
+gcloud auth login
+```
+
 Create a cluster using GKE Autopilot mode. This operation takes approximately
 five minutes.
 

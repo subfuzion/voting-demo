@@ -8,6 +8,8 @@ Run commands from within the `./scripts/python` directory.
 cd ./scripts/python
 ```
 
+## Set up your Python environment
+
 Set up a virtual environment in the `./scripts/python` directory.
 
 ```text
@@ -21,7 +23,7 @@ Install package dependencies.
 pip install -r requirements.txt
 ```
 
-Create a cluster. This operation takes approximately five minutes.
+## Set up your cloud environment
 
 Set environment variables as appropriate for PROJECT_ID and REGION. Set
 CLUSTER_ID to the name you want to use for your new Autopilot cluster.
@@ -30,7 +32,21 @@ CLUSTER_ID to the name you want to use for your new Autopilot cluster.
 export PROJECT_ID=my-project
 export REGION=us-central1
 export CLUSTER_ID=my-autopilot-cluster-1
+```
 
+Authorize the Python script with Application Default Credentials (ADC) and, if
+prompted, add the project to ADC as a quota project.
+
+```text
+gcloud auth application-default login
+gcloud auth application-default set-quota-project $PROJECT_ID
+```
+
+## Create a cluster
+
+This following operation takes approximately five minutes.
+
+```text
 python create_cluster.py
 ```
 
