@@ -1,4 +1,4 @@
-# Creating an Autopilot cluster with Python
+# Creating a GKE Autopilot cluster with Python
 
 Use Python 3.6 or later.
 
@@ -21,9 +21,10 @@ Install package dependencies.
 pip install -r requirements.txt
 ```
 
-Create a cluster. Set environment variables as appropriate for PROJECT_ID and
-REGION. Set CLUSTER_ID to the name you want to use for your new Autopilot
-cluster.
+Create a cluster. This operation takes approximately five minutes.
+
+Set environment variables as appropriate for PROJECT_ID and REGION. Set
+CLUSTER_ID to the name you want to use for your new Autopilot cluster.
 
 ```text
 export PROJECT_ID=my-project

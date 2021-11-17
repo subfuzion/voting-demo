@@ -11,159 +11,57 @@ longer to start), try these out:
  - https://github.com/GoogleCloudPlatform/microservices-demo
  - https://github.com/GoogleCloudPlatform/bank-of-anthos
 
-## Quickstart (GKE) - the easy way with Skaffold
+## Quickstart (GKE)
+
+### Create an Autopilot cluster
+
+You will need a Google Cloud project with billing enabled.
+
+Follow the instructions for using either [gcloud](./scripts/gcloud) or
+[Python](./scripts/python) to create an Autopilot cluster.
+
+### Build and deploy the app
+
+You will need to install Skaffold on your system. This tool uses a file
+([./skaffold.yaml](./skaffold.yaml)) that configures the build and deploy tasks
+for the application:
+
+- Application components will be built on Google Cloud using Cloud Build so
+  that you won't need to install any other tools, including Docker, on your 
+  own system.
+- The application will be deployed to the GKE Autopilot cluster you created 
+  previously.
+
 
 1. **Install Skaffold on your system**
 
-Scaffold is a tool that helps you build, debug, and deploy containerized
-applications to Kubernetes clusters.
-
 Install [Skaffold for CLI](https://skaffold.dev/).
 
+2. **Use scaffold to run the deployment**
 
-## Quickstart (GKE)
-
-1. **[Create a Google Cloud Platform project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project)**
-or use an existing project. Set the `PROJECT_ID` environment variable, as well as the `CLUSTER_NAME` environment
-variable to the cluster name you want to use.
+Ensure the PROJECT_ID environment variable is set to your project.
 
 ```text
-PROJECT_ID=autopilot-demo
-CLUSTER_NAME=autopilot-demo-cluster
+export PROJECT_ID=my-project
 ```
 
-2. **Create a custom gcloud configuration for this demo and log in.**
+Then run the following `skaffold` command. You may be prompted to enable various
+APIs, such as Cloud Build.
 
 ```text
-gcloud config configurations create $PROJECT_ID
-gcloud config set project $PROJECT_ID
-gcloud auth login
-```
-
-3. **If the project doesn't exist, create it and link billing.**
-
-You can find the billing account ID here: https://console.cloud.google.com/billing.
-
-```text
-gcloud projects create $PROJECT_ID
-gcloud beta billing projects link $PROJECT_ID --billing-account=XXXXXX-XXXXXX-XXXXXX
-```
-
-4. **Ensure required Google APIS are enabled.**
-
-```text
-gcloud services enable \
-  cloudbuild.googleapis.com \
-  compute.googleapis.com \
-  container.googleapis.com \
-  containerregistry.googleapis.com \
-  monitoring.googleapis.com
-```
-
-## Create an Autopilot cluster
-
-5. **Choose a [region](https://cloud.google.com/compute/docs/regions-zones).**
-
-You don't need to select zones because Autopilot will automatically
-select zones in the region to ensure availability.
-
-```text
-gcloud config set compute/region us-central1
-```
-
-6. **Create the cluster in Autopilot mode.**
-
-```text
-gcloud container clusters create-auto $CLUSTER_NAME
-```
-
-Deployment will take longer than you might be used to with Standard mode because
-Google automatically applies recommendations for availability and security to
-clusters created in Autopilot mode.
-
-While deploying, you'll notice warnings about features being enabled that are
-normal and that you can't override. For example, Container-Optimized OS with
-containerd, and other
-[hardening features](https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster),
-including
-[shielded GKE nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/shielded-gke-nodes)
-are enabled by default and cannot be overridden.
-
-7. Enable GKE workload metrics
-
-```text
-gcloud beta container clusters update $CLUSTER_NAME --monitoring=SYSTEM,WORKLOAD
-```
-
-## Deploy the demo
-
-7. **Clone this repository and change directory to the project root.**
-
-```
-git clone https://github.com/subfuzion/voting-demo.git
-cd voting-demo
-```
-
-8. **Add the `frontend` service image to container registry for your project.**
-
-```text
-cd ./src/frontend
-gcloud builds submit --tag gcr.io/$PROJECT_ID/frontend:latest
-cd -
-```
-
-Run the following command to update `kubernetes/frontend.yaml` to use
-the current `PROJECT_ID`.
-
-```text
-sed -i "s/PROJECT_ID/$PROJECT_ID/g" ./kubernetes/frontend.yaml
-```
-
-> Note: If you don't have `sed`, you can manually edit the file and
-> replace PROJECT_ID as apropriate.
-
-
-```text
-18:          image: gcr.io/PROJECT_ID/frontend:latest
-```
-
-9. **Deploy the app.**
-
-```text
-kubectl apply -f ./kubernetes/
-```
-
-Wait for all the pods to be running.
-
-```text
-watch kubectl get pods
-```
-
-Press `Ctrl-C` when finished watching.
-
-10. **Once the app is deployed, get the external IP.**
-
-```text
-kubectl get service frontend-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}"
+skaffold run --default-repo=gcr.io/$PROJECT_ID/voting-app --tail
 ```
 
 ## Test the app
 
-Using the IP value from the previous step, set the following environment
-variable with the correct value for IP.
-
-```text
-FRONTEND="http://IP:80"
-```
-
-Or, you can run the following to do the substitution.
+Use the following commands to get the public address of the app.
 
 ```text
 IP=$(kubectl get service frontend-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}")
 FRONTEND="http://${IP}:80"
 ```
 
-Cast multiple votes (choose either `a` or `b`).
+**Cast votes (choose either `a` or `b`).**
 
 ```text
 curl "$FRONTEND/vote" -H "Content-Type: application/json" -d '{"vote":"a"}'
@@ -175,7 +73,7 @@ Sample output:
 {"success":true,"data":{"vote":"a","voter_id":"82f027eb-c25b-480d-aa20-9d3d727544a5"}}
 ```
 
-Fetch the current voting results.
+**Fetch the current voting results.**
 
 ```text
 curl "$FRONTEND/results"
@@ -189,28 +87,6 @@ Sample output:
 
 ## Clean up
 
-### Delete resources
-
-To just delete the demo:
-
 ```text
-kubectl delete -f kubernetes/
-```
-
-To delete the cluster:
-
-```text
-gcloud container clusters delete $CLUSTER_NAME
-```
-
-To delete the entire project (including all resources):
-
-```text
-gcloud projects delete $PROJECT_ID
-```
-
-### Delete custom configuration
-
-```text
-gcloud config configurations delete $PROJECT_ID
+skaffold delete
 ```
