@@ -16,7 +16,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: frontend
-          image: gcr.io/PROJECT_ID/frontend:latest
+          image: gcr.io/voting-app/frontend
           ports:
             - containerPort: 8080
               name: frontend-port
