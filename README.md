@@ -11,6 +11,16 @@ longer to start), try these out:
  - https://github.com/GoogleCloudPlatform/microservices-demo
  - https://github.com/GoogleCloudPlatform/bank-of-anthos
 
+## Quickstart (GKE) - the easy way with Skaffold
+
+1. **Install Skaffold on your system**
+
+Scaffold is a tool that helps you build, debug, and deploy containerized
+applications to Kubernetes clusters.
+
+Install [Skaffold for CLI](https://skaffold.dev/).
+
+
 ## Quickstart (GKE)
 
 1. **[Create a Google Cloud Platform project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project)**

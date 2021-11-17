@@ -4,7 +4,7 @@ metadata:
   name: voting-demo
 build:
   artifacts:
-    - image: gcr.io/tpujals-autopilot-demo-1/frontend
+    - image: gcr.io/voting-app/frontend
       context: src/frontend
       docker:
         dockerfile: Dockerfile
