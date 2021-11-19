@@ -1,21 +1,45 @@
 version: "2.4"
 
 networks:
-  bridge_net:
+
+  frontend_net:
+    driver: bridge
+
+  backend_net:
     driver: bridge
 
 services:
 
+  vote:
+    build: src/vote
+    image: vote
+    environment:
+      - PORT=80
+      - API=http://api:8080
+    networks:
+      frontend_net:
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+  api:
+    build: src/frontend
+    image: api
+    environment:
+      - PORT=8080
+      - DATABASE_NAME=database
+    networks:
+      - frontend_net
+      - backend_net
+    ports:
+      - "8080"
+    depends_on:
+      - database
+
   database:
     image: mongo:5.0
     networks:
-      - bridge_net
-
-  frontend:
-    build: src/frontend
-    networks:
-      - bridge_net
+      - backend_net
     ports:
-      - "8080:8080"
-    depends_on:
-      - database
+      - "27017"
