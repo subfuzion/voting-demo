@@ -8,6 +8,10 @@ build:
       context: src/frontend
       docker:
         dockerfile: Dockerfile
+    - image: gcr.io/voting-app/api
+      context: src/api
+      docker:
+        dockerfile: Dockerfile
   tagPolicy:
     sha256: {}
   googleCloudBuild: {}
@@ -15,5 +19,6 @@ deploy:
   kubectl:
     manifests:
       - kubernetes/database.yaml
+      - kubernetes/api.yaml
       - kubernetes/frontend-external.yaml
       - kubernetes/frontend.yaml

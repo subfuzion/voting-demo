@@ -1,7 +1,0 @@
-.dockerignore
-.eslintrc.js
-.gitignore
-.idea/
-Dockerfile
-docker-compose.test.yml
-node_modules/

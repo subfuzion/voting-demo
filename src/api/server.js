@@ -36,17 +36,22 @@ app.use(morgan());
 // install json body parsing middleware
 app.use(express.json());
 
+
+function log(...v) {
+  console.log('[API]', ...v);
+}
+
+
 // vote route handler
 app.post('/vote', async (req, res) => {
   try {
     voteCounter.inc();
-    console.log('POST /vote: %j', req.body);
     let v = { vote: req.body.vote };
     let result = await db.updateVote(v);
-    console.log('posted vote: %j', result);
+    log('posted vote: %j', result);
     res.send({ success: true, data: result });
   } catch (err) {
-    console.log('ERROR: POST /vote: %s', err.message || err.response || err);
+    log('ERROR: POST /vote: %s', err.message || err.response || err);
     res.status(500).send({ success: false, reason: 'internal error' });
   }
 });
@@ -54,12 +59,11 @@ app.post('/vote', async (req, res) => {
 // results route handler
 app.get('/results', async (req, res) => {
   try {
-    console.log('GET /results');
     let tally = await db.tallyVotes();
-    console.log('resp: %j', tally);
+    log('tally: %j', tally);
     res.send({ success: true, results: tally});
   } catch (err) {
-    console.log('ERROR: POST /results: %s', err.message || err.response || err);
+    log('ERROR: POST /results: %s', err.message || err.response || err);
     res.status(500).send({ success: false, reason: 'internal error' });
   }
 });
@@ -83,13 +87,14 @@ app.get('/metrics/counter', async (req, res) => {
   }
 });
 
+
 // Handle shutdown gracefully.
 function handleSignal(signal) {
-  console.log(`frontend received ${signal}`)
+  log(`received ${signal}`)
   server.close(function () {
     (async () => {
       if (db) await db.close();
-      console.log('frontend database connection closed, exiting now');
+      log('database connection closed, exiting now');
       process.exit(0);
     })();
   });
@@ -102,17 +107,17 @@ process.on('SIGTERM', handleSignal);
   try {
     db = new Database(databaseConfig);
     await db.connect();
-    console.log('frontend connected to database');
+    log('connected to database');
 
     await new Promise(resolve => {
       server.listen(port, () => {
-        console.log(`frontend listening on port ${port}, metrics exposed on /metrics`);
+        log(`listening on port ${port}, metrics exposed on /metrics`);
         resolve();
       });
     });
 
   } catch (err) {
-    console.log(err);
+    log(err);
     process.exit(1);
   }
 })();
