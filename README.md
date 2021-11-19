@@ -42,10 +42,12 @@ Install [Skaffold for CLI](https://skaffold.dev/).
 Ensure the following environment variables are set:
 
 - PROJECT_ID set to your project
+- REGION set to the region
 - CLUSTER_ID set to your cluster
 
 ```text
 export PROJECT_ID=my-project
+export REGION=region
 export CLUSTER_ID=my-cluster
 ```
 
