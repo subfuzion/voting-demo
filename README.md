@@ -92,11 +92,17 @@ echo "http://"$(kubectl get service frontend-external -o jsonpath="{.status.load
 - Cast votes at this address.
 - Display voting results by appending `/results` to the web address.
 
+Skaffold displays streaming log output in the terminal.
+
 > **Note:** you can also get the public address from the **External endpoints** field from this
 > link (substituting values for `REGION`, `CLUSTER_ID` and `PROJECT_ID`)
 > https://console.cloud.google.com/kubernetes/service/REGION/CLUSTER_ID/default/frontend-external/overview?project=PROJECT_ID
 
 ## Clean up
+
+Press `Ctrl-C` to stop Skaffold log streaming.
+
+To stop the voting app from running and to delete Kubernetes resources in the cluster, enter:
 
 ```text
 skaffold delete
