@@ -92,6 +92,10 @@ echo "http://"$(kubectl get service frontend-external -o jsonpath="{.status.load
 - Cast votes at this address.
 - Display voting results by appending `/results` to the web address.
 
+> **Note:** you can also get the public address from the **External endpoints** field from this
+> link (substituting values for `REGION`, `CLUSTER_ID` and `PROJECT_ID`)
+> https://console.cloud.google.com/kubernetes/service/REGION/CLUSTER_ID/default/frontend-external/overview?project=PROJECT_ID
+
 ## Clean up
 
 ```text
