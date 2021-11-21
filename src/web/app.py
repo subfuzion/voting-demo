@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import random
@@ -10,17 +9,16 @@ from paste.translogger import TransLogger
 from waitress import serve
 
 app = Flask(__name__)
-app.logger = logging.getLogger("app")
-app.logger.setLevel(logging.INFO)
-
-# data for rendering UI
-option_a = os.getenv("OPTION_A", "Tabs")
-option_b = os.getenv("OPTION_B", "Spaces")
+logging.basicConfig(level=logging.DEBUG)
 
 host = os.getenv("HOST", "0.0.0.0")
 port = os.getenv("PORT", "8080")
 hostname = socket.gethostname()
 api = os.getenv("API", "http://api:8080")
+
+# data for rendering UI
+option_a = os.getenv("OPTION_A", "Tabs")
+option_b = os.getenv("OPTION_B", "Spaces")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -34,11 +32,9 @@ def handle_vote():
     if request.method == "POST":
         vote = request.form["vote"]
         data = {"voter_id": voter_id, "vote": vote}
-        app.logger.info(data)
+        app.logger.info(f"submit vote: {data}")
         r = requests.post(api + "/vote", json=data)
-
-        app.logger.info(f"status code: {r.status_code}")
-        print(r, flush=True)
+        app.logger.info(f"vote api: status code: {r.status_code}")
 
     resp = make_response(render_template(
         "index.html",
@@ -59,6 +55,4 @@ def handle_results():
 
 
 if __name__ == "__main__":
-    display_host = "" if host == "0.0.0.0" else host
-    print(f"serving on {display_host}:{port}", flush=True)
     serve(TransLogger(app), host=host, port=port)

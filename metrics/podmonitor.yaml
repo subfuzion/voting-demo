@@ -1,11 +1,11 @@
 apiVersion: monitoring.gke.io/v1alpha1
 kind: PodMonitor
 metadata:
-  name: frontend-monitor
+  name: web-monitor
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app: web
   podMetricsEndpoints:
-    - port: frontend-port
+    - port: web-port

@@ -4,8 +4,8 @@ metadata:
   name: voting-demo
 build:
   artifacts:
-    - image: gcr.io/voting-app/frontend
-      context: src/frontend
+    - image: gcr.io/voting-app/web
+      context: src/web
       docker:
         dockerfile: Dockerfile
     - image: gcr.io/voting-app/api
@@ -20,5 +20,5 @@ deploy:
     manifests:
       - kubernetes/database.yaml
       - kubernetes/api.yaml
-      - kubernetes/frontend-external.yaml
-      - kubernetes/frontend.yaml
+      - kubernetes/web-external.yaml
+      - kubernetes/web.yaml

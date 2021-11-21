@@ -2,7 +2,7 @@ version: "2.4"
 
 networks:
 
-  frontend_net:
+  web_net:
     driver: bridge
 
   backend_net:
@@ -10,14 +10,14 @@ networks:
 
 services:
 
-  frontend:
-    build: src/frontend
-    image: frontend
+  web:
+    build: src/web
+    image: web
     environment:
       - PORT=80
       - API=http://api:8080
     networks:
-      frontend_net:
+      web_net:
     ports:
       - "80:80"
     depends_on:
@@ -30,7 +30,7 @@ services:
       - PORT=8080
       - DATABASE_NAME=database
     networks:
-      - frontend_net
+      - web_net
       - backend_net
     ports:
       - "8080"

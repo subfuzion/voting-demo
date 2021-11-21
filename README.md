@@ -2,7 +2,7 @@
 
 Simple voting app that consists of three services:
 
-- **frontend** - web frontend (Python Flask app)
+- **web** - web frontend (Python Flask app)
 - **api** - Vote API microservice (Node.js app)
 - **database** - backend (MongoDB database)
 
@@ -86,7 +86,7 @@ skaffold run --default-repo=gcr.io/$PROJECT_ID/voting-app --tail
 Print the public address of the app.
 
 ```text
-echo "http://"$(kubectl get service frontend-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}")
+echo "http://"$(kubectl get service web-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}")
 ```
 
 - Cast votes at this address.
@@ -96,7 +96,7 @@ Skaffold displays streaming log output in the terminal.
 
 > **Note:** you can also get the public address from the **External endpoints** field from this
 > link (substituting values for `REGION`, `CLUSTER_ID` and `PROJECT_ID`)
-> https://console.cloud.google.com/kubernetes/service/REGION/CLUSTER_ID/default/frontend-external/overview?project=PROJECT_ID
+> https://console.cloud.google.com/kubernetes/service/REGION/CLUSTER_ID/default/web-external/overview?project=PROJECT_ID
 
 ## Clean up
 
