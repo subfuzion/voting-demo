@@ -1,11 +1,12 @@
 # Voting demo
 
-Simple voting app that consists of two services:
+Simple voting app that consists of three services:
 
- - frontend (Node.js service)
- - database (MongoDB database)
+- **frontend** - web front end (Python Flask app)
+- **api** - middle tier / microservice (Node.js app)
+- **database** - backend (MongoDB database)
 
-If you prefer demo apps with more microservices (but take a bit
+If you prefer demo apps with more microservices and sophistication (but take a bit
 longer to start), try these out:
 
  - https://github.com/GoogleCloudPlatform/microservices-demo
@@ -13,12 +14,19 @@ longer to start), try these out:
 
 ## Quickstart (GKE)
 
+### Prerequisites
+
+- [Install Google Cloud SDK (gcloud)](https://cloud.google.com/sdk/docs/install)
+- [Install Skaffold](https://skaffold.dev/docs/install/)
+
 ### Create an Autopilot cluster
 
 You will need a Google Cloud project with billing enabled.
 
-Follow the instructions for using either [gcloud](./scripts/gcloud) or
-[Python](./scripts/python) to create an Autopilot cluster.
+Follow either of the following instructions to create an Autopilot cluster:
+
+- Command line instructions using [gcloud](./scripts/gcloud)
+- Code sample using [Python](./scripts/python)
 
 ### Build and deploy the app
 
@@ -41,9 +49,9 @@ Install [Skaffold for CLI](https://skaffold.dev/).
 
 Ensure the following environment variables are set:
 
-- PROJECT_ID set to your project
-- REGION set to the region
-- CLUSTER_ID set to your cluster
+- **PROJECT_ID** set to your project
+- **REGION** set to the region
+- **CLUSTER_ID** set to your cluster
 
 ```text
 export PROJECT_ID=my-project
@@ -75,36 +83,14 @@ skaffold run --default-repo=gcr.io/$PROJECT_ID/voting-app --tail
 
 ## Test the app
 
-Use the following commands to get the public address of the app.
+Print the public address of the app.
 
 ```text
-IP=$(kubectl get service frontend-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}")
-FRONTEND="http://${IP}:80"
+echo "http://"$(kubectl get service frontend-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}")
 ```
 
-**Cast votes (choose either `a` or `b`).**
-
-```text
-curl "$FRONTEND/vote" -H "Content-Type: application/json" -d '{"vote":"a"}'
-```
-
-Sample output:
-
-```text
-{"success":true,"data":{"vote":"a","voter_id":"82f027eb-c25b-480d-aa20-9d3d727544a5"}}
-```
-
-**Fetch the current voting results.**
-
-```text
-curl "$FRONTEND/results"
-```
-
-Sample output:
-
-```text
-{"success":true,"results":{"a":1,"b":0}}
-```
+- Cast votes at this address.
+- Display voting results by appending `/results` to the web address.
 
 ## Clean up
 
