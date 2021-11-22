@@ -1,8 +1,28 @@
 const assert = require('assert');
+const { customAlphabet } = require('nanoid')
+
 const Database = require('../lib/Mongo');
-const shortid = require('shortid');
 
 const TEST_TIMEOUT = 10000;
+
+
+// id generates valid test database names for Mongo
+// https://docs.mongodb.com/manual/reference/limits/#naming-restrictions
+// TODO: externalize and make more efficient
+function id(prefix = 'test_') {
+  const max = 63
+  const punct = '-_'
+  const digits = '0123456789'
+  const letters = 'abcdefghijklmnopqrstuvwxyz'
+  const alphabet = [
+    punct,
+    digits,
+    letters,
+    letters.toUpperCase(),
+  ].join('')
+  return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
+}
+
 
 suite('database tests', function() {
   this.timeout(TEST_TIMEOUT);
@@ -12,18 +32,18 @@ suite('database tests', function() {
     let db;
 
     // randomly generated database name used for testing, dropped when finished
-    let dbName = `testdb_${shortid.generate()}`;
+    let dbName = id();
 
     setup(async () => {
-      // Create a standard config and override db
+      // Create a standard config and override database
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({ db: dbName });
+      let config = Database.createStdConfig({ database: dbName });
 
       db = new Database(config);
-      assert.equal(db.connectionURL, config.uri || `mongodb://${config.host}:${config.port}/${config.db}`);
+      assert.equal(db.connectionURL, config.uri || `mongodb://${config.host}:${config.port}/${config.database}`);
       await db.connect();
       assert.ok(db.instance);
-      assert.equal(db.instance.databaseName, config.db);
+      assert.equal(db.instance.databaseName, config.database);
       assert.equal(db.isConnected, true);
     });
 

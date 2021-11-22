@@ -78,13 +78,14 @@ Create a new instance
 
     var db = new Mongo([options])
 
-`options` is an optional object that defaults to the values in `lib/mongo_default_config.js` for any missing properties.
+`options` is an optional object that defaults to the values from
+`Mongo. defaults()` for any missing properties.
 
 ```js
 const config = {
   host: 'database',
   port: 27017,
-  db: 'voting'
+  database: 'votes'
 };
 ```
 

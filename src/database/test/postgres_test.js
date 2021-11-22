@@ -1,6 +1,6 @@
 const assert = require('assert');
 const Database = require('../lib/Postgres');
-const { nanoid } = require('nanoid');
+const { nanoid, customAlphabet} = require('nanoid');
 
 const TEST_TIMEOUT = 15000;
 
@@ -10,11 +10,19 @@ function log(...v) {
 }
 
 
-// Postgress database names can only be 31 characters long
-// and can only have lowercase letters, numbers, and underscores.
-function id() {
-  let id = `test_${nanoid()}`;
-  return id.slice(0, 32).toLowerCase().replace(/-/g, '_');
+// id generates valid test database names for Postgres
+// TODO: externalize and make more efficient
+function id(prefix = 'test_') {
+  const max = 31
+  const punct = '_'
+  const digits = '0123456789'
+  const letters = 'abcdefghijklmnopqrstuvwxyz'
+  const alphabet = [
+    punct,
+    digits,
+    letters,
+  ].join('')
+  return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
 }
 
 suite('database tests', function() {
@@ -27,7 +35,7 @@ suite('database tests', function() {
     let dbName = id();
 
     suiteSetup(async () => {
-      // Create a standard config and override db with generated db name
+      // Create a standard config and override database with generated database name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
       let config = Database.createStdConfig({ database: dbName, idleTimeoutMillis: 100 });
 

@@ -1,7 +1,5 @@
 const {Client, Pool} = require('pg');
 
-const Backoff = require('./Backoff');
-const defaults = require('./postgres_default_config');
 const uuid = require('./uuid');
 
 const eventTable = 'events';
@@ -20,6 +18,46 @@ function log(...v) {
 
 class Postgres {
   /**
+   * Get a copy of the database defaults object
+   * @return {{}}
+   */
+  static defaults() {
+    return {
+      host: 'postgres',
+      port: 5432,
+      database: 'votes',
+      user: 'postgres',
+      idleTimeoutMillis: 5000,
+    };
+  }
+
+  /**
+   * Creates a config object initialized with the following keys (from calling Postgres.defaults())
+   * then overrides default values from environment variables that map to these keys
+   * - PGHOST       -> host (= postgres)
+   * - PGPORT       -> port (= 5432)
+   * - PGDATABASE   -> database (= votes)
+   * - PGUSER       -> user (= postgres)
+   * - PGPASSWORD   -> password
+   *
+   * then overrides with any explicit properties set by the config parameter.
+   * @param {object} config, a configuration object with properties that override all else.
+   * @returns {{}}
+   */
+  static createStdConfig(config) {
+    let c = Postgres.defaults();
+
+    // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
+    if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
+    if (process.env.PGHOST) c.host = process.env.PGHOST
+    if (process.env.PGPORT) c.port = process.env.PGPORT
+    if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
+    if (process.env.PGUSER) c.user = process.env.PGUSER
+
+    return Object.assign(c, config || {});
+  }
+
+  /**
    * Create a new Database instance.
    * @param {object} [config] Object with valid url or uri property for connection string, or
    *                        else host, port, and database properties. Can also have an options property.
@@ -27,12 +65,12 @@ class Postgres {
    */
   constructor(config) {
     this._isConnected = false;
-    this._config = Object.assign(Postgres.defaults().config(), config || {});
+    this._config = Object.assign(Postgres.defaults(), config || {});
   }
 
   /**
    * Get a copy of the current config.
-   * The config is an object with `host`, `port`, `db`, `user`, and `password` properties
+   * The config is an object with `host`, `port`, `database`, `user`, and `password` properties
    * @return {{}}
    */
   get config() {
@@ -42,7 +80,7 @@ class Postgres {
   /**
    * Get the admin connection URL (to postgres database) based on the current config.
    * Returns value of url property if present, else returns value of uri property
-   * if present, else returns generated string based on host, port, and db properties.
+   * if present, else returns generated string based on host, port, and database properties.
    * @return {string}
    */
   get adminConnectionURL() {
@@ -53,7 +91,7 @@ class Postgres {
   /**
    * Get the connection URL based on the current config.
    * Returns value of url property if present, else returns value of uri property
-   * if present, else returns generated string based on host, port, and db properties.
+   * if present, else returns generated string based on host, port, and database properties.
    * @return {string}
    */
   get connectionURL() {
@@ -82,40 +120,6 @@ class Postgres {
       });
     }
     return this._client;
-  }
-
-  /**
-   * Get a copy of the database defaults object
-   * @return {{}}
-   */
-  static defaults() {
-    return Object.assign({}, defaults);
-  }
-
-  /**
-   * Creates a config object initialized with the following keys (see postgres_default_config.js)
-   * then overrides default values from environment variables that map to these keys
-   * - PGHOST       -> host (= postgres)
-   * - PGPORT       -> port (= 5432)
-   * - PGDATABASE   -> db (= votes)
-   * - PGUSER       -> user (= postgres)
-   * - PGPASSWORD   -> password
-   *
-   * then overrides with any explicit properties set by the config parameter.
-   * @param {object} config, a configuration object with properties that override all else.
-   * @returns {{}}
-   */
-  static createStdConfig(config) {
-    let c = Postgres.defaults().config();
-
-    // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
-    if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
-    if (process.env.PGHOST) c.host = process.env.PGHOST
-    if (process.env.PGPORT) c.port = process.env.PGPORT
-    if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
-    if (process.env.PGUSER) c.user = process.env.PGUSER
-
-    return Object.assign(c, config || {});
   }
 
   async initDatabase() {
