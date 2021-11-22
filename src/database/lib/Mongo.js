@@ -1,7 +1,6 @@
 const mongodb = require('mongodb');
 
 const Backoff = require('./Backoff');
-const defaults = require('./mongo_default_config');
 const uuid = require('./uuid');
 
 const Client = mongodb.MongoClient;
@@ -11,25 +10,15 @@ const VOTES = 'votes';
 
 class Mongo {
   /**
-   * Create a new Mongo instance.
-   * @param {object} [config] Object with valid url or uri property for connection string, or
-   *                        else host, port, and db properties. Can also have an options property.
-   * @throws {Error} if invalid config is provided.
-   */
-  constructor(config) {
-    this._client = null;
-    this._instance = null;
-    this._isConnected = false;
-    this._config = Object.assign(Mongo.defaults().config(), config || {});
-    checkConfig(this._config);
-  }
-
-  /**
    * Get a copy of the database defaults object
    * @return {{}}
    */
   static defaults() {
-    return Object.assign({}, defaults);
+    return {
+      host: 'mongo',
+      port: 27017,
+      database: 'votes'
+    };
   }
 
   /**
@@ -43,7 +32,7 @@ class Mongo {
    * @returns {{}}
    */
   static createStdConfig(config) {
-    let c = Mongo.defaults().config();
+    let c = Mongo.defaults();
 
     if (process.env.DATABASE_URI) {
       c.uri = process.env.DATABASE_URI;
@@ -52,7 +41,7 @@ class Mongo {
       c.host = process.env.DATABASE_HOST || c.host;
       c.port = process.env.DATABASE_PORT || c.port;
     }
-    c.db = process.env.DATABASE_NAME || c.db;
+    c.database = process.env.DATABASE_NAME || c.database;
 
     // When connecting, we check first for a uri, so if the config object has explicitly
     // specified host and port, then we need to explicitly delete the uri property.
@@ -64,8 +53,22 @@ class Mongo {
   }
 
   /**
+   * Create a new Mongo instance.
+   * @param {object} [config] Object with valid url or uri property for connection string, or
+   *                        else host, port, and database properties. Can also have an options property.
+   * @throws {Error} if invalid config is provided.
+   */
+  constructor(config) {
+    this._client = null;
+    this._instance = null;
+    this._isConnected = false;
+    this._config = Object.assign(Mongo.defaults(), config || {});
+    checkConfig(this._config);
+  }
+
+  /**
    * Get a copy of the current config.
-   * The config is an object with `host`, `port`, and `db` OR `uri` (or `url`) properties.
+   * The config is an object with `host`, `port`, and `database` OR `uri` (or `url`) properties.
    * @return {{}}
    */
   get config() {
@@ -75,7 +78,7 @@ class Mongo {
   /**
    * Get the connection URL based on the current config.
    * Returns value of url property if present, else returns value of uri property
-   * if present, else returns generated string based on host, port, and db properties.
+   * if present, else returns generated string based on host, port, and database properties.
    * @return {string}
    */
   get connectionURL() {
@@ -83,7 +86,7 @@ class Mongo {
       this.config.uri :
       this.config.url ?
         this.config.url :
-        `mongodb://${this.config.host}:${this.config.port}/${this.config.db}`;
+        `mongodb://${this.config.host}:${this.config.port}/${this.config.database}`;
   }
 
   /**
@@ -111,7 +114,7 @@ class Mongo {
   }
 
   /**
-   * Establish a connection to the database.
+   * Establish a connection to the database with exponential backoff.
    * @throws {Error} Connection error.
    * @return {Promise<void>}
    */
@@ -122,10 +125,9 @@ class Mongo {
 
     let that = this;
     let backoff = new Backoff(async () => {
-      let opts = { useNewUrlParser: true };
       console.error(that.connectionURL)
-      that._client = await Client.connect(that.connectionURL, opts);
-      that._instance = await that._client.db(that.config.db);
+      that._client = await Client.connect(that.connectionURL);
+      that._instance = await that._client.db(that.config.database);
       that._isConnected = true;
     }, { retryIf: err => err.name === 'MongoNetworkError' });
 
@@ -207,7 +209,7 @@ function checkConfig(c) {
   if (!c.url || !c.uri) {
     if (!c.host) errors.push('host');
     if (!c.port) errors.push('port');
-    if (!c.db) errors.push('db');
+    if (!c.database) errors.push('database');
   }
   if (errors.length) {
     // don't forget to update test if error string is updated
