@@ -37,11 +37,11 @@ app.use(express.json());
 
 
 function info(...v) {
-  console.log('server:info:', ...v);
+  console.log('server:info: ', ...v);
 }
 
 function error(...v) {
-  console.log('server:error:', ...v);
+  console.log('server:error: ', ...v);
 }
 
 
