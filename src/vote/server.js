@@ -37,7 +37,7 @@ app.use(express.json());
 
 
 function info(...v) {
-  console.log('INFO:server: ', ...v);
+  console.log('INFO:server:', ...v);
 }
 
 function error(...v) {
