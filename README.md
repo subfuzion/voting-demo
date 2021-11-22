@@ -1,10 +1,13 @@
 # Voting App
 
-Simple voting app that consists of three services:
+Simple voting app that consists of three services for highlighting running
+containerized applications on Google Cloud.
 
 - **web** - Web frontend (Python Flask app)
-- **vote** - Vote API microservice (Node.js app)
-- **database** - Backend (MongoDB database)
+- **vote** - Vote API microservice (Node.js Express app)
+- **database** - Backend (Postgres SQL database or Mongo NoSQL database)
+
+![](images/voting-app.png)
 
 If you prefer demo apps with more microservices and sophistication (but take a bit
 longer to start), try these out:
@@ -12,7 +15,7 @@ longer to start), try these out:
  - https://github.com/GoogleCloudPlatform/microservices-demo
  - https://github.com/GoogleCloudPlatform/bank-of-anthos
 
-## Quickstart (GKE)
+## Quickstart (GKE with Autopilot)
 
 ### Prerequisites
 
@@ -20,6 +23,10 @@ longer to start), try these out:
 - [Install Skaffold](https://skaffold.dev/docs/install/)
 
 ### Create an Autopilot cluster
+
+With an Autopilot cluster, GKE manages compute infrastructure for Kubernetes,
+freeing developers from physical cluster administration to focus on building and
+maintaining applications.
 
 You will need a Google Cloud project with billing enabled.
 
