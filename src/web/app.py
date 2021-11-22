@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 host = os.getenv("HOST", "0.0.0.0")
 port = os.getenv("PORT", "8080")
 hostname = socket.gethostname()
-api = os.getenv("API", "http://api:8080")
+api = os.getenv("VOTE", "http://vote")
 
 # data for rendering UI
 option_a = os.getenv("OPTION_A", "Tabs")

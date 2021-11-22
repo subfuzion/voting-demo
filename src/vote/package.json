@@ -1,10 +1,10 @@
 {
-  "name": "@subfuzion/vote-frontend",
+  "name": "@subfuzion/vote-api",
   "version": "1.0.1",
-  "description": "Frontend for voting app",
+  "description": "Voting App API",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
   "license": "MIT",
-  "repository": "https://github.com/subfuzion/voting-app.git",
+  "repository": "https://github.com/subfuzion/voting-demo.git",
   "scripts": {
     "start": "node server.js",
     "test": "mocha --ui tdd",

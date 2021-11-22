@@ -2,24 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api
+  name: vote
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: api
+      app: vote
   template:
     metadata:
       labels:
-        app: api
+        app: vote
     spec:
       serviceAccountName: default
       containers:
-        - name: api
-          image: gcr.io/voting-app/api
+        - name: vote
+          image: gcr.io/voting-app/vote
           ports:
             - containerPort: 8080
-              name: api-port
           env:
             - name: PORT
               value: "8080"
@@ -36,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api
+  name: vote
 spec:
   type: ClusterIP
   selector:
-    app: api
+    app: vote
   ports:
     - name: http
-      port: 8080
+      port: 80
       targetPort: 8080

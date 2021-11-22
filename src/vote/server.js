@@ -1,5 +1,5 @@
 const Database = require('@subfuzion/vote-database').Database;
-const express= require('express');
+const express = require('express');
 const http = require('http');
 const metrics = require('prom-client');
 const morgan = require('morgan');
@@ -9,8 +9,7 @@ const register = metrics.register;
 metrics.collectDefaultMetrics();
 console.log(`Collecting metrics for ${metrics.collectDefaultMetrics.metricsList}`);
 const voteCounter = new metrics.Counter({
-  name: 'vote_received_counter',
-  help: 'Number of vote requests received',
+  name: 'vote_received_counter', help: 'Number of vote requests received',
 });
 
 
@@ -37,8 +36,12 @@ app.use(morgan());
 app.use(express.json());
 
 
-function log(...v) {
-  console.log('[API]', ...v);
+function info(...v) {
+  console.log('server:info:', ...v);
+}
+
+function error(...v) {
+  console.log('server:error:', ...v);
 }
 
 
@@ -46,27 +49,29 @@ function log(...v) {
 app.post('/vote', async (req, res) => {
   try {
     voteCounter.inc();
-    let v = { vote: req.body.vote };
+    let v = req.body
     let result = await db.updateVote(v);
-    log('posted vote: %j', result);
-    res.send({ success: true, data: result });
+    info(`posted vote: ${result}`);
+    res.send({success: true, data: result});
   } catch (err) {
-    log('ERROR: POST /vote: %s', err.message || err.response || err);
-    res.status(500).send({ success: false, reason: 'internal error' });
+    error(`ERROR: POST /vote: ${err.message || err.response || err}`);
+    res.status(500).send({success: false, reason: 'internal error'});
   }
 });
+
 
 // results route handler
 app.get('/results', async (req, res) => {
   try {
     let tally = await db.tallyVotes();
-    log('tally: %j', tally);
-    res.send({ success: true, results: tally});
+    info(`tally: ${tally}`);
+    res.send({success: true, results: tally});
   } catch (err) {
-    log('ERROR: POST /results: %s', err.message || err.response || err);
-    res.status(500).send({ success: false, reason: 'internal error' });
+    error(`ERROR: POST /results: ${err.message || err.response || err}`);
+    res.status(500).send({success: false, reason: 'internal error'});
   }
 });
+
 
 // metrics
 app.get('/metrics', async (req, res) => {
@@ -77,6 +82,7 @@ app.get('/metrics', async (req, res) => {
     res.status(500).end(e);
   }
 });
+
 
 app.get('/metrics/counter', async (req, res) => {
   try {
@@ -90,15 +96,17 @@ app.get('/metrics/counter', async (req, res) => {
 
 // Handle shutdown gracefully.
 function handleSignal(signal) {
-  log(`received ${signal}`)
+  info(`received ${signal}`)
   server.close(function () {
     (async () => {
       if (db) await db.close();
-      log('database connection closed, exiting now');
+      info('database connection closed, exiting now');
       process.exit(0);
     })();
   });
 }
+
+
 process.on('SIGINT', handleSignal);
 process.on('SIGTERM', handleSignal);
 
@@ -107,17 +115,17 @@ process.on('SIGTERM', handleSignal);
   try {
     db = new Database(databaseConfig);
     await db.connect();
-    log('connected to database');
+    info('connected to database');
 
     await new Promise(resolve => {
       server.listen(port, () => {
-        log(`listening on port ${port}, metrics exposed on /metrics`);
+        info(`listening on port ${port}, metrics exposed on /metrics`);
         resolve();
       });
     });
 
   } catch (err) {
-    log(err);
+    error(err);
     process.exit(1);
   }
 })();

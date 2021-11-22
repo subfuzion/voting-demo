@@ -15,17 +15,17 @@ services:
     image: web
     environment:
       - PORT=80
-      - API=http://api:8080
+      - VOTE=http://vote:8080
     networks:
       web_net:
     ports:
       - "80:80"
     depends_on:
-      - api
+      - vote
 
-  api:
-    build: src/api
-    image: api
+  vote:
+    build: src/vote
+    image: vote
     environment:
       - PORT=8080
       - DATABASE_NAME=database

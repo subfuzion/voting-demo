@@ -8,8 +8,8 @@ build:
       context: src/web
       docker:
         dockerfile: Dockerfile
-    - image: gcr.io/voting-app/api
-      context: src/api
+    - image: gcr.io/voting-app/vote
+      context: src/vote
       docker:
         dockerfile: Dockerfile
   tagPolicy:
@@ -19,6 +19,6 @@ deploy:
   kubectl:
     manifests:
       - kubernetes/database.yaml
-      - kubernetes/api.yaml
-      - kubernetes/web-external.yaml
+      - kubernetes/vote.yaml
       - kubernetes/web.yaml
+      - kubernetes/web-external.yaml
