@@ -51,7 +51,7 @@ app.post('/vote', async (req, res) => {
     voteCounter.inc();
     let v = req.body
     let result = await db.updateVote(v);
-    info(`posted vote: ${result}`);
+    info(`posted vote: ${JSON.stringify(result)}`);
     res.send({success: true, data: result});
   } catch (err) {
     error(`ERROR: POST /vote: ${err.message || err.response || err}`);
@@ -64,7 +64,7 @@ app.post('/vote', async (req, res) => {
 app.get('/results', async (req, res) => {
   try {
     let tally = await db.tallyVotes();
-    info(`tally: ${tally}`);
+    info(`tally: ${JSON.stringify(tally)}`);
     res.send({success: true, results: tally});
   } catch (err) {
     error(`ERROR: POST /results: ${err.message || err.response || err}`);
