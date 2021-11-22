@@ -2,9 +2,9 @@
 
 Simple voting app that consists of three services:
 
-- **web** - web frontend (Python Flask app)
+- **web** - Web frontend (Python Flask app)
 - **vote** - Vote API microservice (Node.js app)
-- **database** - backend (MongoDB database)
+- **database** - Backend (MongoDB database)
 
 If you prefer demo apps with more microservices and sophistication (but take a bit
 longer to start), try these out:
