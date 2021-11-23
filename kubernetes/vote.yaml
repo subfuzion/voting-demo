@@ -19,6 +19,7 @@ spec:
           image: gcr.io/voting-app/vote
           ports:
             - containerPort: 8080
+              name: vote-port
           env:
             - name: PORT
               value: "8080"

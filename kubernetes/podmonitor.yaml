@@ -9,3 +9,4 @@ spec:
       app: web
   podMetricsEndpoints:
     - port: web-port
+    - port: vote-port

@@ -18,11 +18,28 @@ Authorize `gcloud` to use your Google user credentials.
 gcloud auth login
 ```
 
-Create a cluster using GKE Autopilot mode. This operation takes approximately
-five minutes.
+Create a cluster using GKE Autopilot mode. The following two operations will
+take approximately ten minutes to complete.
 
 ```text
-gcloud container clusters create-auto $CLUSTER_ID \
+gcloud beta container clusters create-auto $CLUSTER_ID \
 --project $PROJECT_ID \
---region $REGION
+--region $REGION \
+--monitoring=SYSTEM,WORKLOAD
+
+gcloud beta container clusters update $CLUSTER_ID \
+--project $PROJECT_ID \
+--region $REGION \
+--monitoring=SYSTEM,WORKLOAD
 ```
+
+> **Note:** To enable GKE Workload Metrics, which is currently in Public
+> Preview, we need to use the `beta container clusters create-auto` command,
+> followed by the `container beta clusters update` command.
+> 
+> Once the feature is Generally Available (GA), workload metrics will be enabled
+> by default for Autopilot clusters. You will then only need this command:
+> 
+> gcloud container clusters create-auto $CLUSTER_ID \
+> --project $PROJECT_ID \
+> --region $REGION
