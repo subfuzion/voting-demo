@@ -10,8 +10,8 @@ from prometheus_flask_exporter import PrometheusMetrics
 from waitress import serve
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.DEBUG)
 metrics = PrometheusMetrics(app)
+logging.basicConfig(level=logging.DEBUG)
 
 host = os.getenv("HOST", "0.0.0.0")
 port = os.getenv("PORT", "8080")
