@@ -1,11 +1,14 @@
 {
   "name": "@subfuzion/vote-database",
-  "version": "1.0.2",
-  "description": "Simple MongoDB database package for voting app",
+  "version": "2.0.0",
+  "description": "Database package for voting demo app",
   "main": "index.js",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
-  "license": "MIT",
-  "repository": "https://github.com/subfuzion/voting-app.git",
+  "license": {
+    "type": "Apache-2.0",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0"
+  },
+  "repository": "https://github.com/subfuzion/voting-demo.git",
   "scripts": {
     "test": "mocha test/*test.js --ui tdd",
     "test-mongo": "mocha test/mongo_test.js --ui tdd",
@@ -13,7 +16,7 @@
     "local-docker-test": "docker compose -f docker-compose.test.yml run sut"
   },
   "engines": {
-    "node": ">=v14.0.0"
+    "node": ">=v16.0.0"
   },
   "dependencies": {
     "mongodb": "^4.1.1",

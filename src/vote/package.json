@@ -3,7 +3,10 @@
   "version": "1.0.1",
   "description": "Voting App API",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
-  "license": "MIT",
+  "license": {
+    "type": "Apache-2.0",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0"
+  },
   "repository": "https://github.com/subfuzion/voting-demo.git",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +15,7 @@
     "docker-down": "docker compose -f ./docker-compose.test.yml down"
   },
   "engines": {
-    "node": ">=v14.0.0"
+    "node": ">=v16.0.0"
   },
   "dependencies": {
     "@subfuzion/vote-database": "^1.0.2",
