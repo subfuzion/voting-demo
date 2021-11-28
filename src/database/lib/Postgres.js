@@ -45,7 +45,7 @@ class Postgres {
    * @return {string}
    */
   get adminConnectionURL() {
-    let c = this.config;
+    const c = this.config;
     return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/postgres`;
   }
 
@@ -56,7 +56,7 @@ class Postgres {
    * @return {string}
    */
   get connectionURL() {
-    let c = this.config;
+    const c = this.config;
     return `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.database}`;
   }
 
@@ -106,7 +106,7 @@ class Postgres {
    * @returns {{}}
    */
   static createStdConfig(config = {}) {
-    let c = Postgres.defaults();
+    const c = Postgres.defaults();
 
     // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
     if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
@@ -120,9 +120,9 @@ class Postgres {
 
   async initDatabase() {
     log('Initialize database')
-    let c = this.config;
+    const c = this.config;
 
-    let adminClient = new Client(this.adminConnectionURL);
+    const adminClient = new Client(this.adminConnectionURL);
     log(`Connect to postgres database: ${this.adminConnectionURL}`);
 
     // Create database using admin connection to postgres.
@@ -206,7 +206,7 @@ class Postgres {
   async dropDatabase() {
     log('Drop database')
 
-    let client = new Client(this.adminConnectionURL);
+    const client = new Client(this.adminConnectionURL);
     log(`Connect to postgres database: ${this.adminConnectionURL}`);
 
     await client.connect();
@@ -273,12 +273,14 @@ class Postgres {
     const r = await p.query(`SELECT candidate, COUNT(voter_id)
                              FROM events
                              GROUP BY candidate`);
-    const votes = new Map();
+    const tally = new voting.TallyByCandidateResult();
+
     for (const row in r.rows) {
       const line = r.rows[row];
-      votes.set(line.candidate, parseInt(line.count, 10));
+      tally.set(line.candidate, parseInt(line.count, 10));
     }
-    return votes;
+
+    return tally;
   }
 
   /**
@@ -286,16 +288,18 @@ class Postgres {
    * @return {Promise<{}>}
    */
   async tallyVotesByCounty() {
-    let p = this._client;
-    let r = await p.query(`SELECT county, COUNT(voter_id)
-                           FROM events
-                           GROUP BY county`);
-    const votes = new Map();
+    const p = this._client;
+    const r = await p.query(`SELECT county, COUNT(voter_id)
+                             FROM events
+                             GROUP BY county`);
+    const tally = new voting.TallyByCountyResult();
+
     for (const row in r.rows) {
-      let line = r.rows[row];
-      votes.set(line.county, parseInt(line.count, 10));
+      const line = r.rows[row];
+      tally.set(line.county, parseInt(line.count, 10));
     }
-    return votes;
+
+    return tally;
   }
 
   /**
@@ -303,16 +307,18 @@ class Postgres {
    * @return {Promise<{}>}
    */
   async tallyVotesByState() {
-    let p = this._client;
-    let r = await p.query(`SELECT state, COUNT(voter_id)
-                           FROM events
-                           GROUP BY state`);
-    const votes = new Map();
+    const p = this._client;
+    const r = await p.query(`SELECT state, COUNT(voter_id)
+                             FROM events
+                             GROUP BY state`);
+    const tally = new voting.TallyByStateResult();
+
     for (const row in r.rows) {
-      let line = r.rows[row];
-      votes.set(line.state, line.count);
+      const line = r.rows[row];
+      tally.set(line.state, line.count);
     }
-    return votes;
+
+    return tally;
   }
 
   /**
@@ -320,23 +326,22 @@ class Postgres {
    * @return {Promise<{}>}
    */
   async tallyCandidateVotesByState() {
-    let p = this._client;
-    let r = await p.query(`SELECT candidate, state, COUNT(voter_id) as votes
-                           FROM events
-                           GROUP BY state, candidate
-                           ORDER BY state, votes DESC`);
-    const votes = new Map();
+    const p = this._client;
+    const r = await p.query(`SELECT candidate, state, COUNT(voter_id) as votes
+                             FROM events
+                             GROUP BY state, candidate
+                             ORDER BY state, votes DESC`);
+
+    const tally = new voting.TallyCandidateVotesByStateResult()
+
     for (const row of r.rows) {
-      let state = row.state;
-      let candidate = row.candidate;
-      let tally = parseInt(row.votes, 10)
-      if (!votes.get(state)) {
-        votes.set(state, new Map());
-      }
-      votes.get(state).set(candidate, tally)
+      const state = row.state;
+      const candidate = row.candidate;
+      const votes = parseInt(row.votes, 10)
+      tally.set(state, candidate, votes);
     }
 
-    return votes;
+    return tally;
   }
 
 
@@ -347,7 +352,8 @@ module.exports = Postgres;
 
 // validate configs before accepting
 function checkConfig(c) {
-  let errors = [];
+  const errors = [];
+
   if (!c.host) errors.push('missing host');
   if (!c.port) errors.push('missing port');
   if (!c.database) errors.push('missing database');
@@ -355,7 +361,7 @@ function checkConfig(c) {
   if (!c.password) errors.push('missing password');
 
   if (c.database) {
-    let name = c.database;
+    const name = c.database;
     if (name.replace(/[a-z0-9_]/g, '').length > 0) errors.push(`not a valid database name: ${c.database}`);
   }
 

@@ -66,8 +66,7 @@ suite('database tests', function () {
       assert.ok(doc);
       assert.equal(doc.vote, v.vote);
       assert.ok(doc.voter_id);
-      // clear table once test is done here so our tally
-      // is correct later
+      // clear table once test is done here so our tally is correct later
       await db.truncateTable()
     });
 
@@ -107,12 +106,12 @@ suite('database tests', function () {
         await db.updateVote(v);
       }
 
-      let tally = await db.tallyVotesByCandidate();
+      let result = await db.tallyVotesByCandidate();
+      let tally = result.candidateTallies;
       assert.ok(tally);
-      assert.equal(tally.get("panther"), count_a, `'panther' => expected: ${count_a}, actual: ${tally.get("panther")}`);
-      assert.equal(tally.get("tiger"), count_b, `'tiger' => expected: ${count_b}, actual: ${tally.get("tiger")}`);
-      // clear table once test is done here so our tally
-      // is correct later
+      assert.equal(tally.get("panther").votes, count_a, `'panther' => expected: ${count_a}, actual: ${tally.get("panther").votes}`);
+      assert.equal(tally.get("tiger").votes, count_b, `'tiger' => expected: ${count_b}, actual: ${tally.get("tiger").votes}`);
+      // clear table once test is done here so our tally is correct later
       await db.truncateTable()
     });
 
@@ -135,10 +134,11 @@ suite('database tests', function () {
         await db.updateVote(v);
       }
 
-      let tally = await db.tallyVotesByCounty();
+      let result = await db.tallyVotesByCounty();
+      let tally = result.countyTallies
       assert.ok(tally);
-      assert.equal(tally.get("Marin"), count_marin, `'Marin' => expected: ${count_marin}, actual: ${tally.get("Marin")}`);
-      assert.equal(tally.get("Alameda"), count_alameda, `'Alameda' => expected: ${count_alameda}, actual: ${tally.get("Alameda")}`);
+      assert.equal(tally.get("Marin").votes, count_marin, `'Marin' => expected: ${count_marin}, actual: ${tally.get("Marin").tally}`);
+      assert.equal(tally.get("Alameda").votes, count_alameda, `'Alameda' => expected: ${count_alameda}, actual: ${tally.get("Alameda").tally}`);
       // clear table once test is done here so our tally
       // is correct later
       await db.truncateTable()
@@ -172,13 +172,13 @@ suite('database tests', function () {
         await db.updateVote(v);
       }
 
-      let tally = await db.tallyVotesByState();
+      let result = await db.tallyVotesByState();
+      let tally = result.stateTallies;
       assert.ok(tally);
-      assert.equal(tally.get("California"), count_ca, `'California' => expected: ${count_ca}, actual: ${tally.get("California")}`);
-      assert.equal(tally.get("Oregon"), count_or, `'Oregon' => expected: ${count_or}, actual: ${tally.get("Oregon")}`);
-      assert.equal(tally.get("Washington"), count_wa, `'Washington' => expected: ${count_wa}, actual: ${tally.get("Washington")}`);
-      // clear table once test is done here so our tally
-      // is correct later
+      assert.equal(tally.get("California").votes, count_ca, `'California' => expected: ${count_ca}, actual: ${tally.get("California").votes}`);
+      assert.equal(tally.get("Oregon").votes, count_or, `'Oregon' => expected: ${count_or}, actual: ${tally.get("Oregon").votes}`);
+      assert.equal(tally.get("Washington").votes, count_wa, `'Washington' => expected: ${count_wa}, actual: ${tally.get("Washington").votes}`);
+      // clear table once test is done here so our tally is correct later
       await db.truncateTable()
     });
 
@@ -255,21 +255,29 @@ suite('database tests', function () {
         await db.updateVote(v);
       }
 
-      let tally = await db.tallyCandidateVotesByState();
+      let result = await db.tallyCandidateVotesByState();
+      let tally = result.candidateByStateTallies;
       assert.ok(tally);
       assert.ok(tally.get("California"))
       assert.ok(tally.get("Oregon"))
       assert.ok(tally.get("Washington"))
-      assert.equal(tally.get("California").get("panther"), count_ca_panther, `'California panther' => expected: ${count_ca_panther}, actual: ${tally.get("California").get("panther")}`);
-      assert.equal(tally.get("California").get("lion"), count_ca_lion, `'California lion' => expected: ${count_ca_lion}, actual: ${tally.get("California").get("lion")}`);
-      assert.equal(tally.get("California").get("tiger"), count_ca_tiger, `'California tiger' => expected: ${count_ca_tiger}, actual: ${tally.get("California").get("tiger")}`);
-      assert.equal(tally.get("Oregon").get("tiger"), count_or_tiger, `'Oregon tiger' => expected: ${count_or_tiger}, actual: ${tally.get("Oregon").get("tiger")}`);
-      assert.equal(tally.get("Oregon").get("lion"), count_or_lion, `'Oregon lion' => expected: ${count_or_lion}, actual: ${tally.get("Oregon").get("lion")}`);
-      assert.equal(tally.get("Washington").get("tiger"), count_wa_tiger, `'Washington tiger' => expected: ${count_wa_tiger}, actual: ${tally.get("Washington").get("tiger")}`);
-      assert.equal(tally.get("Washington").get("panther"), count_wa_panther, `'Washington panther' => expected: ${count_wa_panther}, actual: ${tally.get("Washington").get("panther")}`);
-      assert.equal(tally.get("Washington").get("leopard"), count_wa_leopard, `'Washington leopard' => expected: ${count_wa_leopard}, actual: ${tally.get("Washington").get("leopard")}`);
-      // clear table once test is done here so our tally
-      // is correct later
+      assert.equal(tally.get("California").candidateTallies.get("panther").votes, count_ca_panther,
+        `'California panther' => expected: ${count_ca_panther}, actual: ${tally.get("California").candidateTallies.get("panther").votes}`);
+      assert.equal(tally.get("California").candidateTallies.get("lion").votes, count_ca_lion,
+        `'California lion' => expected: ${count_ca_lion}, actual: ${tally.get("California").candidateTallies.get("lion").votes}`);
+      assert.equal(tally.get("California").candidateTallies.get("tiger").votes, count_ca_tiger,
+        `'California tiger' => expected: ${count_ca_tiger}, actual: ${tally.get("California").candidateTallies.get("tiger").votes}`);
+      assert.equal(tally.get("Oregon").candidateTallies.get("tiger").votes, count_or_tiger,
+        `'Oregon tiger' => expected: ${count_or_tiger}, actual: ${tally.get("Oregon").candidateTallies.get("tiger").votes}`);
+      assert.equal(tally.get("Oregon").candidateTallies.get("lion").votes, count_or_lion,
+        `'Oregon lion' => expected: ${count_or_lion}, actual: ${tally.get("Oregon").candidateTallies.get("lion").votes}`);
+      assert.equal(tally.get("Washington").candidateTallies.get("tiger").votes, count_wa_tiger,
+        `'Washington tiger' => expected: ${count_wa_tiger}, actual: ${tally.get("Washington").candidateTallies.get("tiger").votes}`);
+      assert.equal(tally.get("Washington").candidateTallies.get("panther").votes, count_wa_panther,
+        `'Washington panther' => expected: ${count_wa_panther}, actual: ${tally.get("Washington").candidateTallies.get("panther").votes}`);
+      assert.equal(tally.get("Washington").candidateTallies.get("leopard").votes, count_wa_leopard,
+        `'Washington leopard' => expected: ${count_wa_leopard}, actual: ${tally.get("Washington").candidateTallies.get("leopard").votes}`);
+      // clear table once test is done here so our tally is correct later
       await db.truncateTable()
     });
   });
