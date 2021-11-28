@@ -44,7 +44,7 @@ class Postgres {
    * @param {object} config, a configuration object with properties that override all else.
    * @returns {{}}
    */
-  static createStdConfig(config) {
+  static createStdConfig(config = {}) {
     let c = Postgres.defaults();
 
     // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
@@ -54,7 +54,7 @@ class Postgres {
     if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
     if (process.env.PGUSER) c.user = process.env.PGUSER
 
-    return Object.assign(c, config || {});
+    return Object.assign(c, config);
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@subfuzion/vote-database",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Database package for voting demo app",
   "main": "index.js",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",

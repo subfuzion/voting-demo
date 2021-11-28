@@ -31,7 +31,7 @@ class Mongo {
    * @param {object} config, a configuration object with properties that override all else.
    * @returns {{}}
    */
-  static createStdConfig(config) {
+  static createStdConfig(config = {}) {
     let c = Mongo.defaults();
 
     if (process.env.DATABASE_URI) {
@@ -49,7 +49,7 @@ class Mongo {
       delete c.uri;
     }
 
-    return Object.assign(c, config || {});
+    return Object.assign(c, config);
   }
 
   /**
