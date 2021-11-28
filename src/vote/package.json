@@ -1,7 +1,7 @@
 {
   "name": "@subfuzion/vote-api",
-  "version": "1.0.1",
-  "description": "Voting App API",
+  "version": "2.0.0",
+  "description": "Vote API for voting demo app",
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
   "license": {
     "type": "Apache-2.0",
@@ -18,7 +18,7 @@
     "node": ">=v16.0.0"
   },
   "dependencies": {
-    "@subfuzion/vote-database": "^1.0.2",
+    "@subfuzion/vote-database": "^2.1.0",
     "axios": "^0.21.1",
     "body-parser": "~1.19.0",
     "debug": "~4.3.2",

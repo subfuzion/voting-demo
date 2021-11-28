@@ -1,4 +1,4 @@
-const Database = require('@subfuzion/vote-database').Database;
+const Database = require('@subfuzion/vote-database').Postgres;
 const express = require('express');
 const http = require('http');
 const metrics = require('prom-client');

@@ -1,4 +1,4 @@
-FROM node:14.17.5-alpine3.14
+FROM node:16-alpine
 
 ARG NODE_ENV
 ENV NODE_ENV ${NODE_ENV:-development}

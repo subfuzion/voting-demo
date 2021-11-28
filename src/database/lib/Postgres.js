@@ -1,6 +1,7 @@
 const {Client, Pool} = require('pg');
 
 const uuid = require('./uuid');
+const voting = require('./voting');
 
 const eventTable = 'events';
 
@@ -17,46 +18,6 @@ function log(...v) {
 
 
 class Postgres {
-  /**
-   * Get a copy of the database defaults object
-   * @return {{}}
-   */
-  static defaults() {
-    return {
-      host: 'postgres',
-      port: 5432,
-      database: 'votes',
-      user: 'postgres',
-      idleTimeoutMillis: 5000,
-    };
-  }
-
-  /**
-   * Creates a config object initialized with the following keys (from calling Postgres.defaults())
-   * then overrides default values from environment variables that map to these keys
-   * - PGHOST       -> host (= postgres)
-   * - PGPORT       -> port (= 5432)
-   * - PGDATABASE   -> database (= votes)
-   * - PGUSER       -> user (= postgres)
-   * - PGPASSWORD   -> password
-   *
-   * then overrides with any explicit properties set by the config parameter.
-   * @param {object} config, a configuration object with properties that override all else.
-   * @returns {{}}
-   */
-  static createStdConfig(config = {}) {
-    let c = Postgres.defaults();
-
-    // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
-    if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
-    if (process.env.PGHOST) c.host = process.env.PGHOST
-    if (process.env.PGPORT) c.port = process.env.PGPORT
-    if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
-    if (process.env.PGUSER) c.user = process.env.PGUSER
-
-    return Object.assign(c, config);
-  }
-
   /**
    * Create a new Database instance.
    * @param {object} [config] Object with valid url or uri property for connection string, or
@@ -115,11 +76,46 @@ class Postgres {
     if (!this._client) {
       checkConfig(this._config);
       this._client = new Pool({
-        connectionString: this.connectionURL,
-        idleTimeoutMillis: this._config.idleTimeoutMillis
+        connectionString: this.connectionURL, idleTimeoutMillis: this._config.idleTimeoutMillis
       });
     }
     return this._client;
+  }
+
+  /**
+   * Get a copy of the database defaults object
+   * @return {{}}
+   */
+  static defaults() {
+    return {
+      host: 'postgres', port: 5432, database: 'votes', user: 'postgres', idleTimeoutMillis: 5000,
+    };
+  }
+
+  /**
+   * Creates a config object initialized with the following keys (from calling Postgres.defaults())
+   * then overrides default values from environment variables that map to these keys
+   * - PGHOST       -> host (= postgres)
+   * - PGPORT       -> port (= 5432)
+   * - PGDATABASE   -> database (= votes)
+   * - PGUSER       -> user (= postgres)
+   * - PGPASSWORD   -> password
+   *
+   * then overrides with any explicit properties set by the config parameter.
+   * @param {object} config, a configuration object with properties that override all else.
+   * @returns {{}}
+   */
+  static createStdConfig(config = {}) {
+    let c = Postgres.defaults();
+
+    // TODO: not recommended, use password file (https://www.postgresql.org/docs/14/libpq-pgpass.html)
+    if (process.env.PGPASSWORD) c.password = process.env.PGPASSWORD
+    if (process.env.PGHOST) c.host = process.env.PGHOST
+    if (process.env.PGPORT) c.port = process.env.PGPORT
+    if (process.env.PGDATABASE) c.database = process.env.PGDATABASE
+    if (process.env.PGUSER) c.user = process.env.PGUSER
+
+    return Object.assign(c, config);
   }
 
   async initDatabase() {
@@ -145,11 +141,11 @@ class Postgres {
     try {
       await this.client.query(`CREATE TABLE ${eventTable}
                                (
-                                  voter_id TEXT,
-                                  county TEXT,
-                                  state TEXT,
-                                  candidate TEXT,
-                                  party TEXT
+                                   voter_id  TEXT,
+                                   county    TEXT,
+                                   state     TEXT,
+                                   candidate TEXT,
+                                   party     TEXT
                                )`);
       log(`Created table: ${eventTable}`);
     } catch (e) {
@@ -183,8 +179,10 @@ class Postgres {
         throw e;
       }
 
+      // Database doesn't exist, so create it.
       await this.initDatabase();
 
+      // And try one final connection attempt.
       log('Attempting connect retry');
       await _connect();
       log('Connected to database')
@@ -256,9 +254,9 @@ class Postgres {
       vote.voter_id = uuid();
     }
 
-    await this.client.query(`INSERT INTO ${eventTable} 
-                            (voter_id, county, state, candidate, party)
-                             VALUES ('${vote.voter_id}', '${vote.county}', '${vote.state}', '${vote.candidate}', '${vote.party}')`);
+    await this.client.query(`INSERT INTO ${eventTable} (voter_id, county, state, candidate, party)
+                             VALUES ('${vote.voter.voter_id}', '${vote.voter.county}', '${vote.voter.state}', '${vote.candidate.name}',
+                                     '${vote.voter.party}')`);
     log(`Inserted ${vote.voter_id}: ${vote.county} - ${vote.state} - ${vote.candidate} - ${vote.party}`)
     return vote;
   }
@@ -267,17 +265,18 @@ class Postgres {
    * Get the tally of all votes grouped by candidate.
    * This tallies vote grouped by candidate and doesn't care about
    * location of votes
-   * @return {Promise<{}>}
+   * @return {Promise} represents an object mapping candidates to
+   * their votes {candidate<string>: votes<number>}
    */
   async tallyVotesByCandidate() {
-    let p = this._client;
-    let r = await p.query(`SELECT candidate, COUNT(voter_id)
-                           FROM events
-                           GROUP BY candidate`);
-    let votes = {};
+    const p = this._client;
+    const r = await p.query(`SELECT candidate, COUNT(voter_id)
+                             FROM events
+                             GROUP BY candidate`);
+    const votes = new Map();
     for (const row in r.rows) {
-      let line = r.rows[row];
-      votes[line.candidate] = line.count;
+      const line = r.rows[row];
+      votes.set(line.candidate, parseInt(line.count, 10));
     }
     return votes;
   }
@@ -286,15 +285,15 @@ class Postgres {
    * Get the tally of all votes grouped by county.
    * @return {Promise<{}>}
    */
-   async tallyVotesByCounty() {
+  async tallyVotesByCounty() {
     let p = this._client;
     let r = await p.query(`SELECT county, COUNT(voter_id)
                            FROM events
                            GROUP BY county`);
-    let votes = {};
+    const votes = new Map();
     for (const row in r.rows) {
       let line = r.rows[row];
-      votes[line.county] = line.count;
+      votes.set(line.county, parseInt(line.count, 10));
     }
     return votes;
   }
@@ -303,15 +302,15 @@ class Postgres {
    * Get the tally of all votes grouped by state.
    * @return {Promise<{}>}
    */
-   async tallyVotesByState() {
+  async tallyVotesByState() {
     let p = this._client;
     let r = await p.query(`SELECT state, COUNT(voter_id)
                            FROM events
                            GROUP BY state`);
-    let votes = {};
+    const votes = new Map();
     for (const row in r.rows) {
       let line = r.rows[row];
-      votes[line.state] = line.count;
+      votes.set(line.state, line.count);
     }
     return votes;
   }
@@ -320,25 +319,28 @@ class Postgres {
    * Get the tally of votes for each candidate grouped by state.
    * @return {Promise<{}>}
    */
-   async tallyCandidateVotesByState() {
+  async tallyCandidateVotesByState() {
     let p = this._client;
     let r = await p.query(`SELECT candidate, state, COUNT(voter_id) as votes
                            FROM events
                            GROUP BY state, candidate
                            ORDER BY state, votes DESC`);
-    let votes = {};
+    const votes = new Map();
     for (const row of r.rows) {
-        let s = row.state;
-        let c = row.candidate;
-        if (!votes[s]) { votes[s] = {}; }
-        votes[s][c] = row.votes
-    };
+      let state = row.state;
+      let candidate = row.candidate;
+      let tally = parseInt(row.votes, 10)
+      if (!votes.get(state)) {
+        votes.set(state, new Map());
+      }
+      votes.get(state).set(candidate, tally)
+    }
+
     return votes;
   }
 
 
 }
-
 
 
 module.exports = Postgres;
@@ -366,24 +368,15 @@ function checkConfig(c) {
 // validate votes before accepting
 function checkVote(vote) {
   let errors = [];
+
   if (!vote) {
     errors.push('missing vote');
   } else {
-    if (!vote.county) {
-      errors.push('missing county');
-    }
-    if (!vote.state) {
-      errors.push('missing state');
-    }
-    if (!vote.candidate) {
-      errors.push('missing candidate');
-    }
-    if (!vote.party) {
-      errors.push('missing candidate');
-    }
+    errors = vote.validate();
   }
+
   if (errors.length) {
-    // don't forget to update test if error string is updated
+    // don't forget to update tests if updating the error message.
     throw new Error(`Invalid vote: ${errors.join(', ')}`);
   }
 }
