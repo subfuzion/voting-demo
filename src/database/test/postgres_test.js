@@ -182,7 +182,7 @@ suite('database tests', function () {
       await db.truncateTable()
     });
 
-    test.skip('tally candidate votes by state', async () => {
+    test('tally candidate votes by state', async () => {
       let count_ca_panther = 2;
       for (let i = 0; i < count_ca_panther; i++) {
         let v = new voting.Vote(
