@@ -7,7 +7,7 @@ networks:
 services:
 
   sut:
-    build: ./src/database
+    build: ../src/database
     command: npm run test-mongo
     networks:
       - data_net

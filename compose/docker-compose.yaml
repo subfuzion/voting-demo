@@ -11,7 +11,7 @@ networks:
 services:
 
   web:
-    build: src/web
+    build: ../src/web
     image: web
     environment:
       - PORT=80
@@ -24,7 +24,7 @@ services:
       - vote
 
   vote:
-    build: src/vote
+    build: ../src/vote
     image: vote
     environment:
       - PORT=8080

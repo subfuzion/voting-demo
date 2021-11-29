@@ -1,27 +1,49 @@
 version: '2.4'
 
 networks:
+  api_net:
+    driver: bridge
   data_net:
     driver: bridge
 
 services:
 
   sut:
-    build: ./src/database
-    command: npm run test-postgres
+    image: vote
+    entrypoint: npm test
+    networks:
+      - api_net
+    depends_on:
+      vote:
+        condition: service_healthy
+
+  vote:
+    build: ../src/vote
+    image: vote
     environment:
       NODE_ENV: development
+      PORT: 8080
       # Read PGUSER password from shell environment
       # NOTE: If postgres not started with POSTGRES_HOST_AUTH_METHOD=trust, then set PGPASSWORD in shell and uncomment.
       #  - PGPASSWORD
     networks:
+      - api_net
       - data_net
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: test `curl -I -s -o /dev/null -w '%{http_code}' localhost:8080` = 200
+      interval: 10s
+      timeout: 1s
+      retries: 3
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
-    build: ./src/database/postgres
+    build:
+      context: ../src/database/postgres
+      network: host
     networks:
       - data_net
     ports:
