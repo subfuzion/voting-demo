@@ -76,8 +76,7 @@ app.post('/vote', async (req, res) => {
 // tally route handler
 app.get('/tally/candidates', async (req, res) => {
   try {
-    const result = await db.tallyVotesByCandidate();
-    const tally = result.candidateTallies;
+    const tally = await db.tallyVotesByCandidate();
     info(`tally: ${JSON.stringify(tally)}`);
     res.send({success: true, results: tally});
   } catch (err) {

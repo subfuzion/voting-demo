@@ -2,6 +2,7 @@ import assert from "assert";
 import axios from "axios";
 
 import * as voting from "@subfuzion/vote-database/voting";
+import {TallyVotesByCandidateResult} from "@subfuzion/vote-database/voting";
 
 
 const serviceName = process.env.SERVICE_NAME || 'vote';
@@ -56,13 +57,19 @@ suite('vote tests', function() {
       }));
     });
 
+    suiteTeardown(function() {
+
+    });
+
     test('tally votes', async() => {
       let resp = await api.get('/tally/candidates');
       assert.ok(resp.data.success);
-      let tally = resp.data.results;
+      let tally = voting.TallyVotesByCandidateResult.fromJSON(resp.data.results);
       assert.ok(tally);
       assert.equal(tally.get("panther").votes, votes_a, `'panther' => expected: ${votes_a}, actual: ${tally.get("panther").votes}`);
       assert.equal(tally.get("tiger").votes, votes_b, `'tiger' => expected: ${votes_b}, actual: ${tally.get("tiger").votes}`);
+
+
     });
 
   }); // suite: tally by candidates
