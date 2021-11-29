@@ -7,7 +7,7 @@ user="${PGUSER:-postgres}"
 db="postgres"
 export PGPASSWORD="${POSTGRES_PASSWORD:-}"
 
-if [ -z "$POSTGRES_PASSWORD" ]; then
+if [ "$POSTGRES_HOST_AUTH_METHOD" != "trust" ] && [ -z "$POSTGRES_PASSWORD" ]; then
     echo "[ERROR] POSTGRES_PASSWORD is not set"
     exit 1
 fi

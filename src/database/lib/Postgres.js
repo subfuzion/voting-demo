@@ -354,11 +354,14 @@ function checkConfig(c) {
   if (!c.port) errors.push('missing port');
   if (!c.database) errors.push('missing database');
   if (!c.user) errors.push('missing user');
-  if (!c.password) errors.push('missing password');
+  // NOTE: no check for missing password because postgres might be running with POSTGRES_HOST_AUTH_METHOD=trust
+  // if (!c.password) errors.push('missing password');
 
   if (c.database) {
     const name = c.database;
-    if (name.replace(/[a-z0-9_]/g, '').length > 0) errors.push(`not a valid database name: ${c.database}`);
+    if (name.length > 31 || name.replace(/[a-z0-9_]/g, '').length > 0) {
+      errors.push(`not a valid database name: ${c.database}`);
+    }
   }
 
   if (errors.length) {
