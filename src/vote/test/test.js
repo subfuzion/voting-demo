@@ -4,14 +4,14 @@ import axios from "axios";
 import * as voting from "@subfuzion/vote-database/voting";
 
 
-const serviceName = process.env.SERVICE_NAME || 'vote';
-const port = process.env.PORT || 8080;
+const host = process.env.VOTE_HOST || 'vote';
+const port = process.env.VOTE_PORT || 8080;
 
 const TEST_TIMEOUT = 1000 * 5;
 
 suite('vote tests', function () {
   const api = axios.create({
-    baseURL: `http://${serviceName}:${port}/`,
+    baseURL: `http://${host}:${port}/`,
   });
 
   suite('tally by candidates', function () {
