@@ -1,10 +1,13 @@
-const assert = require('assert');
-const { customAlphabet } = require('nanoid')
+import assert from "assert";
+import {customAlphabet} from "nanoid";
 
-const Database = require('../lib/Mongo');
+import Database from "../lib/Mongo.js";
 
 const TEST_TIMEOUT = 10000;
 
+function log(...v) {
+  console.log('[MONGO TEST] ', ...v);
+}
 
 // id generates valid test database names for Mongo
 // https://docs.mongodb.com/manual/reference/limits/#naming-restrictions
@@ -14,17 +17,12 @@ function id(prefix = 'test_') {
   const punct = '-_'
   const digits = '0123456789'
   const letters = 'abcdefghijklmnopqrstuvwxyz'
-  const alphabet = [
-    punct,
-    digits,
-    letters,
-    letters.toUpperCase(),
-  ].join('')
+  const alphabet = [punct, digits, letters, letters.toUpperCase(),].join('')
   return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
 }
 
 
-suite('database tests', function() {
+suite('database tests', function () {
   this.timeout(TEST_TIMEOUT);
 
   suite('basic mongo wrapper tests', () => {
@@ -32,19 +30,23 @@ suite('database tests', function() {
     let db;
 
     // randomly generated database name used for testing, dropped when finished
-    let dbName = id();
+    const dbName = id();
 
     setup(async () => {
       // Create a standard config and override database
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({ database: dbName });
+      const config = Database.createStdConfig({database: dbName});
 
-      db = new Database(config);
-      assert.equal(db.connectionURL, config.uri || `mongodb://${config.host}:${config.port}/${config.database}`);
-      await db.connect();
-      assert.ok(db.instance);
-      assert.equal(db.instance.databaseName, config.database);
-      assert.equal(db.isConnected, true);
+      try {
+        db = new Database(config);
+        assert.equal(db.connectionURL, config.uri || `mongodb://${config.host}:${config.port}/${config.database}`);
+        await db.connect();
+        assert.ok(db.instance);
+        assert.equal(db.instance.databaseName, config.database);
+        assert.equal(db.isConnected, true);
+      } catch (e) {
+        exit(e);
+      }
     });
 
     teardown(async () => {
@@ -56,11 +58,11 @@ suite('database tests', function() {
     });
 
     test('add vote to database', async () => {
-      let v = {
+      const v = {
         vote: 'a'
       };
 
-      let doc = await db.updateVote(v);
+      const doc = await db.updateVote(v);
       assert.ok(doc);
       assert.equal(doc.vote, v.vote);
       assert.ok(doc.voter_id);
@@ -68,14 +70,14 @@ suite('database tests', function() {
 
     test('missing vote property should throw', async () => {
       // invalid vote (must have vote property)
-      let v = {};
+      const v = {};
 
       try {
         await db.updateVote(v);
       } catch (err) {
         // expected error starts with 'Invalid vote'
         if (!err.message.startsWith('Invalid vote')) {
-            // otherwise rethrow unexpected error
+          // otherwise rethrow unexpected error
           throw err;
         }
       }
@@ -83,7 +85,7 @@ suite('database tests', function() {
 
     test('bad vote value should throw', async () => {
       // invalid value for vote (must be 'a' or 'b')
-      let v = {
+      const v = {
         vote: 'c'
       };
 
@@ -99,17 +101,17 @@ suite('database tests', function() {
     });
 
     test('tally votes', async () => {
-      let count_a = 4;
+      const count_a = 4;
       for (let i = 0; i < count_a; i++) {
-        await db.updateVote({ vote: 'a' });
+        await db.updateVote({vote: 'a'});
       }
 
-      let count_b = 5;
+      const count_b = 5;
       for (let i = 0; i < count_b; i++) {
-        await db.updateVote({ vote: 'b' });
+        await db.updateVote({vote: 'b'});
       }
 
-      let tally = await db.tallyVotes();
+      const tally = await db.tallyVotes();
       assert.ok(tally);
       assert.equal(tally.a, count_a, `'a' => expected: ${count_a}, actual: ${tally.a}`);
       assert.equal(tally.b, count_b, `'b' => expected: ${count_b}, actual: ${tally.b}`);
@@ -117,3 +119,16 @@ suite('database tests', function() {
 
   });
 });
+
+// Print error stack starting from the caller stack frame.
+// Suppress printing superfluous mocha stack frames.
+function exit(e) {
+  const localStack = new Error().stack;
+  const e_stack = e.stack.split('\n');
+  const local_stack = localStack.split('\n');
+  for (let i = 0; i < local_stack.length - 3; i++) {
+    e_stack.pop();
+  }
+  log(e_stack.join('\n'));
+  process.exit(1);
+}

@@ -1,7 +1,7 @@
 #
 # This Dockerfile is only here to support running tests for the Database package.
 #
-FROM node:14.17.5-alpine3.14 as build
+FROM node:16-alpine
 
 ARG NODE_ENV
 ENV NODE_ENV ${NODE_ENV:-development}
@@ -9,8 +9,8 @@ ENV NODE_ENV ${NODE_ENV:-development}
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app/
+COPY package.* ./
 RUN npm install
-COPY . /usr/src/app
+COPY . ./
 
 CMD [ "npm", "test" ]

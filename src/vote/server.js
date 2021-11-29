@@ -1,8 +1,11 @@
-const Database = require('@subfuzion/vote-database').Postgres;
-const express = require('express');
-const http = require('http');
-const metrics = require('prom-client');
-const morgan = require('morgan');
+import express from 'express';
+import http from "http";
+import metrics from "prom-client";
+import morgan from "morgan";
+
+import Database from "@subfuzion/vote-database/Postgres";
+import * as voting from "@subfuzion/vote-database/voting";
+
 
 // Enable default prometheus-compatible metrics collection
 const register = metrics.register;
@@ -30,7 +33,7 @@ const server = http.createServer(app);
 let db;
 
 // install route logging middleware
-app.use(morgan());
+app.use(morgan('common'));
 
 // install json body parsing middleware
 app.use(express.json());
@@ -45,12 +48,22 @@ function error(...v) {
 }
 
 
+// for healthchecks
+app.head("/",(req,res)=>{
+  res.sendStatus(200);
+})
+
+
 // vote route handler
 app.post('/vote', async (req, res) => {
   try {
     voteCounter.inc();
     let v = req.body
-    let result = await db.updateVote(v);
+    let vote = new voting.Vote(
+      new voting.Voter(null, v.voter.county, v.voter.state),
+      new voting.Candidate(v.candidate.name, v.candidate.party)
+    );
+    let result = await db.updateVote(vote);
     info(`posted vote: ${JSON.stringify(result)}`);
     res.send({success: true, data: result});
   } catch (err) {
@@ -60,10 +73,11 @@ app.post('/vote', async (req, res) => {
 });
 
 
-// results route handler
-app.get('/results', async (req, res) => {
+// tally route handler
+app.get('/tally/candidates', async (req, res) => {
   try {
-    let tally = await db.tallyVotes();
+    const result = await db.tallyVotesByCandidate();
+    const tally = result.candidateTallies;
     info(`tally: ${JSON.stringify(tally)}`);
     res.send({success: true, results: tally});
   } catch (err) {

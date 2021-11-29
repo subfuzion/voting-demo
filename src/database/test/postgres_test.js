@@ -1,16 +1,20 @@
-const assert = require('assert');
-const {customAlphabet} = require('nanoid');
+import assert from "assert";
+import {customAlphabet} from "nanoid";
 
-const Database = require('../lib/Postgres');
-const voting = require('../lib/voting');
+import { default as Database } from "../lib/Postgres.js";
+import * as voting from "../lib/voting.js";
+import {
+  TallyVotesByCountyResult,
+  TallyVotesByCandidateResult,
+  TallyVotesByStateResult,
+  TallyCandidateVotesByStateResult
+} from "../lib/voting.js";
 
-const TEST_TIMEOUT = 15000;
-
+const TEST_TIMEOUT = 1000 * 15;
 
 function log(...v) {
-  console.log('[TEST]', ...v);
+  console.log('[POSTGRES TEST]', ...v);
 }
-
 
 // id generates valid test database names for Postgres
 // TODO: externalize and make more efficient
@@ -23,19 +27,138 @@ function id(prefix = 'test_') {
   return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
 }
 
-suite('database tests', function () {
+suite('database tests', function() {
   this.timeout(TEST_TIMEOUT);
 
-  suite('basic postgres wrapper tests', () => {
+  suite('serialization tests', function() {
+
+    test('Candidate serialization', function() {
+      const v1 = new voting.Candidate("panther", "blue");
+      const s1 = JSON.stringify(v1);
+      const v2 = voting.Candidate.fromJSON(s1);
+      const s2 = JSON.stringify(v2);
+      assert.equal(s1, s2)
+    });
+
+    test('Voter serialization', function() {
+      const v1 = new voting.Voter(
+        "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+        "Alameda",
+        "California"
+      );
+
+      const s1 = JSON.stringify(v1);
+      const v2 = voting.Voter.fromJSON(s1);
+      const s2 = JSON.stringify(v2);
+      assert.equal(s2, s1)
+    });
+
+    test('Vote serialization', function() {
+      const v1 = new voting.Vote(
+        new voting.Voter("4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+          "Alameda", "California"),
+        new voting.Candidate("panther", "blue")
+      );
+
+      let s1 = JSON.stringify(v1);
+      let v2 = voting.Vote.fromJSON(s1);
+      let s2 = JSON.stringify(v2);
+      assert.equal(s2, s1)
+    });
+
+    test('tally by candidate serialization', function() {
+      const s1 = `
+      {
+        "candidateTallies": {
+          "panther":{"name":"panther","votes":4},
+          "tiger":{"name":"tiger","votes":5}
+        }
+      }`;
+      const v1 = TallyVotesByCandidateResult.fromJSON(s1);
+      const s2 = JSON.stringify(v1);
+      assert.equal(s2, s1.replace(/\s/g, ''));
+    });
+
+    test('tally by county serialization', function() {
+      const s1 = `
+      {
+        "countyTallies": {
+          "Marin": {
+            "name":"Marin","votes":2
+          },
+          "Alameda": {
+            "name":"Alameda","votes":6
+          }
+        }
+      }`;
+      const v1 = TallyVotesByCountyResult.fromJSON(s1);
+      const s2 = JSON.stringify(v1);
+      assert.equal(s2, s1.replace(/\s/g, ''));
+    });
+
+    test('tally by state serialization', function() {
+      const s1 = `
+      {
+        "stateTallies": {
+          "Washington": {
+            "name":"Washington","votes":"8"
+          },
+          "Oregon": {
+            "name":"Oregon","votes":"4"
+          },
+          "California": {
+            "name":"California","votes":"2"
+          }
+        }
+      }`;
+      const v1 = TallyVotesByStateResult.fromJSON(s1);
+      const s2 = JSON.stringify(v1);
+      assert.equal(s2, s1.replace(/\s/g, ''));
+    });
+
+    test('tally candidate by state serialization', function() {
+      const s1 = `
+      {
+        "candidateByStateTallies": {
+          "California": {
+            "candidateTallies": {
+              "panther":{"name":"panther","votes":2},
+              "tiger":{"name":"tiger","votes":2},
+              "lion":{"name":"lion","votes":1}
+            }
+          },
+          "Oregon": {
+            "candidateTallies": {
+              "tiger":{"name":"tiger","votes":4},
+              "lion":{"name":"lion","votes":1}
+            }
+          },
+          "Washington": {
+            "candidateTallies": {
+              "leopard":{"name":"leopard","votes":1},
+              "panther":{"name":"panther","votes":1},
+              "tiger":{"name":"tiger","votes":1}
+            }
+          }
+        }
+      }`;
+      const v1 = TallyCandidateVotesByStateResult.fromJSON(s1);
+      const s2 = JSON.stringify(v1);
+      assert.equal(s2, s1.replace(/\s/g, ''));
+    });
+
+  }); // suite: serialization tests
+
+  suite('basic postgres wrapper tests', function() {
     let db;
 
     // randomly generated database name used for testing, dropped when finished
-    let dbName = id();
+    const dbName = id();
 
     suiteSetup(async () => {
       // Create a standard config and override database with generated database name
       // (a standard config overrides defaults with values from the environment and finally any explicit values)
-      let config = Database.createStdConfig({database: dbName, idleTimeoutMillis: 100});
+      const config = Database.createStdConfig({database: dbName, idleTimeoutMillis: 100});
 
       try {
         db = new Database(config);
@@ -57,22 +180,24 @@ suite('database tests', function () {
     });
 
     test('add vote to database', async () => {
-      let v = new voting.Vote(
+      const v = new voting.Vote(
         new voting.Voter(null, "Alameda", "California"),
         new voting.Candidate("panther", "blue")
       );
 
-      let doc = await db.updateVote(v);
+      const doc = await db.updateVote(v);
+      assert.ok(v.voter.voter_id);
       assert.ok(doc);
-      assert.equal(doc.vote, v.vote);
-      assert.ok(doc.voter_id);
+      assert.equal(doc, v);
+      assert.ok(doc.voter.voter_id);
+
       // clear table once test is done here so our tally is correct later
       await db.truncateTable()
     });
 
     test('missing vote property should throw', async () => {
       // invalid vote (must have vote property)
-      let v = new voting.Vote(
+      const v = new voting.Vote(
         new voting.Voter(null, "Alameda", "California")
       );
 
@@ -88,26 +213,25 @@ suite('database tests', function () {
     });
 
     test('tally votes by candidate', async () => {
-      let count_a = 4;
+      const count_a = 4;
       for (let i = 0; i < count_a; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_b = 5;
+      const count_b = 5;
       for (let i = 0; i < count_b; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let result = await db.tallyVotesByCandidate();
-      let tally = result.candidateTallies;
+      const tally = await db.tallyVotesByCandidate();
       assert.ok(tally);
       assert.equal(tally.get("panther").votes, count_a, `'panther' => expected: ${count_a}, actual: ${tally.get("panther").votes}`);
       assert.equal(tally.get("tiger").votes, count_b, `'tiger' => expected: ${count_b}, actual: ${tally.get("tiger").votes}`);
@@ -116,26 +240,25 @@ suite('database tests', function () {
     });
 
     test('tally votes by county', async () => {
-      let count_marin = 2;
+      const count_marin = 2;
       for (let i = 0; i < count_marin; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Marin", "California"),
           new voting.Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_alameda = 6;
+      const count_alameda = 6;
       for (let i = 0; i < count_alameda; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let result = await db.tallyVotesByCounty();
-      let tally = result.countyTallies
+      const tally = await db.tallyVotesByCounty();
       assert.ok(tally);
       assert.equal(tally.get("Marin").votes, count_marin, `'Marin' => expected: ${count_marin}, actual: ${tally.get("Marin").tally}`);
       assert.equal(tally.get("Alameda").votes, count_alameda, `'Alameda' => expected: ${count_alameda}, actual: ${tally.get("Alameda").tally}`);
@@ -145,35 +268,34 @@ suite('database tests', function () {
     });
 
     test('tally total votes by state', async () => {
-      let count_ca = 2;
+      const count_ca = 2;
       for (let i = 0; i < count_ca; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_or = 4;
+      const count_or = 4;
       for (let i = 0; i < count_or; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Harney", "Oregon"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_wa = 8;
+      const count_wa = 8;
       for (let i = 0; i < count_wa; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Okanogan", "Washington"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let result = await db.tallyVotesByState();
-      let tally = result.stateTallies;
+      const tally = await db.tallyVotesByState();
       assert.ok(tally);
       assert.equal(tally.get("California").votes, count_ca, `'California' => expected: ${count_ca}, actual: ${tally.get("California").votes}`);
       assert.equal(tally.get("Oregon").votes, count_or, `'Oregon' => expected: ${count_or}, actual: ${tally.get("Oregon").votes}`);
@@ -183,80 +305,79 @@ suite('database tests', function () {
     });
 
     test('tally candidate votes by state', async () => {
-      let count_ca_panther = 2;
+      const count_ca_panther = 2;
       for (let i = 0; i < count_ca_panther; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_ca_lion = 1;
+      const count_ca_lion = 1;
       for (let i = 0; i < count_ca_lion; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_ca_tiger = 2;
+      const count_ca_tiger = 2;
       for (let i = 0; i < count_ca_tiger; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Alameda", "California"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_or_tiger = 4;
+      const count_or_tiger = 4;
       for (let i = 0; i < count_or_tiger; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Harney", "Oregon"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_or_lion = 1;
+      const count_or_lion = 1;
       for (let i = 0; i < count_or_lion; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Harney", "Oregon"),
           new voting.Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_wa_tiger = 1;
+      const count_wa_tiger = 1;
       for (let i = 0; i < count_wa_tiger; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Okanogan", "Washington"),
           new voting.Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_wa_panther = 1;
+      const count_wa_panther = 1;
       for (let i = 0; i < count_wa_panther; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Okanogan", "Washington"),
           new voting.Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
-      let count_wa_leopard = 1;
+      const count_wa_leopard = 1;
       for (let i = 0; i < count_wa_leopard; i++) {
-        let v = new voting.Vote(
+        const v = new voting.Vote(
           new voting.Voter(null, "Okanogan", "Washington"),
           new voting.Candidate("leopard", "blue")
         );
         await db.updateVote(v);
       }
 
-      let result = await db.tallyCandidateVotesByState();
-      let tally = result.candidateByStateTallies;
+      const tally = await db.tallyCandidateVotesByState();
       assert.ok(tally);
       assert.ok(tally.get("California"))
       assert.ok(tally.get("Oregon"))
@@ -287,9 +408,9 @@ suite('database tests', function () {
 // Print error stack starting from the caller stack frame.
 // Suppress printing superfluous mocha stack frames.
 function exit(e) {
-  let localStack = new Error().stack;
-  let e_stack = e.stack.split('\n');
-  let local_stack = localStack.split('\n');
+  const localStack = new Error().stack;
+  const e_stack = e.stack.split('\n');
+  const local_stack = localStack.split('\n');
   for (let i = 0; i < local_stack.length - 3; i++) {
     e_stack.pop();
   }

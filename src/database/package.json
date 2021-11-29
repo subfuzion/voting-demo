@@ -1,8 +1,13 @@
 {
   "name": "@subfuzion/vote-database",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "description": "Database package for voting demo app",
-  "main": "index.js",
+  "type": "module",
+  "exports": {
+    "./Mongo": "./lib/Mongo.js",
+    "./Postgres": "./lib/Postgres.js",
+    "./voting": "./lib/voting.js"
+  },
   "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
   "license": {
     "type": "Apache-2.0",

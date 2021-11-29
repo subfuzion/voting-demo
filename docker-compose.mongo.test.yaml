@@ -1,23 +1,22 @@
 version: '2.4'
 
 networks:
-  test_net:
+  data_net:
     driver: bridge
 
 services:
 
   sut:
-    build: .
+    build: ./src/database
     command: npm run test-mongo
-    environment:
-      # Read password from shell environment
-      - PGPASSWORD
     networks:
-      - test_net
+      - data_net
     depends_on:
       - mongo
 
   mongo:
     image: mongo:5.0
     networks:
-      - test_net
+      - data_net
+    ports:
+      - "27017:27017"

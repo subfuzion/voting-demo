@@ -1,14 +1,13 @@
-const {Client, Pool} = require('pg');
+import pg from "pg";
+const {Client, Pool} = pg;
 
-const uuid = require('./uuid');
-const voting = require('./voting');
+import uuid from "./uuid.js";
+import * as voting from "./voting.js";
 
 const eventTable = 'events';
 
-
 // https://www.postgresql.org/docs/13/errcodes-appendix.html
 const E_INVALID_CATALOG_NAME = "3D000"
-
 
 function log(...v) {
   if (process.env.NODE_ENV === "development") {
@@ -16,8 +15,7 @@ function log(...v) {
   }
 }
 
-
-class Postgres {
+export default class Postgres {
   /**
    * Create a new Database instance.
    * @param {object} [config] Object with valid url or uri property for connection string, or
@@ -175,7 +173,7 @@ class Postgres {
     try {
       await _connect();
     } catch (e) {
-      if (e.code != E_INVALID_CATALOG_NAME) {
+      if (e.code !== E_INVALID_CATALOG_NAME) {
         throw e;
       }
 
@@ -250,14 +248,15 @@ class Postgres {
   async updateVote(vote) {
     checkVote(vote);
 
-    if (!vote.voter_id) {
-      vote.voter_id = uuid();
+    if (!vote.voter.voter_id) {
+      vote.voter.voter_id = uuid();
     }
 
     await this.client.query(`INSERT INTO ${eventTable} (voter_id, county, state, candidate, party)
-                             VALUES ('${vote.voter.voter_id}', '${vote.voter.county}', '${vote.voter.state}', '${vote.candidate.name}',
+                             VALUES ('${vote.voter.voter_id}', '${vote.voter.county}', '${vote.voter.state}',
+                                     '${vote.candidate.name}',
                                      '${vote.voter.party}')`);
-    log(`Inserted ${vote.voter_id}: ${vote.county} - ${vote.state} - ${vote.candidate} - ${vote.party}`)
+    log(`Inserted ${vote.voter.voter_id}: ${vote.voter.county} - ${vote.voter.state} - ${vote.candidate.name} - ${vote.candidate.party}`)
     return vote;
   }
 
@@ -273,7 +272,7 @@ class Postgres {
     const r = await p.query(`SELECT candidate, COUNT(voter_id)
                              FROM events
                              GROUP BY candidate`);
-    const tally = new voting.TallyByCandidateResult();
+    const tally = new voting.TallyVotesByCandidateResult();
 
     for (const row in r.rows) {
       const line = r.rows[row];
@@ -292,7 +291,7 @@ class Postgres {
     const r = await p.query(`SELECT county, COUNT(voter_id)
                              FROM events
                              GROUP BY county`);
-    const tally = new voting.TallyByCountyResult();
+    const tally = new voting.TallyVotesByCountyResult();
 
     for (const row in r.rows) {
       const line = r.rows[row];
@@ -311,7 +310,7 @@ class Postgres {
     const r = await p.query(`SELECT state, COUNT(voter_id)
                              FROM events
                              GROUP BY state`);
-    const tally = new voting.TallyByStateResult();
+    const tally = new voting.TallyVotesByStateResult();
 
     for (const row in r.rows) {
       const line = r.rows[row];
@@ -346,9 +345,6 @@ class Postgres {
 
 
 }
-
-
-module.exports = Postgres;
 
 // validate configs before accepting
 function checkConfig(c) {

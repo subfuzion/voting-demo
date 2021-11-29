@@ -1,23 +1,80 @@
-const mongodb = require('mongodb');
+import mongodb from "mongodb";
 
-const Backoff = require('./Backoff');
-const uuid = require('./uuid');
+import * as backoff from "./Backoff.js";
+const { Backoff } = backoff;
 
-const Client = mongodb.MongoClient;
+import uuid from "./uuid.js";
+
+const {MongoClient: {connect}} = mongodb;
 
 // The `votes` collection
 const VOTES = 'votes';
 
-class Mongo {
+export default class Mongo {
+  /**
+   * Create a new Mongo instance.
+   * @param {object} [config] Object with valid url or uri property for connection string, or
+   *                        else host, port, and database properties. Can also have an options property.
+   * @throws {Error} if invalid config is provided.
+   */
+  constructor(config) {
+    this._client = null;
+    this._instance = null;
+    this._isConnected = false;
+    this._config = Object.assign(Mongo.defaults(), config || {});
+    checkConfig(this._config);
+  }
+
+  /**
+   * Get a copy of the current config.
+   * The config is an object with `host`, `port`, and `database` OR `uri` (or `url`) properties.
+   * @return {{}}
+   */
+  get config() {
+    return Object.assign({}, this._config);
+  }
+
+  /**
+   * Get the connection URL based on the current config.
+   * Returns value of url property if present, else returns value of uri property
+   * if present, else returns generated string based on host, port, and database properties.
+   * @return {string}
+   */
+  get connectionURL() {
+    return this.config.uri ? this.config.uri : this.config.url ? this.config.url : `mongodb://${this.config.host}:${this.config.port}/${this.config.database}`;
+  }
+
+  /**
+   * Return true if a client connection has been established, otherwise false.
+   * @return {boolean}
+   */
+  get isConnected() {
+    return this._isConnected;
+  }
+
+  /**
+   * Return the actual connected client after connecting.
+   * @return {*}
+   */
+  get client() {
+    return this._client;
+  }
+
+  /**
+   * Return the actual database instance after connecting.
+   * @return {*}
+   */
+  get instance() {
+    return this._instance;
+  }
+
   /**
    * Get a copy of the database defaults object
    * @return {{}}
    */
   static defaults() {
     return {
-      host: 'mongo',
-      port: 27017,
-      database: 'votes'
+      host: 'mongo', port: 27017, database: 'votes'
     };
   }
 
@@ -53,67 +110,6 @@ class Mongo {
   }
 
   /**
-   * Create a new Mongo instance.
-   * @param {object} [config] Object with valid url or uri property for connection string, or
-   *                        else host, port, and database properties. Can also have an options property.
-   * @throws {Error} if invalid config is provided.
-   */
-  constructor(config) {
-    this._client = null;
-    this._instance = null;
-    this._isConnected = false;
-    this._config = Object.assign(Mongo.defaults(), config || {});
-    checkConfig(this._config);
-  }
-
-  /**
-   * Get a copy of the current config.
-   * The config is an object with `host`, `port`, and `database` OR `uri` (or `url`) properties.
-   * @return {{}}
-   */
-  get config() {
-    return Object.assign({}, this._config);
-  }
-
-  /**
-   * Get the connection URL based on the current config.
-   * Returns value of url property if present, else returns value of uri property
-   * if present, else returns generated string based on host, port, and database properties.
-   * @return {string}
-   */
-  get connectionURL() {
-    return this.config.uri ?
-      this.config.uri :
-      this.config.url ?
-        this.config.url :
-        `mongodb://${this.config.host}:${this.config.port}/${this.config.database}`;
-  }
-
-  /**
-   * Return true if a client connection has been established, otherwise false.
-   * @return {boolean}
-   */
-  get isConnected() {
-    return this._isConnected;
-  }
-
-  /**
-   * Return the actual connected client after connecting.
-   * @return {*}
-   */
-  get client() {
-    return this._client;
-  }
-
-  /**
-   * Return the actual database instance after connecting.
-   * @return {*}
-   */
-  get instance() {
-    return this._instance;
-  }
-
-  /**
    * Establish a connection to the database with exponential backoff.
    * @throws {Error} Connection error.
    * @return {Promise<void>}
@@ -126,10 +122,10 @@ class Mongo {
     let that = this;
     let backoff = new Backoff(async () => {
       console.error(that.connectionURL)
-      that._client = await Client.connect(that.connectionURL);
+      that._client = await connect(that.connectionURL);
       that._instance = await that._client.db(that.config.database);
       that._isConnected = true;
-    }, { retryIf: err => err.name === 'MongoNetworkError' });
+    }, {retryIf: err => err.name === 'MongoNetworkError'});
 
     await backoff.connect();
   }
@@ -167,12 +163,11 @@ class Mongo {
 
     let col = await this.instance.collection(VOTES);
 
-    const filter = { voter_id: vote.voter_id };
-    const options = { upsert: true };
+    const filter = {voter_id: vote.voter_id};
+    const options = {upsert: true};
     const updateDoc = {
       $set: {
-        voter_id: vote.voter_id,
-        vote: vote.vote,
+        voter_id: vote.voter_id, vote: vote.vote,
       },
     };
 
@@ -191,17 +186,14 @@ class Mongo {
    */
   async tallyVotes() {
     let col = await this.instance.collection(VOTES);
-    let count_a = await col.countDocuments({ vote: 'a' });
-    let count_b = await col.countDocuments({ vote: 'b' });
+    let count_a = await col.countDocuments({vote: 'a'});
+    let count_b = await col.countDocuments({vote: 'b'});
     return {
-      a: count_a,
-      b: count_b
+      a: count_a, b: count_b
     };
   }
 
 }
-
-module.exports = Mongo;
 
 // validate configs before accepting
 function checkConfig(c) {

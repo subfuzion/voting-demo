@@ -1,28 +1,50 @@
 version: '2.4'
 
-#networks:
-#  test_net:
-#    driver: host
+networks:
+  api_net:
+    driver: bridge
+  data_net:
+    driver: bridge
 
 services:
 
-#  sut:
-#    build: .
-#    command: npm run test-postgres
-#    environment:
-#      - NODE_ENV=development
-#      # Read password from shell environment
-#      - PGPASSWORD
-#    networks:
-#      - test_net
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+  sut:
+    image: vote
+    entrypoint: npm test
+    networks:
+      - api_net
+    depends_on:
+      vote:
+        condition: service_healthy
+
+  vote:
+    build: ./src/vote
+    image: vote
+    environment:
+      # Read password from shell environment
+      - PGPASSWORD
+      - NODE_ENV=development
+      - PORT=8080
+    networks:
+      - api_net
+      - data_net
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: test `curl -I -s -o /dev/null -w '%{http_code}' localhost:8080` = 200
+      interval: 10s
+      timeout: 1s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   postgres:
     build:
-      context: ./postgres
+      context: ./src/database/postgres
       network: host
+    networks:
+      - data_net
     ports:
       - "5432:5432"
     environment:
@@ -30,8 +52,6 @@ services:
       - POSTGRES_PASSWORD
       - PGUSER=postgres
       - PGDATABASE=votes
-#    networks:
-#      - test_net
     # Purpose of this healthcheck is to test that POSTGRES_PASSWORD is
     # is set and that `psql` can connect to postgres database. Unless this
     # healthcheck passes, docker compose will pause at the

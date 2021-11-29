@@ -1,0 +1,47 @@
+version: '2.4'
+
+networks:
+  data_net:
+    driver: bridge
+
+services:
+
+  sut:
+    build: ./src/database
+    command: npm run test-postgres
+    environment:
+      # Read password from shell environment
+      - PGPASSWORD
+      - NODE_ENV=development
+    networks:
+      - data_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    build: ./src/database/postgres
+    networks:
+      - data_net
+    ports:
+      - "5432:5432"
+    environment:
+      # Read password from shell environment
+      - POSTGRES_PASSWORD
+      - PGUSER=postgres
+      - PGDATABASE=votes
+    # Purpose of this healthcheck is to test that POSTGRES_PASSWORD is
+    # is set and that `psql` can connect to postgres database. Unless this
+    # healthcheck passes, docker compose will pause at the
+    # `database-postgres-1 Started` and never progress to `Running`.
+    # docker compose -f docker-compose.postgres.test.yml ps -> indicates
+    # that container exited (1).
+    # docker compose -f docker-compose.postgres.test.yml logs postgres ->
+    # indicates the error.
+    # For local dev testing (which is the only reason for using docker
+    # compose), the following settings are adequate.
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/docker-healthcheck"]
+      interval: 1s
+      timeout: 1s
+      retries: 1
