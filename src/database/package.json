@@ -1,6 +1,6 @@
 {
   "name": "@subfuzion/vote-database",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Database package for voting demo app",
   "type": "module",
   "exports": {
