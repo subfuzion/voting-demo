@@ -3,22 +3,24 @@
 
 # @subfuzion/database
 
-This is a simple database library package that provides the ability to save and tally votes
-to a [MongoDB](https://www.mongodb.com/) database. It uses the [MongoDB Node Driver](https://docs.mongodb.com/drivers/node/).
+This is a simple database library package that provides the ability to save and
+tally votes to a [MongoDB](https://www.mongodb.com/) database. It uses
+the [MongoDB Node Driver](https://docs.mongodb.com/drivers/node/).
 
-Votes are stored as documents in the `votes` collection of the `voting` database.
+Votes are stored as documents in the `votes` collection of the `voting`
+database.
 
 ## Testing
 
 The easiest way is to test using Docker Compose.
 
-The following will build an image for running the tests under `test/` and then start
-the environment declared in `./docker-compose.test.yml`.
+The following will build an image for running the tests under `test/` and then
+start the environment declared in `./docker-compose.test.yml`.
 
     $ docker compose -f ./docker-compose.test.yml run sut
 
-If you make changes to any of the Node.js sources, rebuild the test image with the
-following command:
+If you make changes to any of the Node.js sources, rebuild the test image with
+the following command:
 
     $ docker compose -f ./docker-compose.test.yml build
 
@@ -36,17 +38,17 @@ To delete the generated image:
 
 ### Testing without Docker Compose
 
-MongoDB needs to be available before running tests. The tests default to
-port the standard MongoDB port 27017 on localhost, but host and port can be overridden by setting
-HOST and PORT environment variables.
+MongoDB needs to be available before running tests. The tests default to port
+the standard MongoDB port 27017 on localhost, but host and port can be
+overridden by setting HOST and PORT environment variables.
 
-If you have [Docker](https://www.docker.com/) installed, you can easily
-start MongoDB with the default values by running the following command:
+If you have [Docker](https://www.docker.com/) installed, you can easily start
+MongoDB with the default values by running the following command:
 
     $ docker run -d -p 27017:27017 --name mongodb mongodb
 
-This will run a MongoDB container named mongodb in the background with port 27017
-on your system mapped to the exposed port 27017 in the container.
+This will run a MongoDB container named mongodb in the background with port
+27017 on your system mapped to the exposed port 27017 in the container.
 
 To run the tests, enter the following:
 
@@ -89,8 +91,8 @@ const config = {
 };
 ```
 
-There is a Mongo helper static method that will create the configuration that can be overridden by
-environment variables:
+There is a Mongo helper static method that will create the configuration that
+can be overridden by environment variables:
 
 ```js
 let defaults = {};
@@ -100,9 +102,9 @@ let db = new Mongo(config);
 await db.connect();
 ```
 
-If any of the following environment variables are defined, then the values will override
-the default values. Any values explicitly supplied in the config object will override the
-environment.
+If any of the following environment variables are defined, then the values will
+override the default values. Any values explicitly supplied in the config object
+will override the environment.
 
     DATABASE_URI - valid mongo connection URI
     otherwise:
@@ -119,7 +121,7 @@ await db.updateVote(vote)
 // when finished with the database
 await db.close()
 ```
- 
+
 ### Tallying votes
 
 ```js

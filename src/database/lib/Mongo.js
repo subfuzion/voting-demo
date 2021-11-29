@@ -1,9 +1,9 @@
 import mongodb from "mongodb";
 
 import * as backoff from "./Backoff.js";
-const { Backoff } = backoff;
-
 import uuid from "./uuid.js";
+
+const {Backoff} = backoff;
 
 const {MongoClient: {connect}} = mongodb;
 

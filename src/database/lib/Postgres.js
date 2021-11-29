@@ -1,8 +1,8 @@
 import pg from "pg";
-const {Client, Pool} = pg;
-
 import uuid from "./uuid.js";
 import * as voting from "./voting.js";
+
+const {Client, Pool} = pg;
 
 const eventTable = 'events';
 

@@ -164,18 +164,6 @@ export class CandidateTally {
 export class TallyVotesByCandidateResult {
   candidateTallies = new Map();
 
-  set(name, votes) {
-    if (name instanceof CandidateTally) {
-      this.candidateTallies.set(name.name, name);
-    } else {
-      this.candidateTallies.set(name, new CandidateTally(name, votes));
-    }
-  }
-
-  get(name) {
-    return this.candidateTallies.get(name);
-  }
-
   static fromJSON(arg) {
     let j = arg;
     if (typeof j === "string") {
@@ -194,6 +182,18 @@ export class TallyVotesByCandidateResult {
     } catch (e) {
       throw new Error(`TallyVotesByCandidateResult.fromJSON: ${e.message}`);
     }
+  }
+
+  set(name, votes) {
+    if (name instanceof CandidateTally) {
+      this.candidateTallies.set(name.name, name);
+    } else {
+      this.candidateTallies.set(name, new CandidateTally(name, votes));
+    }
+  }
+
+  get(name) {
+    return this.candidateTallies.get(name);
   }
 
   toJSON() {
@@ -243,18 +243,6 @@ export class TallyVotesByCountyResult {
     this.countyTallies = new Map();
   }
 
-  set(name, votes) {
-    if (name instanceof CountyTally) {
-      this.countyTallies.set(name.name, name);
-    } else {
-      this.countyTallies.set(name, new CountyTally(name, votes));
-    }
-  }
-
-  get(name) {
-    return this.countyTallies.get(name);
-  }
-
   static fromJSON(arg) {
     let j = arg;
     if (typeof j === "string") {
@@ -273,6 +261,18 @@ export class TallyVotesByCountyResult {
     } catch (e) {
       throw new Error(`TallyByCountyResult.fromJSON: ${e.message}`);
     }
+  }
+
+  set(name, votes) {
+    if (name instanceof CountyTally) {
+      this.countyTallies.set(name.name, name);
+    } else {
+      this.countyTallies.set(name, new CountyTally(name, votes));
+    }
+  }
+
+  get(name) {
+    return this.countyTallies.get(name);
   }
 
   toJSON() {
@@ -322,18 +322,6 @@ export class TallyVotesByStateResult {
     this.stateTallies = new Map();
   }
 
-  set(name, votes) {
-    if (name instanceof StateTally) {
-      this.stateTallies.set(name.name, name);
-    } else {
-      this.stateTallies.set(name, new StateTally(name, votes));
-    }
-  }
-
-  get(name) {
-    return this.stateTallies.get(name);
-  }
-
   static fromJSON(arg) {
     let j = arg;
     if (typeof j === "string") {
@@ -354,6 +342,18 @@ export class TallyVotesByStateResult {
     }
   }
 
+  set(name, votes) {
+    if (name instanceof StateTally) {
+      this.stateTallies.set(name.name, name);
+    } else {
+      this.stateTallies.set(name, new StateTally(name, votes));
+    }
+  }
+
+  get(name) {
+    return this.stateTallies.get(name);
+  }
+
   toJSON() {
     return {
       stateTallies: Object.fromEntries(this.stateTallies),
@@ -363,18 +363,6 @@ export class TallyVotesByStateResult {
 
 export class TallyCandidateVotesByStateResult {
   candidateByStateTallies = new Map();
-
-  set(state, name, votes) {
-    if (!this.candidateByStateTallies.has(state)) {
-      this.candidateByStateTallies.set(state, new TallyVotesByCandidateResult());
-    }
-
-    this.candidateByStateTallies.get(state).set(name, votes);
-  }
-
-  get(state) {
-    return this.candidateByStateTallies.get(state);
-  }
 
   static fromJSON(arg) {
     let j = arg;
@@ -396,6 +384,18 @@ export class TallyCandidateVotesByStateResult {
     } catch (e) {
       throw new Error(`TallyCandidateVotesByStateResult.fromJSON: ${e.message}`);
     }
+  }
+
+  set(state, name, votes) {
+    if (!this.candidateByStateTallies.has(state)) {
+      this.candidateByStateTallies.set(state, new TallyVotesByCandidateResult());
+    }
+
+    this.candidateByStateTallies.get(state).set(name, votes);
+  }
+
+  get(state) {
+    return this.candidateByStateTallies.get(state);
   }
 
   toJSON() {

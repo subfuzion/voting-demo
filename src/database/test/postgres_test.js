@@ -1,13 +1,15 @@
 import assert from "assert";
 import {customAlphabet} from "nanoid";
 
-import { default as Database } from "../lib/Postgres.js";
-import * as voting from "../lib/voting.js";
+import {default as Database} from "../lib/Postgres.js";
 import {
-  TallyVotesByCountyResult,
+  Candidate,
+  TallyCandidateVotesByStateResult,
   TallyVotesByCandidateResult,
+  TallyVotesByCountyResult,
   TallyVotesByStateResult,
-  TallyCandidateVotesByStateResult
+  Vote,
+  Voter
 } from "../lib/voting.js";
 
 const TEST_TIMEOUT = 1000 * 15;
@@ -27,46 +29,46 @@ function id(prefix = 'test_') {
   return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
 }
 
-suite('database tests', function() {
+suite('database tests', function () {
   this.timeout(TEST_TIMEOUT);
 
-  suite('serialization tests', function() {
+  suite('serialization tests', function () {
 
-    test('Candidate serialization', function() {
-      const v1 = new voting.Candidate("panther", "blue");
+    test('Candidate serialization', function () {
+      const v1 = new Candidate("panther", "blue");
       const s1 = JSON.stringify(v1);
-      const v2 = voting.Candidate.fromJSON(s1);
+      const v2 = Candidate.fromJSON(s1);
       const s2 = JSON.stringify(v2);
       assert.equal(s1, s2)
     });
 
-    test('Voter serialization', function() {
-      const v1 = new voting.Voter(
+    test('Voter serialization', function () {
+      const v1 = new Voter(
         "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
         "Alameda",
         "California"
       );
 
       const s1 = JSON.stringify(v1);
-      const v2 = voting.Voter.fromJSON(s1);
+      const v2 = Voter.fromJSON(s1);
       const s2 = JSON.stringify(v2);
       assert.equal(s2, s1)
     });
 
-    test('Vote serialization', function() {
-      const v1 = new voting.Vote(
-        new voting.Voter("4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+    test('Vote serialization', function () {
+      const v1 = new Vote(
+        new Voter("4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
           "Alameda", "California"),
-        new voting.Candidate("panther", "blue")
+        new Candidate("panther", "blue")
       );
 
       let s1 = JSON.stringify(v1);
-      let v2 = voting.Vote.fromJSON(s1);
+      let v2 = Vote.fromJSON(s1);
       let s2 = JSON.stringify(v2);
       assert.equal(s2, s1)
     });
 
-    test('tally by candidate serialization', function() {
+    test('tally by candidate serialization', function () {
       const s1 = `
       {
         "candidateTallies": {
@@ -79,7 +81,7 @@ suite('database tests', function() {
       assert.equal(s2, s1.replace(/\s/g, ''));
     });
 
-    test('tally by county serialization', function() {
+    test('tally by county serialization', function () {
       const s1 = `
       {
         "countyTallies": {
@@ -96,7 +98,7 @@ suite('database tests', function() {
       assert.equal(s2, s1.replace(/\s/g, ''));
     });
 
-    test('tally by state serialization', function() {
+    test('tally by state serialization', function () {
       const s1 = `
       {
         "stateTallies": {
@@ -116,7 +118,7 @@ suite('database tests', function() {
       assert.equal(s2, s1.replace(/\s/g, ''));
     });
 
-    test('tally candidate by state serialization', function() {
+    test('tally candidate by state serialization', function () {
       const s1 = `
       {
         "candidateByStateTallies": {
@@ -149,7 +151,7 @@ suite('database tests', function() {
 
   }); // suite: serialization tests
 
-  suite('basic postgres wrapper tests', function() {
+  suite('basic postgres wrapper tests', function () {
     let db;
 
     // randomly generated database name used for testing, dropped when finished
@@ -180,9 +182,9 @@ suite('database tests', function() {
     });
 
     test('add vote to database', async () => {
-      const v = new voting.Vote(
-        new voting.Voter(null, "Alameda", "California"),
-        new voting.Candidate("panther", "blue")
+      const v = new Vote(
+        new Voter(null, "Alameda", "California"),
+        new Candidate("panther", "blue")
       );
 
       const doc = await db.updateVote(v);
@@ -197,8 +199,8 @@ suite('database tests', function() {
 
     test('missing vote property should throw', async () => {
       // invalid vote (must have vote property)
-      const v = new voting.Vote(
-        new voting.Voter(null, "Alameda", "California")
+      const v = new Vote(
+        new Voter(null, "Alameda", "California")
       );
 
       try {
@@ -215,18 +217,18 @@ suite('database tests', function() {
     test('tally votes by candidate', async () => {
       const count_a = 4;
       for (let i = 0; i < count_a; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("panther", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_b = 5;
       for (let i = 0; i < count_b; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
@@ -242,18 +244,18 @@ suite('database tests', function() {
     test('tally votes by county', async () => {
       const count_marin = 2;
       for (let i = 0; i < count_marin; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Marin", "California"),
-          new voting.Candidate("lion", "blue")
+        const v = new Vote(
+          new Voter(null, "Marin", "California"),
+          new Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_alameda = 6;
       for (let i = 0; i < count_alameda; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
@@ -270,27 +272,27 @@ suite('database tests', function() {
     test('tally total votes by state', async () => {
       const count_ca = 2;
       for (let i = 0; i < count_ca; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("panther", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_or = 4;
       for (let i = 0; i < count_or; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Harney", "Oregon"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Harney", "Oregon"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_wa = 8;
       for (let i = 0; i < count_wa; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Okanogan", "Washington"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Okanogan", "Washington"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
@@ -307,72 +309,72 @@ suite('database tests', function() {
     test('tally candidate votes by state', async () => {
       const count_ca_panther = 2;
       for (let i = 0; i < count_ca_panther; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("panther", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_ca_lion = 1;
       for (let i = 0; i < count_ca_lion; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("lion", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_ca_tiger = 2;
       for (let i = 0; i < count_ca_tiger; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Alameda", "California"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Alameda", "California"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_or_tiger = 4;
       for (let i = 0; i < count_or_tiger; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Harney", "Oregon"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Harney", "Oregon"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_or_lion = 1;
       for (let i = 0; i < count_or_lion; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Harney", "Oregon"),
-          new voting.Candidate("lion", "blue")
+        const v = new Vote(
+          new Voter(null, "Harney", "Oregon"),
+          new Candidate("lion", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_wa_tiger = 1;
       for (let i = 0; i < count_wa_tiger; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Okanogan", "Washington"),
-          new voting.Candidate("tiger", "blue")
+        const v = new Vote(
+          new Voter(null, "Okanogan", "Washington"),
+          new Candidate("tiger", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_wa_panther = 1;
       for (let i = 0; i < count_wa_panther; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Okanogan", "Washington"),
-          new voting.Candidate("panther", "blue")
+        const v = new Vote(
+          new Voter(null, "Okanogan", "Washington"),
+          new Candidate("panther", "blue")
         );
         await db.updateVote(v);
       }
 
       const count_wa_leopard = 1;
       for (let i = 0; i < count_wa_leopard; i++) {
-        const v = new voting.Vote(
-          new voting.Voter(null, "Okanogan", "Washington"),
-          new voting.Candidate("leopard", "blue")
+        const v = new Vote(
+          new Voter(null, "Okanogan", "Washington"),
+          new Candidate("leopard", "blue")
         );
         await db.updateVote(v);
       }
