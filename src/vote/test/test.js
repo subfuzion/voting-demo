@@ -2,7 +2,6 @@ import assert from "assert";
 import axios from "axios";
 
 import * as voting from "@subfuzion/vote-database/voting";
-import {TallyVotesByCandidateResult} from "@subfuzion/vote-database/voting";
 
 
 const serviceName = process.env.SERVICE_NAME || 'vote';
@@ -10,16 +9,16 @@ const port = process.env.PORT || 8080;
 
 const TEST_TIMEOUT = 1000 * 5;
 
-suite('vote tests', function() {
+suite('vote tests', function () {
   const api = axios.create({
     baseURL: `http://${serviceName}:${port}/`,
   });
 
-  suite('tally by candidates', function() {
+  suite('tally by candidates', function () {
     const votes_a = 3;
     const votes_b = 2;
 
-    suiteSetup(async function() {
+    suiteSetup(async function () {
       this.timeout(TEST_TIMEOUT);
 
       // initialize test votes
@@ -57,11 +56,11 @@ suite('vote tests', function() {
       }));
     });
 
-    suiteTeardown(function() {
+    suiteTeardown(function () {
 
     });
 
-    test('tally votes', async() => {
+    test('tally votes', async () => {
       let resp = await api.get('/tally/candidates');
       assert.ok(resp.data.success);
       let tally = voting.TallyVotesByCandidateResult.fromJSON(resp.data.results);

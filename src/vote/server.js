@@ -49,7 +49,7 @@ function error(...v) {
 
 
 // for healthchecks
-app.head("/",(req,res)=>{
+app.head("/", (req, res) => {
   res.sendStatus(200);
 })
 
