@@ -97,7 +97,7 @@ echo "http://"$(kubectl get service web-external -o jsonpath="{.status.loadBalan
 ```
 
 - Cast votes at this address.
-- Display voting results by appending `/results` to the web address.
+- Display voting results by appending `/tally/candidates` to the web address.
 
 Skaffold displays streaming log output in the terminal.
 
