@@ -1,0 +1,76 @@
+version: '2.4'
+
+networks:
+  api_net:
+    driver: bridge
+  data_net:
+    driver: bridge
+
+services:
+
+  web:
+    build: ./src/web
+    image: web
+    environment:
+      PORT: 8080
+      VOTE: http://vote:3000
+    networks:
+      - api_net
+    ports:
+      - "8080:8080"
+    depends_on:
+      vote:
+        condition: service_healthy
+
+  vote:
+    build: ./src/vote
+    image: vote
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      # Read PGUSER password from shell environment
+      # NOTE: If postgres not started with POSTGRES_HOST_AUTH_METHOD=trust, then set PGPASSWORD in shell and uncomment.
+      #  - PGPASSWORD
+    networks:
+      - api_net
+      - data_net
+    ports:
+      - "3000:3000"
+    healthcheck:
+      # Change port in curl command if container environment variable (PORT) sets a different port number.
+      test: test `curl -I -s -o /dev/null -w '%{http_code}' localhost:3000` = 200
+      interval: 5s
+      timeout: 1s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    build:
+      context: ./src/database/postgres
+      network: host
+    networks:
+      - data_net
+    ports:
+      - "5432:5432"
+    environment:
+      # WARNING! For local development and CI testing only (otherwise, must set POSTGRES_PASSWORD).
+      POSTGRES_HOST_AUTH_METHOD: trust
+      PGUSER: postgres
+      PGDATABASE: votes
+    # Purpose of this healthcheck is to test that POSTGRES_PASSWORD is
+    # is set and that `psql` can connect to postgres database. Unless this
+    # healthcheck passes, docker compose will pause at the
+    # `database-postgres-1 Started` and never progress to `Running`.
+    # docker compose -f docker-compose.postgres.test.yml ps -> indicates
+    # that container exited (1).
+    # docker compose -f docker-compose.postgres.test.yml logs postgres ->
+    # indicates the error.
+    # For local dev testing (which is the only reason for using docker
+    # compose), the following settings are adequate.
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/docker-healthcheck"]
+      interval: 1s
+      timeout: 1s
+      retries: 1

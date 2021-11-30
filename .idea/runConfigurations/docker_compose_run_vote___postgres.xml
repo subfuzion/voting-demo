@@ -9,7 +9,7 @@
             <option value="vote" />
           </list>
         </option>
-        <option name="sourceFilePath" value="compose/docker-compose.vote.test.yaml" />
+        <option name="sourceFilePath" value="tests/docker-compose.vote.test.yaml" />
         <option name="upDetach" value="false" />
       </settings>
     </deployment>

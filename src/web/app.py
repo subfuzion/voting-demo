@@ -1,9 +1,11 @@
 import logging
 import os
 import random
+import signal
 import socket
 
 import requests
+import sys
 from flask import Flask, render_template, request, make_response
 from paste.translogger import TransLogger
 from prometheus_flask_exporter import PrometheusMetrics
@@ -81,5 +83,14 @@ def handle_results():
     return resp
 
 
+def handle_signal(sig, frame):
+    sigmap = {signal.SIGTERM: "SIGTERM", signal.SIGINT: "SIGINT"}
+    if sig in [signal.SIGTERM, signal.SIGINT]:
+        print(f"Received signal {sigmap[sig]}, exiting.")
+        sys.exit()
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, handle_signal)
+    signal.signal(signal.SIGINT, handle_signal)
     serve(TransLogger(app), host=host, port=port)

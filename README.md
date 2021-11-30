@@ -114,3 +114,133 @@ To stop the voting app from running and to delete Kubernetes resources in the cl
 ```text
 skaffold delete
 ```
+
+## Local development & testing
+
+### Prerequisites
+
+1. Install Docker.
+2. Clone this repo and change directory to it.
+
+```text
+git clone https://github.com/subfuzion/voting-demo.git
+cd voting-demo
+```
+
+You will execute all commands in this from the top-level directory of the repo.
+
+### Run the complete application
+
+```text
+docker compose up
+```
+
+Wait until you see the following log entry in the terminal output:
+
+```text
+voting-demo-web-1       | INFO:waitress:Serving on http://0.0.0.0:8080
+```
+
+Open a brower and navigate to http://localhost:8080
+
+When finished, run:
+
+```text
+docker compose down --remove-orphans
+```
+
+### Test the database package
+
+The database package is a Node.js package for working with the database. It's
+meant to be used by the `vote` microservice. It's published to
+[npm](npmjs.com) as
+[@subfuzion/vote-database](https://www.npmjs.com/package/@subfuzion/vote-database).
+
+To test it:
+
+```text
+docker compose -f tests/docker-compose.postgres.test.yaml run sut
+```
+
+After making changes to the package source code, run:
+
+```text
+docker compose -f tests/docker-compose.postgres.test.yaml down --remove-orphans
+docker compose -f tests/docker-compose.postgres.test.yaml build
+docker compose -f tests/docker-compose.postgres.test.yaml run sut
+```
+
+When finished, run:
+
+```text
+docker compose -f tests/docker-compose.postgres.test.yaml down
+```
+
+### Test the vote service
+
+```text
+docker compose -f tests/docker-compose.vote.test.yaml run sut
+```
+
+After making changes to the package source code, run:
+
+```text
+docker compose -f tests/docker-compose.vote.test.yaml down --remove-orphans
+docker compose -f tests/docker-compose.vote.test.yaml build
+docker compose -f tests/docker-compose.vote.test.yaml run sut
+```
+
+When finished, run:
+
+```text
+docker compose -f tests/docker-compose.postgres.test.yaml down
+```
+
+### Partially containerized dev environment
+
+Sometimes it's convenient to run some services, such as the database, in a
+container, while editing/testing/debugging other services uncontainerized.
+
+> Note: for any of the `docker compose up` commands, you can run services
+> detached by appending the `-d` option. To view log output, run
+> `docker compose logs` (with the `-f` option to stream output).
+
+**To run the database in a container:**
+
+```text
+docker compose up postgres
+```
+
+**To run both the database and vote services in containers:**
+
+```text
+docker compose up postgres vote
+```
+
+When running an uncontainerized version of either the vote or the web services,
+you will need to set certain environment variables so the services know how to
+connect to their upstream dependencies:
+
+**To run the vote service uncontainerized:**
+
+```text
+export PGHOST=localhost
+(cd src/vote; npm run)
+```
+
+**To run uncontainerized vote tests:**
+
+```text
+export VOTE_HOST=localhost;
+VOTE_PORT=8080
+(cd src/vote; npm test)
+```
+
+**To run the web service uncontainerized:**
+
+```text
+export HOST=localhost
+export PORT=5000
+export VOTE=http://localhost:8080
+(cd src/web; python app.py)
+```
