@@ -31,9 +31,21 @@ def handle_vote():
 
     vote = None
 
+    # TODO: update UI and replace mock data with form data
+    # (currently only using vote ("a" or "b") for party.
     if request.method == "POST":
         vote = request.form["vote"]
-        data = {"voter_id": voter_id, "vote": vote}
+        data = {
+            "voter": {
+                "voter_id": voter_id,
+                "county": "Alameda",
+                "state": "California"
+            },
+            "candidate": {
+                "name": "panther",
+                "party": vote
+            }
+        }
         app.logger.info(f"submit vote: {data}")
         r = requests.post(api + "/vote", json=data)
         app.logger.info(f"vote api: status code: {r.status_code}")
@@ -49,9 +61,22 @@ def handle_vote():
     return resp
 
 
-@app.route("/results", methods=["GET"])
+@app.route("/tally/candidates", methods=["GET"])
 def handle_results():
-    r = requests.get(api + "/results")
+    # Expect this shape:
+    # {
+    #     "candidateTallies": {
+    #         "panther": {
+    #             "name": "panther",
+    #             "votes": 4
+    #         },
+    #         "tiger": {
+    #             "name": "tiger",
+    #             "votes": 5
+    #         }
+    #     }
+    # }
+    r = requests.get(api + "/tally/candidates")
     resp = make_response(r.json())
     return resp
 

@@ -29,33 +29,63 @@ function id(prefix = 'test_') {
   return `${prefix}${customAlphabet(alphabet, max - prefix.length)()}`;
 }
 
+// minify the JSON string by removing all extraneous whitespace.
+function minify(jsonStr) {
+  return jsonStr.replace(/\s/g, '');
+}
+
 suite('database tests', function () {
   this.timeout(TEST_TIMEOUT);
 
   suite('serialization tests', function () {
 
-    test('Candidate serialization', function () {
+    test('Candidate serialization #1', function () {
       const v1 = new Candidate("panther", "blue");
       const s1 = JSON.stringify(v1);
       const v2 = Candidate.fromJSON(s1);
       const s2 = JSON.stringify(v2);
-      assert.equal(s1, s2)
+      assert.equal(s2, s1)
     });
 
-    test('Voter serialization', function () {
+    test('Candidate serialization #2', function () {
+      const s1 = minify(`
+      {
+        "name": "panther",
+        "party": "blue"
+      }`);
+      const v2 = new Candidate("panther", "blue");
+      const s2 = JSON.stringify(v2);
+      assert.equal(s2, s1);
+    });
+
+    test('Voter serialization #1', function () {
       const v1 = new Voter(
         "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
         "Alameda",
         "California"
       );
-
       const s1 = JSON.stringify(v1);
       const v2 = Voter.fromJSON(s1);
       const s2 = JSON.stringify(v2);
       assert.equal(s2, s1)
     });
 
-    test('Vote serialization', function () {
+    test('Voter serialization #2', function () {
+      const s1 = minify(`{
+        "voter_id": "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+        "county": "Alameda",
+        "state": "California"
+      }`);
+      const v2 = new Voter(
+        "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+        "Alameda",
+        "California"
+      );
+      const s2 = JSON.stringify(v2);
+      assert.equal(s2, s1)
+    });
+
+    test('Vote serialization #1', function () {
       const v1 = new Vote(
         new Voter("4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
           "Alameda", "California"),
@@ -68,85 +98,141 @@ suite('database tests', function () {
       assert.equal(s2, s1)
     });
 
+    test('Vote serialization #2', function () {
+      let s1 = minify(`{
+        "voter": {
+          "voter_id": "4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+          "county": "Alameda",
+          "state": "California"
+        },
+        "candidate": {
+          "name": "panther",
+          "party": "blue"
+        }
+      }`);
+      const v2 = new Vote(
+        new Voter("4caa67b4-f211-4d22-a7b1-808fd21a6bf6",
+          "Alameda", "California"),
+        new Candidate("panther", "blue")
+      );
+      let s2 = JSON.stringify(v2);
+      assert.equal(s2, s1)
+    });
+
     test('tally by candidate serialization', function () {
-      const s1 = `
+      const s1 = minify(`
       {
         "candidateTallies": {
-          "panther":{"name":"panther","votes":4},
-          "tiger":{"name":"tiger","votes":5}
+          "panther": {
+            "name": "panther",
+            "votes": 4
+          },
+          "tiger": {
+            "name": "tiger",
+            "votes": 5
+          }
         }
-      }`;
+      }`);
       const v1 = TallyVotesByCandidateResult.fromJSON(s1);
       const s2 = JSON.stringify(v1);
-      assert.equal(s2, s1.replace(/\s/g, ''));
+      assert.equal(s2, s1);
     });
 
     test('tally by county serialization', function () {
-      const s1 = `
+      const s1 = minify(`
       {
         "countyTallies": {
           "Marin": {
-            "name":"Marin","votes":2
+            "name": "Marin",
+            "votes": 2
           },
           "Alameda": {
-            "name":"Alameda","votes":6
+            "name": "Alameda",
+            "votes": 6
           }
         }
-      }`;
+      }`);
       const v1 = TallyVotesByCountyResult.fromJSON(s1);
       const s2 = JSON.stringify(v1);
-      assert.equal(s2, s1.replace(/\s/g, ''));
+      assert.equal(s2, s1);
     });
 
     test('tally by state serialization', function () {
-      const s1 = `
+      const s1 = minify(`
       {
         "stateTallies": {
           "Washington": {
-            "name":"Washington","votes":"8"
+            "name": "Washington",
+            "votes": 8
           },
           "Oregon": {
-            "name":"Oregon","votes":"4"
+            "name": "Oregon",
+            "votes": 4
           },
           "California": {
-            "name":"California","votes":"2"
+            "name": "California",
+            "votes": 2
           }
         }
-      }`;
+      }`);
       const v1 = TallyVotesByStateResult.fromJSON(s1);
       const s2 = JSON.stringify(v1);
-      assert.equal(s2, s1.replace(/\s/g, ''));
+      assert.equal(s2, s1);
     });
 
     test('tally candidate by state serialization', function () {
-      const s1 = `
+      const s1 = minify(`
       {
         "candidateByStateTallies": {
           "California": {
             "candidateTallies": {
-              "panther":{"name":"panther","votes":2},
-              "tiger":{"name":"tiger","votes":2},
-              "lion":{"name":"lion","votes":1}
+              "panther": {
+                "name": "panther",
+                "votes": 2
+              },
+              "tiger": {
+                "name": "tiger",
+                "votes": 2
+              },
+              "lion": {
+                "name": "lion",
+                "votes": 1
+              }
             }
           },
           "Oregon": {
             "candidateTallies": {
-              "tiger":{"name":"tiger","votes":4},
-              "lion":{"name":"lion","votes":1}
+              "tiger": {
+                "name": "tiger",
+                "votes": 4
+              },
+              "lion": {
+                "name": "lion",
+                "votes": 1
+              }
             }
           },
           "Washington": {
             "candidateTallies": {
-              "leopard":{"name":"leopard","votes":1},
-              "panther":{"name":"panther","votes":1},
-              "tiger":{"name":"tiger","votes":1}
+              "leopard": {
+                "name": "leopard",
+                "votes": 1
+              },
+              "panther": {
+                "name": "panther",
+                "votes": 1
+              },
+              "tiger": {
+                "name": "tiger",
+                "votes": 1
+              }
             }
           }
         }
-      }`;
+      }`);
       const v1 = TallyCandidateVotesByStateResult.fromJSON(s1);
       const s2 = JSON.stringify(v1);
-      assert.equal(s2, s1.replace(/\s/g, ''));
+      assert.equal(s2, s1);
     });
 
   }); // suite: serialization tests

@@ -287,6 +287,7 @@ export class StateTally {
   votes;
 
   constructor(name, votes) {
+    if (typeof votes !== "number") votes = parseInt(votes, 10);
     this.name = name;
     this.votes = votes;
   }
