@@ -5,6 +5,9 @@ Simple voting app that consists of two services:
  - frontend (Node.js service)
  - database (MongoDB database)
 
+![](images/voting-app.png)
+
+
 If you prefer demo apps with more microservices (but take a bit
 longer to start), try these out:
 
