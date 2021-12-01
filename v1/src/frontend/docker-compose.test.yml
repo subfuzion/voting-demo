@@ -1,0 +1,38 @@
+version: '2.4'
+
+networks:
+
+  test_net:
+    driver: bridge
+
+  data_net:
+    driver: bridge
+
+services:
+
+  database:
+    image: mongo:5.0
+    networks:
+      - data_net
+
+  frontend:
+    build: .
+    image: frontend
+    environment:
+      - DATABASE_NAME=vote_test_db
+      - PORT=8080
+    networks:
+      - test_net
+      - data_net
+    depends_on:
+      - database
+
+  sut:
+    image: frontend
+    entrypoint: npm test
+    environment:
+      - SERVICE_NAME=frontend
+    networks:
+      - test_net
+    depends_on:
+      - frontend

@@ -1,0 +1,21 @@
+version: "2.4"
+
+networks:
+  bridge_net:
+    driver: bridge
+
+services:
+
+  database:
+    image: mongo:5.0
+    networks:
+      - bridge_net
+
+  frontend:
+    build: src/frontend
+    networks:
+      - bridge_net
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
