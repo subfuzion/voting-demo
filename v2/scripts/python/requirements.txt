@@ -1,0 +1,3 @@
+asyncio
+google-cloud-compute
+google-cloud-container

@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="TEST postgres" type="mocha-javascript-test-runner">
+    <node-interpreter>node</node-interpreter>
+    <node-options />
+    <mocha-package>$PROJECT_DIR$/src/vote/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$/src/database</working-directory>
+    <pass-parent-env>true</pass-parent-env>
+    <envs>
+      <env name="PGHOST" value="localhost" />
+    </envs>
+    <ui>tdd</ui>
+    <extra-mocha-options />
+    <test-kind>TEST_FILE</test-kind>
+    <test-file>$PROJECT_DIR$/src/database/test/postgres_test.js</test-file>
+    <method v="2" />
+  </configuration>
+</component>

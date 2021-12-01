@@ -1,3 +1,3 @@
-# Voting demo
+# Voting App
 
 Simple voting app.
