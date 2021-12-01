@@ -248,4 +248,3 @@ export VOTE=http://localhost:8080
 # with reloading
 hupper -m waitress --port $PORT src.web.app:app
 ```
-
