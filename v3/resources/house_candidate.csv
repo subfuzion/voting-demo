@@ -1,0 +1,1216 @@
+district,candidate,party,total_votes,won
+Delaware at large,Lisa Blunt Rochester,DEM,281382,True
+Delaware at large,Lee Murphy,REP,196392,False
+Delaware at large,Catherine Purcell,IND,6682,False
+Delaware at large,David Rogers,LIB,3814,False
+Florida’s 1st district,Matt Gaetz,REP,283352,True
+Florida’s 1st district,Phil Ehr,DEM,149172,False
+Florida’s 1st district,Albert Oram,NPA,6038,False
+Florida’s 2nd district,Neal Dunn,REP,305337,True
+Florida’s 2nd district, Write-ins,WRI,6662,False
+Florida’s 3rd district,Kat Cammack,REP,223075,True
+Florida’s 3rd district,Adam Christensen,DEM,167326,False
+Florida’s 4th district,John Rutherford,REP,308497,True
+Florida’s 4th district,Donna Deegan,DEM,196423,False
+Florida’s 4th district, Write-ins,WRI,20,False
+Florida’s 5th district,Al Lawson,DEM,219463,True
+Florida’s 5th district,Gary Adler,REP,117510,False
+Florida’s 6th district,Michael Waltz,REP,265393,True
+Florida’s 6th district,Clint Curtis,DEM,172305,False
+Florida’s 6th district, Write-ins,WRI,158,False
+Florida’s 7th district,Stephanie Murphy,DEM,224946,True
+Florida’s 7th district,Leo Valentin,REP,175750,False
+Florida’s 7th district,William Garlington,NPA,5753,False
+Florida’s 8th district,Bill Posey,REP,282093,True
+Florida’s 8th district,Jim Kennedy,DEM,177695,False
+Florida’s 9th district,Darren Soto,DEM,240724,True
+Florida’s 9th district,Bill Olson,REP,188889,False
+Florida’s 9th district, Write-ins,WRI,25,False
+Florida’s 10th district,Val Demings,DEM,239434,True
+Florida’s 10th district,Vennia Francois,REP,136889,False
+Florida’s 10th district, Write-ins,WRI,74,False
+Florida’s 11th district,Daniel Webster,REP,316979,True
+Florida’s 11th district,Dana Cottrell,DEM,158094,False
+Florida’s 12th district,Gus Bilirakis,REP,284941,True
+Florida’s 12th district,Kimberly Walker,DEM,168194,False
+Florida’s 13th district,Charlie Crist,DEM,215405,True
+Florida’s 13th district,Anna Luna,REP,190713,False
+Florida’s 13th district, Write-ins,WRI,7,False
+Florida’s 14th district,Kathy Castor,DEM,224240,True
+Florida’s 14th district,Christine Quinn,REP,147896,False
+Florida’s 15th district,Scott Franklin,REP,216374,True
+Florida’s 15th district,Alan Cohn,DEM,174297,False
+Florida’s 16th district,Vern Buchanan,REP,269001,True
+Florida’s 16th district,Margaret Good,DEM,215683,False
+Florida’s 17th district,Greg Steube,REP,266514,True
+Florida’s 17th district,Allen Ellison,DEM,140487,False
+Florida’s 17th district,Theodore Murray,NPA,5396,False
+Florida’s 18th district,Brian Mast,REP,253286,True
+Florida’s 18th district,Pam Keith,DEM,186674,False
+Florida’s 18th district,K.W. Miller,NPA,9760,False
+Florida’s 19th district,Byron Donalds,REP,272440,True
+Florida’s 19th district,Cindy Banyai,DEM,172146,False
+Florida’s 19th district, Write-ins,WRI,3,False
+Florida’s 20th district,Alcee Hastings,DEM,253661,True
+Florida’s 20th district,Greg Musselwhite,REP,68748,False
+Florida’s 21st district,Lois Frankel,DEM,237925,True
+Florida’s 21st district,Laura Loomer,REP,157612,False
+Florida’s 21st district,Charleston Malkemus,NPA,7544,False
+Florida’s 21st district, Write-ins,WRI,206,False
+Florida’s 22nd district,Ted Deutch,DEM,235764,True
+Florida’s 22nd district,James Pruden,REP,166553,False
+Florida’s 23rd district,Debbie Wasserman Schultz,DEM,221239,True
+Florida’s 23rd district,Carla Spalding,REP,158874,False
+Florida’s 23rd district, Write-ins,WRI,83,False
+Florida’s 24th district,Frederica Wilson,DEM,218825,True
+Florida’s 24th district,Lavern Spicer,REP,59084,False
+Florida’s 24th district,Christine Olivo,NPA,11703,False
+Florida’s 24th district, Write-ins,WRI,26,False
+Florida’s 25th district,Mario Diaz-Balart,REP,0,True
+Florida’s 26th district,Carlos Gimenez,REP,177223,True
+Florida’s 26th district,Debbie Mucarsel-Powell,DEM,165407,False
+Florida’s 27th district,Maria Elvira Salazar,REP,176141,True
+Florida’s 27th district,Donna Shalala,DEM,166758,False
+Florida’s 27th district, Write-ins,WRI,76,False
+Georgia’s 1st district,Buddy Carter,REP,189457,True
+Georgia’s 1st district,Joyce Griggs,DEM,135238,False
+Georgia’s 1st district, Write-ins,WRI,0,False
+Georgia’s 2nd district,Sanford Bishop,DEM,161397,True
+Georgia’s 2nd district,Don Cole,REP,111620,False
+Georgia’s 2nd district, Write-ins,WRI,0,False
+Georgia’s 3rd district,Drew Ferguson,REP,241526,True
+Georgia’s 3rd district,Val Almonord,DEM,129792,False
+Georgia’s 3rd district, Write-ins,WRI,18,False
+Georgia’s 4th district,Hank Johnson,DEM,278906,True
+Georgia’s 4th district,Johsie Ezammudeen,REP,69393,False
+Georgia’s 5th district,Nikema Williams,DEM,301857,True
+Georgia’s 5th district,Angela Stanton-King,REP,52646,False
+Georgia’s 6th district,Lucy McBath,DEM,216775,True
+Georgia’s 6th district,Karen Handel,REP,180329,False
+Georgia’s 7th district,Carolyn Bourdeaux,DEM,190900,True
+Georgia’s 7th district,Rich McCormick,REP,180564,False
+Georgia’s 8th district,Austin Scott,REP,198701,True
+Georgia’s 8th district,Lindsay Holliday,DEM,109264,False
+Georgia’s 8th district, Write-ins,WRI,24,False
+Georgia’s 9th district,Andrew Clyde,REP,292750,True
+Georgia’s 9th district,Devin Pandy,DEM,79797,False
+Georgia’s 9th district, Write-ins,WRI,3,False
+Georgia’s 10th district,Jody Hice,REP,235810,True
+Georgia’s 10th district,Tabitha Johnson-Green,DEM,142636,False
+Georgia’s 10th district, Write-ins,WRI,60,False
+Georgia’s 11th district,Barry Loudermilk,REP,245259,True
+Georgia’s 11th district,Dana Barrett,DEM,160623,False
+Georgia’s 12th district,Rick Allen,REP,181038,True
+Georgia’s 12th district,Liz Johnson,DEM,129061,False
+Georgia’s 12th district, Write-ins,WRI,0,False
+Georgia’s 13th district,David Scott,DEM,279045,True
+Georgia’s 13th district,Becky Hites,REP,81476,False
+Georgia’s 14th district,Marjorie Taylor Greene,REP,229827,True
+Georgia’s 14th district,Kevin Van Ausdal,DEM,77798,False
+Georgia’s 14th district, Write-ins,WRI,323,False
+Hawaii’s 1st district,Ed Case,DEM,183245,True
+Hawaii’s 1st district,Ron Curtis,REP,71188,False
+Hawaii’s 2nd district,Kai Kahele,DEM,171517,True
+Hawaii’s 2nd district,Joe Akana,REP,84027,False
+Hawaii’s 2nd district,Michelle Tippens,LIB,6785,False
+Hawaii’s 2nd district,Jonathan Hoomanawanui,ALO,6453,False
+Hawaii’s 2nd district,Ron Burrus,NPT,2659,False
+Hawaii’s 2nd district,John Giuffre,SHP,661,False
+Idaho’s 1st district,Russ Fulcher,REP,310736,True
+Idaho’s 1st district,Rudy Soto,DEM,131380,False
+Idaho’s 1st district,Joe Evans,LIB,16453,False
+Idaho’s 2nd district,Mike Simpson,REP,250668,True
+Idaho’s 2nd district,Aaron Swisher,DEM,124151,False
+Idaho’s 2nd district, Pro-Life,CST,8573,False
+Idaho’s 2nd district,Idaho Law,LIB,7940,False
+Illinois’s 1st district,Bobby Rush,DEM,239943,True
+Illinois’s 1st district,Philanise White,REP,85027,False
+Illinois’s 2nd district,Robin Kelly,DEM,234896,True
+Illinois’s 2nd district,Theresa Raborn,REP,63142,False
+Illinois’s 3rd district,Marie Newman,DEM,172997,True
+Illinois’s 3rd district,Mike Fricilone,REP,133851,False
+Illinois’s 4th district,"Jesus ""Chuy"" Garcia",DEM,187219,True
+Illinois’s 4th district,Jesus Solorio,REP,35518,False
+Illinois’s 5th district,Mike Quigley,DEM,255661,True
+Illinois’s 5th district,Tom Hanson,REP,96200,False
+Illinois’s 5th district,Thomas Wilda,GRN,9408,False
+Illinois’s 6th district,Sean Casten,DEM,213777,True
+Illinois’s 6th district,Jeanne Ives,REP,183891,False
+Illinois’s 6th district,Bill Redpath,LIB,7079,False
+Illinois’s 7th district,Danny Davis,DEM,249383,True
+Illinois’s 7th district,Craig Cameron,REP,41390,False
+Illinois’s 7th district,Tracy Jennings,IND,19355,False
+Illinois’s 8th district,Raja Krishnamoorthi,DEM,186251,True
+Illinois’s 8th district,Preston Nelson,LIB,68327,False
+Illinois’s 9th district,Jan Schakowsky,DEM,262045,True
+Illinois’s 9th district,Sargis Sangari,REP,107125,False
+Illinois’s 10th district,Brad Schneider,DEM,202402,True
+Illinois’s 10th district,Valerie Mukherjee,REP,114442,False
+Illinois’s 10th district, Write-ins,WRI,30,False
+Illinois’s 11th district,Bill Foster,DEM,194557,True
+Illinois’s 11th district,Rick Laib,REP,112807,False
+Illinois’s 12th district,Mike Bost,REP,194839,True
+Illinois’s 12th district,Raymond Lenzi,DEM,127577,False
+Illinois’s 13th district,Rodney Davis,REP,181373,True
+Illinois’s 13th district,Betsy Londrigan,DEM,151648,False
+Illinois’s 14th district,Lauren Underwood,DEM,203209,True
+Illinois’s 14th district,Jim Oberweis,REP,197835,False
+Illinois’s 15th district,Mary Miller,REP,244947,True
+Illinois’s 15th district,Erika Weaver,DEM,88559,False
+Illinois’s 16th district,Adam Kinzinger,REP,218839,True
+Illinois’s 16th district,Dani Brzozowski,DEM,119313,False
+Illinois’s 16th district, Write-ins,WRI,7,False
+Illinois’s 17th district,Cheri Bustos,DEM,156011,True
+Illinois’s 17th district,Esther Joy King,REP,143863,False
+Illinois’s 18th district,Darin LaHood,REP,261840,True
+Illinois’s 18th district,George Petrilli,DEM,110039,False
+Indiana’s 1st district,Frank Mrvan,DEM,185180,True
+Indiana’s 1st district,Mark Leyva,REP,132247,False
+Indiana’s 1st district,Michael Strauss,LIB,9521,False
+Indiana’s 2nd district,Jackie Walorski,REP,183601,True
+Indiana’s 2nd district,Patricia Hackett,DEM,114967,False
+Indiana’s 3rd district,Jim Banks,REP,220989,True
+Indiana’s 3rd district,Chip Coldiron,DEM,104762,False
+Indiana’s 4th district,Jim Baird,REP,225531,True
+Indiana’s 4th district,Joe Mackey,DEM,112984,False
+Indiana’s 5th district,Victoria Spartz,REP,208212,True
+Indiana’s 5th district,Christina Hale,DEM,191226,False
+Indiana’s 5th district,Ken Tucker,LIB,16788,False
+Indiana’s 6th district,Greg Pence,REP,225318,True
+Indiana’s 6th district,Jeannine Lake,DEM,91103,False
+Indiana’s 6th district,Tom Ferkinhoff,LIB,11791,False
+Indiana’s 7th district,Andre Carson,DEM,176422,True
+Indiana’s 7th district,Susan Smith,REP,106146,False
+Indiana’s 8th district,Larry Bucshon,REP,214643,True
+Indiana’s 8th district,Thomasina Marsili,DEM,95691,False
+Indiana’s 8th district,James Rodenberger,LIB,10283,False
+Indiana’s 9th district,Trey Hollingsworth,REP,222054,True
+Indiana’s 9th district,Andy Ruff,DEM,122564,False
+Indiana’s 9th district,Tonya Millis,LIB,14415,False
+Iowa’s 1st district,Ashley Hinson,REP,212088,True
+Iowa’s 1st district,Abby Finkenauer,DEM,201347,False
+Iowa’s 2nd district,Mariannette Miller-Meeks,REP,196964,True
+Iowa’s 2nd district,Rita Hart,DEM,196958,False
+Iowa’s 3rd district,Cindy Axne,DEM,219205,True
+Iowa’s 3rd district,David Young,REP,212997,False
+Iowa’s 3rd district,Bryan Holder,LIB,15361,False
+Iowa’s 4th district,Randy Feenstra,REP,237369,True
+Iowa’s 4th district,J.D. Scholten,DEM,144761,False
+Kansas’s 1st district,Tracey Mann,REP,208229,True
+Kansas’s 1st district,Kali Barnett,DEM,84393,False
+Kansas’s 2nd district,Jake LaTurner,REP,185464,True
+Kansas’s 2nd district,Michelle De La Isla,DEM,136650,False
+Kansas’s 2nd district,Robert Garrard,LIB,14201,False
+Kansas’s 3rd district,Sharice Davids,DEM,220049,True
+Kansas’s 3rd district,Amanda Adkins,REP,178773,False
+Kansas’s 3rd district,Steven Hohe,LIB,11596,False
+Kansas’s 4th district,Ron Estes,REP,203432,True
+Kansas’s 4th district,Laura Lombard,DEM,116166,False
+Kentucky’s 1st district,James Comer,REP,246329,True
+Kentucky’s 1st district,James Rhodes,DEM,82141,False
+Kentucky’s 1st district, Write-ins,WRI,0,False
+Kentucky’s 2nd district,Brett Guthrie,REP,255735,True
+Kentucky’s 2nd district,Hank Linderman,DEM,94643,False
+Kentucky’s 2nd district,Robert Perry,LIB,7588,False
+Kentucky’s 2nd district,Lewis Carter,POP,2431,False
+Kentucky’s 2nd district, Write-ins,WRI,2,False
+Kentucky’s 3rd district,John Yarmuth,DEM,230672,True
+Kentucky’s 3rd district,Rhonda Palazzo,REP,137425,False
+Kentucky’s 3rd district, Write-ins,WRI,0,False
+Kentucky’s 4th district,Thomas Massie,REP,256613,True
+Kentucky’s 4th district,Alexandra Owensby,DEM,125896,False
+Kentucky’s 4th district, Write-ins,WRI,0,False
+Kentucky’s 5th district,Hal Rogers,REP,250914,True
+Kentucky’s 5th district,Matthew Best,DEM,47056,False
+Kentucky’s 5th district, Write-ins,WRI,7,False
+Kentucky’s 6th district,Andy Barr,REP,216948,True
+Kentucky’s 6th district,Josh Hicks,DEM,155011,False
+Kentucky’s 6th district,Frank Harris,LIB,6491,False
+Kentucky’s 6th district, Write-ins,WRI,0,False
+Louisiana’s 1st district,Steve Scalise,REP,270330,True
+Louisiana’s 1st district,Lee Ann Dugas,DEM,94730,False
+Louisiana’s 1st district,Howard Kearney,LIB,9309,False
+Louisiana’s 2nd district,Cedric Richmond,DEM,201636,True
+Louisiana’s 2nd district,David Schilling,REP,47575,False
+Louisiana’s 2nd district,Glenn Harris,DEM,33684,False
+Louisiana’s 2nd district,Sheldon Vincent,REP,15565,False
+Louisiana’s 2nd district,Belden Batiste,IND,12268,False
+Louisiana’s 2nd district,Colby James,IND,6254,False
+Louisiana’s 3rd district,Clay Higgins,REP,230480,True
+Louisiana’s 3rd district,Braylon Harris,DEM,60852,False
+Louisiana’s 3rd district,Rob Anderson,DEM,39423,False
+Louisiana’s 3rd district,Brandon Leleux,LIB,9365,False
+Louisiana’s 4th district,Mike Johnson,REP,185265,True
+Louisiana’s 4th district,Kenny Houston,DEM,78157,False
+Louisiana’s 4th district,Ryan Trundle,DEM,23813,False
+Louisiana’s 4th district,Ben Gibson,REP,19343,False
+Louisiana’s 5th district,Luke Letlow,REP,102533,True
+Louisiana’s 5th district,Lance Harris,REP,51240,False
+Louisiana’s 5th district,Candy Christophe,DEM,50812,False
+Louisiana’s 5th district,Martin Lemelle,DEM,32186,False
+Louisiana’s 5th district,Scotty Robinson,REP,23887,False
+Louisiana’s 5th district,Allen Guillory,REP,22496,False
+Louisiana’s 5th district,Matt Hasty,REP,9834,False
+Louisiana’s 5th district,Phillip Snowden,DEM,9432,False
+Louisiana’s 5th district,Jesse Lagarde,DEM,7136,False
+Louisiana’s 6th district,Garret Graves,REP,265706,True
+Louisiana’s 6th district,Dartanyon Williams,DEM,95541,False
+Louisiana’s 6th district,Shannon Sloan,LIB,9732,False
+Louisiana’s 6th district,Richard Torregano,NPA,3017,False
+Maine’s 1st district,Chellie Pingree,DEM,271004,True
+Maine’s 1st district,Jay Allen,REP,165008,False
+Maine’s 1st district, Write-ins,WRI,15,False
+Maine’s 2nd district,Jared Golden,DEM,195849,True
+Maine’s 2nd district,Dale Crafts,REP,174196,False
+Maine’s 2nd district, Write-ins,WRI,2131,False
+Maryland’s 1st district,Andy Harris,REP,250901,True
+Maryland’s 1st district,Mia Mason,DEM,143877,False
+Maryland’s 2nd district,Dutch Ruppersberger,DEM,224836,True
+Maryland’s 2nd district,Johnny Salling,REP,106355,False
+Maryland’s 3rd district,John Sarbanes,DEM,260358,True
+Maryland’s 3rd district,Charles Anthony,REP,112117,False
+Maryland’s 4th district,Anthony Brown,DEM,282119,True
+Maryland’s 4th district,George McDermott,REP,71671,False
+Maryland’s 5th district,Steny Hoyer,DEM,274210,True
+Maryland’s 5th district,Chris Palombi,REP,123525,False
+Maryland’s 6th district,David Trone,DEM,215540,True
+Maryland’s 6th district,Neil Parrott,REP,143599,False
+Maryland’s 6th district,George Gluck,GRN,6893,False
+Maryland’s 7th district,Kweisi Mfume,DEM,237084,True
+Maryland’s 7th district,Kimberly Klacik,REP,92825,False
+Maryland’s 7th district, Write-ins,WRI,1089,False
+Maryland’s 8th district,Jamie Raskin,DEM,274716,True
+Maryland’s 8th district,Gregory Coll,REP,127157,False
+Massachusetts’s 1st district,Richard Neal,DEM,275376,True
+Massachusetts’s 1st district, Write-ins,WRI,9956,False
+Massachusetts’s 2nd district,Jim McGovern,DEM,249854,True
+Massachusetts’s 2nd district,Tracy Lovvorn,REP,132220,False
+Massachusetts’s 2nd district, Write-ins,WRI,378,False
+Massachusetts’s 3rd district,Lori Trahan,DEM,286896,True
+Massachusetts’s 3rd district, Write-ins,WRI,6643,False
+Massachusetts’s 4th district,Jake Auchincloss,DEM,251102,True
+Massachusetts’s 4th district,Julie Hall,REP,160474,False
+Massachusetts’s 4th district, Write-ins,WRI,1247,False
+Massachusetts’s 5th district,Katherine Clark,DEM,294427,True
+Massachusetts’s 5th district,Caroline Colarusso,REP,101351,False
+Massachusetts’s 5th district, Write-ins,WRI,405,False
+Massachusetts’s 6th district,Seth Moulton,DEM,286377,True
+Massachusetts’s 6th district,John Moran,REP,150695,False
+Massachusetts’s 6th district, Write-ins,WRI,605,False
+Massachusetts’s 7th district,Ayanna Pressley,DEM,267362,True
+Massachusetts’s 7th district,Roy Owens,IND,38675,False
+Massachusetts’s 7th district, Write-ins,WRI,2613,False
+Massachusetts’s 8th district,Stephen Lynch,DEM,310940,True
+Massachusetts’s 8th district,Jonathan Lott,IND,72060,False
+Massachusetts’s 8th district, Write-ins,WRI,2401,False
+Massachusetts’s 9th district,Bill Keating,DEM,260262,True
+Massachusetts’s 9th district,Helen Brady,REP,154261,False
+Massachusetts’s 9th district,Michael Manley,IND,9717,False
+Massachusetts’s 9th district, Write-ins,WRI,361,False
+Michigan’s 1st district,Jack Bergman,REP,256581,True
+Michigan’s 1st district,Dana Ferguson,DEM,153328,False
+Michigan’s 1st district,Ben Boren,LIB,6310,False
+Michigan’s 2nd district,Bill Huizenga,REP,238711,True
+Michigan’s 2nd district,Bryan Berghoef,DEM,154122,False
+Michigan’s 2nd district,Max Riekse,LIB,5292,False
+Michigan’s 2nd district,Jean-Michel Creviere,GRN,2646,False
+Michigan’s 2nd district,Gerald Van Sickle,TAX,2476,False
+Michigan’s 3rd district,Peter Meijer,REP,213649,True
+Michigan’s 3rd district,Hillary Scholten,DEM,189769,False
+Michigan’s 4th district,John Moolenaar,REP,242621,True
+Michigan’s 4th district,Jerry Hilliard,DEM,120802,False
+Michigan’s 4th district,David Canny,LIB,5374,False
+Michigan’s 4th district,Amy Slepr,GRN,4448,False
+Michigan’s 5th district,Daniel Kildee,DEM,196599,True
+Michigan’s 5th district,Tim Kelly,REP,150772,False
+Michigan’s 5th district,Kathy Goodwin,WCP,8180,False
+Michigan’s 5th district,James Harris,LIB,5481,False
+Michigan’s 6th district,Fred Upton,REP,211496,True
+Michigan’s 6th district,Jon Hoadley,DEM,152085,False
+Michigan’s 6th district,Jeff DePoy,LIB,10399,False
+Michigan’s 6th district,John Lawrence,GRN,4440,False
+Michigan’s 7th district,Tim Walberg,REP,227524,True
+Michigan’s 7th district,Gretchen Driskell,DEM,159743,False
+Michigan’s 8th district,Elissa Slotkin,DEM,217922,True
+Michigan’s 8th district,Paul Junge,REP,202525,False
+Michigan’s 8th district,Joe Hartman,LIB,7897,False
+Michigan’s 9th district,Andy Levin,DEM,230318,True
+Michigan’s 9th district,Charles Langworthy,REP,153296,False
+Michigan’s 9th district,Andrea Kirby,WCP,8970,False
+Michigan’s 9th district,Mike Saliba,LIB,6532,False
+Michigan’s 10th district,Lisa McClain,REP,271607,True
+Michigan’s 10th district,Kimberly Bizon,DEM,138179,False
+Michigan’s 11th district,Haley Stevens,DEM,226128,True
+Michigan’s 11th district,Eric Esshaki,REP,215405,False
+Michigan’s 11th district,Leonard Schwartz,LIB,8936,False
+Michigan’s 12th district,Debbie Dingell,DEM,254957,True
+Michigan’s 12th district,Jeff Jones,REP,117719,False
+Michigan’s 12th district,Gary Walkowicz,WCP,11147,False
+Michigan’s 13th district,Rashida Tlaib,DEM,223205,True
+Michigan’s 13th district,David Dudenhoefer,REP,53311,False
+Michigan’s 13th district,Sam Johnson,WCP,5284,False
+Michigan’s 13th district,Etta Wilcoxon,GRN,2105,False
+Michigan’s 13th district,Articia Bomer,TAX,1974,False
+Michigan’s 14th district,Brenda Lawrence,DEM,271370,True
+Michigan’s 14th district,R. Vance Patrick,REP,62664,False
+Michigan’s 14th district,Lisa Gioia,LIB,3737,False
+Michigan’s 14th district,Philip Kolody,WCP,2534,False
+Michigan’s 14th district,Clyde Shabazz,GRN,1998,False
+Minnesota’s 1st district,Jim Hagedorn,REP,179234,True
+Minnesota’s 1st district,Dan Feehan,DEM,167890,False
+Minnesota’s 1st district,Bill Rood,GRP,21448,False
+Minnesota’s 2nd district,Angie Craig,DEM,204534,True
+Minnesota’s 2nd district,Tyler Kistner,REP,194954,False
+Minnesota’s 2nd district,Adam Weeks,LMN,24751,False
+Minnesota’s 3rd district,Dean Phillips,DEM,246666,True
+Minnesota’s 3rd district,Kendall Qualls,REP,196625,False
+Minnesota’s 4th district,Betty McCollum,DEM,245813,True
+Minnesota’s 4th district,Gene Rechtzigel,REP,112730,False
+Minnesota’s 4th district,Susan Pendergast Sindt,LMN,29537,False
+Minnesota’s 5th district,Ilhan Omar,DEM,255924,True
+Minnesota’s 5th district,Lacy Johnson,REP,102878,False
+Minnesota’s 5th district,Michael Moore,LMN,37979,False
+Minnesota’s 6th district,Tom Emmer,REP,270901,True
+Minnesota’s 6th district,Tawnja Zahradka,DEM,140853,False
+Minnesota’s 7th district,Michelle Fischbach,REP,194066,True
+Minnesota’s 7th district,Collin Peterson,DEM,144840,False
+Minnesota’s 7th district,Slater Johnson,LMN,17710,False
+Minnesota’s 7th district,Rae Hart Anderson,GRP,6499,False
+Minnesota’s 8th district,Pete Stauber,REP,223432,True
+Minnesota’s 8th district,Quinn Nystrom,DEM,147853,False
+Minnesota’s 8th district,Judith Schwartzbacker,GRP,22190,False
+Mississippi’s 1st district,Trent Kelly,REP,228787,True
+Mississippi’s 1st district,Antonia Eliason,DEM,104008,False
+Mississippi’s 1st district, Write-ins,WRI,280,False
+Mississippi’s 2nd district,Bennie Thompson,DEM,196224,True
+Mississippi’s 2nd district,Brian Flowers,REP,101010,False
+Mississippi’s 2nd district, Write-ins,WRI,203,False
+Mississippi’s 3rd district,Michael Guest,REP,221064,True
+Mississippi’s 3rd district,Dorothy Benford,DEM,120782,False
+Mississippi’s 4th district,Steven Palazzo,REP,255971,True
+Mississippi’s 4th district, Write-ins,WRI,8670,False
+Missouri’s 1st district,Cori Bush,DEM,249087,True
+Missouri’s 1st district,Anthony Rogers,REP,59940,False
+Missouri’s 1st district,Alex Furman,LIB,6766,False
+Missouri’s 2nd district,Ann Wagner,REP,233157,True
+Missouri’s 2nd district,Jill Schupp,DEM,204540,False
+Missouri’s 2nd district,Martin Schulte,LIB,11647,False
+Missouri’s 2nd district, Write-ins,WRI,4,False
+Missouri’s 3rd district,Blaine Luetkemeyer,REP,282866,True
+Missouri’s 3rd district,Megan Rezabek,DEM,116095,False
+Missouri’s 3rd district,Leonard Steinman,LIB,8344,False
+Missouri’s 4th district,Vicky Hartzler,REP,245247,True
+Missouri’s 4th district,Lindsey Simmons,DEM,107635,False
+Missouri’s 4th district,Steven Koonse,LIB,9954,False
+Missouri’s 5th district,Emanuel Cleaver,DEM,207180,True
+Missouri’s 5th district,Ryan Derks,REP,135934,False
+Missouri’s 5th district,Robin Dominick,LIB,9272,False
+Missouri’s 6th district,Sam Graves,REP,258709,True
+Missouri’s 6th district,Gena Ross,DEM,118926,False
+Missouri’s 6th district,Jim Higgins,LIB,8144,False
+Missouri’s 7th district,Billy Long,REP,254318,True
+Missouri’s 7th district,Teresa Montseny,DEM,98111,False
+Missouri’s 7th district,Kevin Craig,LIB,15573,False
+Missouri’s 8th district,Jason Smith,REP,253811,True
+Missouri’s 8th district,Kathy Ellis,DEM,70561,False
+Missouri’s 8th district,Tom Schmitz,LIB,5854,False
+Montana at large,Matt Rosendale,REP,339169,True
+Montana at large,Kathleen Williams,DEM,262340,False
+Nebraska’s 1st district,Jeff Fortenberry,REP,189006,True
+Nebraska’s 1st district,Kate Bolz,DEM,119622,False
+Nebraska’s 1st district,Dennis Grace,LIB,8938,False
+Nebraska’s 2nd district,Don Bacon,REP,171071,True
+Nebraska’s 2nd district,Kara Eastman,DEM,155706,False
+Nebraska’s 2nd district,Tyler Schaeffer,LIB,10185,False
+Nebraska’s 3rd district,Adrian Smith,REP,225157,True
+Nebraska’s 3rd district,Mark Elworth,DEM,50690,False
+Nebraska’s 3rd district,Dustin Hobbs,LIB,10923,False
+Nevada’s 1st district,Dina Titus,DEM,137868,True
+Nevada’s 1st district,Joyce Bentley,REP,74490,False
+Nevada’s 1st district,Kamau Bakari,IAP,6190,False
+Nevada’s 1st district,Robert Strawder,LIB,4665,False
+Nevada’s 2nd district,Mark Amodei,REP,216078,True
+Nevada’s 2nd district,Patricia Ackerman,DEM,155780,False
+Nevada’s 2nd district,Janine Hansen,IAP,10815,False
+Nevada’s 3rd district,Susie Lee,DEM,203421,True
+Nevada’s 3rd district,Dan Rodimer,REP,190975,False
+Nevada’s 3rd district,Steve Brown,LIB,12315,False
+Nevada’s 3rd district,Ed Bridges,IAP,10541,False
+Nevada’s 4th district,Steven Horsford,DEM,168457,True
+Nevada’s 4th district,Jim Marchant,REP,152284,False
+Nevada’s 4th district,Jonathan Esteban,LIB,7978,False
+Nevada’s 4th district,Barry Rubinson,IAP,3750,False
+New Hampshire’s 1st district,Chris Pappas,DEM,205606,True
+New Hampshire’s 1st district,Matt Mowers,REP,185159,False
+New Hampshire’s 1st district,Zachary Dumont,LIB,9747,False
+New Hampshire’s 1st district, Write-ins,WRI,83,False
+New Hampshire’s 2nd district,Ann Kuster,DEM,208289,True
+New Hampshire’s 2nd district,Steve Negron,REP,168886,False
+New Hampshire’s 2nd district,Andrew Olding,LIB,9119,False
+New Hampshire’s 2nd district, Write-ins,WRI,53,False
+New Jersey’s 1st district,Donald Norcross,DEM,240567,True
+New Jersey’s 1st district,Claire Gustafson,REP,144463,False
+New Jersey’s 2nd district,Jeff Van Drew,REP,195526,True
+New Jersey’s 2nd district,Amy Kennedy,DEM,173849,False
+New Jersey’s 2nd district,Jenna Harvey,IND,4136,False
+New Jersey’s 2nd district,Jesse Ehrnstrom,LIB,3036,False
+New Jersey’s 3rd district,Andrew Kim,DEM,229840,True
+New Jersey’s 3rd district,David Richter,REP,196327,False
+New Jersey’s 3rd district,Martin Weber,IND,3724,False
+New Jersey’s 3rd district,Robert Shapiro,IND,1871,False
+New Jersey’s 4th district,Chris Smith,REP,254103,True
+New Jersey’s 4th district,Stephanie Schmid,DEM,162420,False
+New Jersey’s 4th district,Hank Schroeder,IND,3195,False
+New Jersey’s 4th district,Michael Rufo,LIB,2583,False
+New Jersey’s 4th district,Andrew Pachuta,IND,2067,False
+New Jersey’s 5th district,Joshua Gottheimer,DEM,225175,True
+New Jersey’s 5th district,Frank Pallotta,REP,193333,False
+New Jersey’s 5th district,Louis Vellucci,IND,5128,False
+New Jersey’s 6th district,Frank Pallone,DEM,199648,True
+New Jersey’s 6th district,Christian Onuoha,REP,126760,False
+New Jersey’s 7th district,Tom Malinowski,DEM,219629,True
+New Jersey’s 7th district,Thomas Kean,REP,214318,False
+New Jersey’s 8th district,Albio Sires,DEM,176758,True
+New Jersey’s 8th district,Jason Mushnick,REP,58686,False
+New Jersey’s 8th district,Dan Delaney,LIB,3329,False
+New Jersey’s 9th district,Bill Pascrell,DEM,203674,True
+New Jersey’s 9th district,Billy Prempeh,REP,98629,False
+New Jersey’s 9th district,Chris Auriemma,IND,7239,False
+New Jersey’s 10th district,Donald Payne,DEM,241522,True
+New Jersey’s 10th district,Jennifer Zinone,REP,40298,False
+New Jersey’s 10th district,Akil Khalfani,IND,3537,False
+New Jersey’s 10th district,Khaliah Fitchette,IND,3480,False
+New Jersey’s 10th district,John Mirrione,LIB,1172,False
+New Jersey’s 11th district,Mikie Sherrill,DEM,235163,True
+New Jersey’s 11th district,Rosemary Becchi,REP,206013,False
+New Jersey’s 12th district,Bonnie Watson Coleman,DEM,230883,True
+New Jersey’s 12th district,Mark Razzoli,REP,114591,False
+New Jersey’s 12th district,Edward Forchion,IND,4512,False
+New Jersey’s 12th district,Kenneth Cody,IND,1739,False
+New Mexico’s 1st district,Debra Haaland,DEM,186953,True
+New Mexico’s 1st district,Michelle Garcia Holmes,REP,134337,False
+New Mexico’s 2nd district,Yvette Herrell,REP,142283,True
+New Mexico’s 2nd district,Xochitl Torres Small,DEM,122546,False
+New Mexico’s 2nd district, Write-ins,WRI,117,False
+New Mexico’s 3rd district,Teresa Leger Fernandez,DEM,186282,True
+New Mexico’s 3rd district,Alexis Johnson,REP,131166,False
+New York’s 1st district,Lee Zeldin,REP,205715,True
+New York’s 1st district,Nancy Goroff,DEM,169294,False
+New York’s 1st district, Write-ins,WRI,99,False
+New York’s 2nd district,Andrew Garbarino,REP,177379,True
+New York’s 2nd district,Jackie Gordon,DEM,154246,False
+New York’s 2nd district,Harry Burger,GRN,3448,False
+New York’s 2nd district, Write-ins,WRI,90,False
+New York’s 3rd district,Thomas Suozzi,DEM,208555,True
+New York’s 3rd district,George Santos,REP,161931,False
+New York’s 3rd district,Howard Rabin,LIB,2156,False
+New York’s 3rd district, Write-ins,WRI,139,False
+New York’s 4th district,Kathleen Rice,DEM,199762,True
+New York’s 4th district,Douglas Tuman,REP,153007,False
+New York’s 4th district,Joseph Naham,GRN,3024,False
+New York’s 4th district, Write-ins,WRI,119,False
+New York’s 5th district,Gregory Meeks,DEM,229125,True
+New York’s 5th district, Write-ins,WRI,1554,False
+New York’s 6th district,Grace Meng,DEM,158862,True
+New York’s 6th district,Thomas Zmich,REP,74829,False
+New York’s 6th district, Write-ins,WRI,223,False
+New York’s 7th district,Nydia Velazquez,DEM,191073,True
+New York’s 7th district,Brian Kelly,REP,32520,False
+New York’s 7th district,Gilbert Midonnet,LIB,1522,False
+New York’s 7th district, Write-ins,WRI,338,False
+New York’s 8th district,Hakeem Jeffries,DEM,234933,True
+New York’s 8th district,Garfield Wallace,REP,42007,False
+New York’s 8th district, Write-ins,WRI,229,False
+New York’s 9th district,Yvette Clarke,DEM,230221,True
+New York’s 9th district,Constantin Jean-Pierre,REP,43950,False
+New York’s 9th district,Gary Popkin,LIB,1644,False
+New York’s 9th district,Joel Anabilah-Azumah,SAM,1052,False
+New York’s 9th district, Write-ins,WRI,381,False
+New York’s 10th district,Jerrold Nadler,DEM,206310,True
+New York’s 10th district,Cathy Bernstein,REP,66889,False
+New York’s 10th district,Michael Madrid,LIB,3370,False
+New York’s 10th district, Write-ins,WRI,407,False
+New York’s 11th district,Nicole Malliotakis,REP,155608,True
+New York’s 11th district,Max Rose,DEM,137198,False
+New York’s 11th district, Write-ins,WRI,508,False
+New York’s 12th district,Carolyn Maloney,DEM,265172,True
+New York’s 12th district,Carlos Santiago-Cano,REP,53061,False
+New York’s 12th district,Steven Kolln,LIB,4015,False
+New York’s 12th district, Write-ins,WRI,773,False
+New York’s 13th district,Adriano Espaillat,DEM,231841,True
+New York’s 13th district,Lovelynn Gwinn,REP,19829,False
+New York’s 13th district,Christopher Morris-Perry,CON,3295,False
+New York’s 13th district, Write-ins,WRI,405,False
+New York’s 14th district,Alexandria Ocasio-Cortez,DEM,152661,True
+New York’s 14th district,John Cummings,REP,58440,False
+New York’s 14th district,Michelle Caruso-Cabrera,SAM,2000,False
+New York’s 14th district, Write-ins,WRI,222,False
+New York’s 15th district,Ritchie Torres,DEM,169533,True
+New York’s 15th district,Patrick Delices,REP,21221,False
+New York’s 15th district, Write-ins,WRI,283,False
+New York’s 16th district,Jamaal Bowman,DEM,218471,True
+New York’s 16th district,Patrick Mcmanus,CON,41085,False
+New York’s 16th district, Write-ins,WRI,414,False
+New York’s 17th district,Mondaire Jones,DEM,197353,True
+New York’s 17th district,Maureen McArdle Schulman,REP,117307,False
+New York’s 17th district,Yehudis Gottesfeld,CON,8887,False
+New York’s 17th district,Josh Eisen,ECL,6363,False
+New York’s 17th district,Michael Parietti,SAM,2745,False
+New York’s 17th district, Write-ins,WRI,197,False
+New York’s 18th district,Sean Maloney,DEM,187169,True
+New York’s 18th district,Chele Farley,REP,145098,False
+New York’s 18th district,Scott Smith,LIB,3162,False
+New York’s 18th district, Write-ins,WRI,116,False
+New York’s 19th district,Antonio Delgado,DEM,192100,True
+New York’s 19th district,Kyle Van De Water,REP,151475,False
+New York’s 19th district,Victoria Alexander,LIB,4224,False
+New York’s 19th district,Steven Greenfield,GRN,2799,False
+New York’s 19th district, Write-ins,WRI,2173,False
+New York’s 20th district,Paul Tonko,DEM,219705,True
+New York’s 20th district,Elizabeth Joy,REP,139446,False
+New York’s 20th district, Write-ins,WRI,191,False
+New York’s 21st district,Elise Stefanik,REP,188649,True
+New York’s 21st district,Tedra Cobb,DEM,131992,False
+New York’s 21st district, Write-ins,WRI,138,False
+New York’s 22nd district,Claudia Tenney,REP,155492,True
+New York’s 22nd district,Anthony Brindisi,DEM,155480,False
+New York’s 22nd district,Keith Price,LIB,6421,False
+New York’s 22nd district, Write-ins,WRI,131,False
+New York’s 23rd district,Tom Reed,REP,181060,True
+New York’s 23rd district,Tracy Mitrano,DEM,129014,False
+New York’s 23rd district,Andrew Kolstee,LIB,3650,False
+New York’s 23rd district, Write-ins,WRI,118,False
+New York’s 24th district,John Katko,REP,182567,True
+New York’s 24th district,Dana Balter,DEM,147638,False
+New York’s 24th district,Steven Williams,WFL,13232,False
+New York’s 24th district, Write-ins,WRI,187,False
+New York’s 25th district,Joseph Morelle,DEM,206396,True
+New York’s 25th district,George Mitris,REP,136198,False
+New York’s 25th district,Kevin Wilson,LIB,5325,False
+New York’s 25th district, Write-ins,WRI,179,False
+New York’s 26th district,Brian Higgins,DEM,223276,True
+New York’s 26th district,Ricky Donovan,REP,91687,False
+New York’s 26th district,Mike Raleigh,GRN,4628,False
+New York’s 26th district, Write-ins,WRI,244,False
+New York’s 27th district,Chris Jacobs,REP,229044,True
+New York’s 27th district,Nate McMurray,DEM,149559,False
+New York’s 27th district,Duane Whitmer,LIB,4884,False
+New York’s 27th district, Write-ins,WRI,121,False
+North Carolina’s 1st district,G.K. Butterfield,DEM,188870,True
+North Carolina’s 1st district,Sandy Smith,REP,159748,False
+North Carolina’s 2nd district,Deborah Ross,DEM,311887,True
+North Carolina’s 2nd district,Alan Swain,REP,172544,False
+North Carolina’s 2nd district,Jeff Matemu,LIB,10914,False
+North Carolina’s 3rd district,Greg Murphy,REP,229800,True
+North Carolina’s 3rd district,Darryl Farrow,DEM,132752,False
+North Carolina’s 4th district,David Price,DEM,332421,True
+North Carolina’s 4th district,Robert Thomas,REP,161298,False
+North Carolina’s 5th district,Virginia Foxx,REP,257843,True
+North Carolina’s 5th district,David Brown,DEM,119846,False
+North Carolina’s 5th district,Jeff Gregory,CST,7555,False
+North Carolina’s 6th district,Kathy Manning,DEM,253531,True
+North Carolina’s 6th district,Lee Haywood,REP,153598,False
+North Carolina’s 7th district,David Rouzer,REP,272443,True
+North Carolina’s 7th district,Christopher Ward,DEM,179045,False
+North Carolina’s 8th district,Richard Hudson,REP,202774,True
+North Carolina’s 8th district,Patricia Timmons-Goodson,DEM,177781,False
+North Carolina’s 9th district,Dan Bishop,REP,224661,True
+North Carolina’s 9th district,Cynthia Wallace,DEM,179463,False
+North Carolina’s 10th district,Patrick McHenry,REP,284095,True
+North Carolina’s 10th district,David Parker,DEM,128189,False
+North Carolina’s 11th district,Madison Cawthorn,REP,245351,True
+North Carolina’s 11th district,Moe Davis,DEM,190609,False
+North Carolina’s 11th district,Tracey Debruhl,LIB,8682,False
+North Carolina’s 11th district,Tamara Zwinak,GRN,5503,False
+North Carolina’s 12th district,Alma Adams,DEM,341457,True
+North Carolina’s 13th district,Ted Budd,REP,267181,True
+North Carolina’s 13th district,Scott Huffman,DEM,124684,False
+North Dakota at large,Kelly Armstrong,REP,245229,True
+North Dakota at large,Zach Raknerud,DEM,97970,False
+North Dakota at large,Steven Peterson,LIB,12024,False
+Ohio’s 1st district,Steve Chabot,REP,199560,True
+Ohio’s 1st district,Kate Schroder,DEM,172022,False
+Ohio’s 1st district,Kevin Kahn,LIB,13692,False
+Ohio’s 1st district, Write-ins,WRI,11,False
+Ohio’s 2nd district,Brad Wenstrup,REP,230430,True
+Ohio’s 2nd district,Jaime Castle,DEM,146781,False
+Ohio’s 2nd district, Write-ins,WRI,37,False
+Ohio’s 3rd district,Joyce Beatty,DEM,227420,True
+Ohio’s 3rd district,Mark Richardson,REP,93569,False
+Ohio’s 3rd district, Write-ins,WRI,103,False
+Ohio’s 4th district,Jim Jordan,REP,235875,True
+Ohio’s 4th district,Shannon Freshour,DEM,101897,False
+Ohio’s 4th district,Steve Perkins,LIB,9854,False
+Ohio’s 5th district,Bob Latta,REP,257019,True
+Ohio’s 5th district,Nick Rubando,DEM,120962,False
+Ohio’s 6th district,Bill Johnson,REP,249130,True
+Ohio’s 6th district,Shawna Roberts,DEM,85661,False
+Ohio’s 7th district,Bob Gibbs,REP,236607,True
+Ohio’s 7th district,Quentin Potter,DEM,102271,False
+Ohio’s 7th district,Brandon Lape,LIB,11671,False
+Ohio’s 8th district,Warren Davidson,REP,246277,True
+Ohio’s 8th district,Vanessa Enoch,DEM,110766,False
+Ohio’s 8th district, Write-ins,WRI,114,False
+Ohio’s 9th district,Marcy Kaptur,DEM,190328,True
+Ohio’s 9th district,Rob Weber,REP,111385,False
+Ohio’s 9th district, Write-ins,WRI,39,False
+Ohio’s 10th district,Mike Turner,REP,212972,True
+Ohio’s 10th district,Desiree Tims,DEM,151976,False
+Ohio’s 11th district,Marcia Fudge,DEM,242098,True
+Ohio’s 11th district,Laverne Gore,REP,60323,False
+Ohio’s 12th district,Troy Balderson,REP,241790,True
+Ohio’s 12th district,Alaina Shearer,DEM,182847,False
+Ohio’s 12th district,John Stewart,LIB,13035,False
+Ohio’s 13th district,Tim Ryan,DEM,173631,True
+Ohio’s 13th district,Christina Hagan,REP,148648,False
+Ohio’s 13th district,Michael Fricke,LIB,8522,False
+Ohio’s 14th district,David Joyce,REP,238864,True
+Ohio’s 14th district,Hillary O'Connor Mueri,DEM,158586,False
+Ohio’s 15th district,Steve Stivers,REP,243103,True
+Ohio’s 15th district,Joel Newby,DEM,140183,False
+Ohio’s 15th district, Write-ins,WRI,75,False
+Ohio’s 16th district,Anthony Gonzalez,REP,247335,True
+Ohio’s 16th district,Aaron Godfrey,DEM,144071,False
+Oklahoma’s 1st district,Kevin Hern,REP,213700,True
+Oklahoma’s 1st district,Kojo Asamoa-Caesar,DEM,109641,False
+Oklahoma’s 1st district,Evelyn Rogers,IND,12130,False
+Oklahoma’s 2nd district,Markwayne Mullin,REP,216511,True
+Oklahoma’s 2nd district,Danyell Lanier,DEM,63472,False
+Oklahoma’s 2nd district,Richard Castaldo,LIB,8544,False
+Oklahoma’s 3rd district,Frank Lucas,REP,242677,True
+Oklahoma’s 3rd district,Zoe Midyett,DEM,66501,False
+Oklahoma’s 4th district,Tom Cole,REP,213096,True
+Oklahoma’s 4th district,Mary Brannon,DEM,90459,False
+Oklahoma’s 4th district,Bob White,LIB,10803,False
+Oklahoma’s 5th district,Stephanie Bice,REP,158191,True
+Oklahoma’s 5th district,Kendra Horn,DEM,145658,False
+Oregon’s 1st district,Suzanne Bonamici,DEM,297071,True
+Oregon’s 1st district,Christopher Christensen,REP,161928,False
+Oregon’s 2nd district,Cliff Bentz,REP,273835,True
+Oregon’s 2nd district,Alex Spenser,DEM,168881,False
+Oregon’s 2nd district,Robert Werch,LIB,14094,False
+Oregon’s 3rd district,Earl Blumenauer,DEM,343574,True
+Oregon’s 3rd district,Joanna Harbour,REP,110570,False
+Oregon’s 3rd district,Alex DiBlasi,GRN,8872,False
+Oregon’s 3rd district,Josh Solomon,LIB,6869,False
+Oregon’s 4th district,Peter DeFazio,DEM,240950,True
+Oregon’s 4th district,Alek Skarlatos,REP,216081,False
+Oregon’s 4th district,Daniel Hoffay,PAG,10118,False
+Oregon’s 5th district,Kurt Schrader,DEM,234863,True
+Oregon’s 5th district,Amy Ryan Courser,REP,204372,False
+Oregon’s 5th district,Matthew Rix,LIB,12640,False
+Pennsylvania’s 1st district,Brian Fitzpatrick,REP,249804,True
+Pennsylvania’s 1st district,Christina Finello,DEM,191875,False
+Pennsylvania’s 2nd district,Brendan Boyle,DEM,198140,True
+Pennsylvania’s 2nd district,David Torres,REP,75022,False
+Pennsylvania’s 3rd district,Dwight Evans,DEM,341708,True
+Pennsylvania’s 3rd district,Michael Harvey,REP,33671,False
+Pennsylvania’s 4th district,Madeleine Dean,DEM,264637,True
+Pennsylvania’s 4th district,Kathy Barnette,REP,179926,False
+Pennsylvania’s 5th district,Mary Gay Scanlon,DEM,255743,True
+Pennsylvania’s 5th district,Dasha Pruett,REP,139552,False
+Pennsylvania’s 6th district,Chrissy Houlahan,DEM,226440,True
+Pennsylvania’s 6th district,John Emmons,REP,177526,False
+Pennsylvania’s 7th district,Susan Wild,DEM,195713,True
+Pennsylvania’s 7th district,Lisa Scheller,REP,181569,False
+Pennsylvania’s 8th district,Matt Cartwright,DEM,178407,True
+Pennsylvania’s 8th district,Jim Bognet,REP,166203,False
+Pennsylvania’s 9th district,Daniel Meuser,REP,232988,True
+Pennsylvania’s 9th district,Gary Wegman,DEM,118266,False
+Pennsylvania’s 10th district,Scott Perry,REP,208896,True
+Pennsylvania’s 10th district,Eugene DePasquale,DEM,182938,False
+Pennsylvania’s 11th district,Lloyd Smucker,REP,241915,True
+Pennsylvania’s 11th district,Sarah Hammond,DEM,141325,False
+Pennsylvania’s 12th district,Fred Keller,REP,241035,True
+Pennsylvania’s 12th district,Lee Griffin,DEM,99199,False
+Pennsylvania’s 13th district,John Joyce,REP,267789,True
+Pennsylvania’s 13th district,Todd Rowley,DEM,96612,False
+Pennsylvania’s 14th district,Guy Reschenthaler,REP,241680,True
+Pennsylvania’s 14th district,William Marx,DEM,131882,False
+Pennsylvania’s 15th district,Glenn Thompson,REP,255058,True
+Pennsylvania’s 15th district,Robert Williams,DEM,92156,False
+Pennsylvania’s 16th district,Mike Kelly,REP,210088,True
+Pennsylvania’s 16th district,Kristy Gnibus,DEM,143962,False
+Pennsylvania’s 17th district,Conor Lamb,DEM,222253,True
+Pennsylvania’s 17th district,Sean Parnell,REP,212284,False
+Pennsylvania’s 18th district,Mike Doyle,DEM,266084,True
+Pennsylvania’s 18th district,Luke Negron,REP,118163,False
+Rhode Island’s 1st district,David Cicilline,DEM,158550,True
+Rhode Island’s 1st district,Frederick Wysocki,IND,35457,False
+Rhode Island’s 1st district,Jeffrey Lemire,IND,28300,False
+Rhode Island’s 2nd district,Jim Langevin,DEM,154086,True
+Rhode Island’s 2nd district,Robert Lancia,REP,109894,False
+South Carolina’s 1st district,Nancy Mace,REP,216042,True
+South Carolina’s 1st district,Joe Cunningham,DEM,210627,False
+South Carolina’s 2nd district,Joe Wilson,REP,202715,True
+South Carolina’s 2nd district,Adair Boroughs,DEM,155118,False
+South Carolina’s 2nd district,Kathleen Wright,CST,6163,False
+South Carolina’s 3rd district,Jeff Duncan,REP,237544,True
+South Carolina’s 3rd district,Hosea Cleveland,DEM,95712,False
+South Carolina’s 4th district,William Timmons,REP,222126,True
+South Carolina’s 4th district,Kim Nelson,DEM,133023,False
+South Carolina’s 4th district,Michael Chandler,CST,5090,False
+South Carolina’s 5th district,Ralph Norman,REP,220005,True
+South Carolina’s 5th district,Moe Brown,DEM,145958,False
+South Carolina’s 6th district,Jim Clyburn,DEM,197477,True
+South Carolina’s 6th district,John McCollum,REP,89258,False
+South Carolina’s 6th district,Mark Hackett,CST,2646,False
+South Carolina’s 7th district,Tom Rice,REP,224993,True
+South Carolina’s 7th district,Melissa Watson,DEM,138863,False
+South Dakota at large,Dusty Johnson,REP,321984,True
+South Dakota at large,Randy Luallin,LIB,75748,False
+Tennessee’s 1st district,Diana Harshbarger,REP,228181,True
+Tennessee’s 1st district,Blair Walsingham,DEM,68617,False
+Tennessee’s 1st district,Steve Holder,IND,8621,False
+Tennessee’s 2nd district,Tim Burchett,REP,238907,True
+Tennessee’s 2nd district,Renee Hoyos,DEM,109684,False
+Tennessee’s 2nd district,Matthew Campbell,IND,4592,False
+Tennessee’s 3rd district,Chuck Fleischmann,REP,215571,True
+Tennessee’s 3rd district,Meg Gorman,DEM,97687,False
+Tennessee’s 3rd district,Amber Hysell,IND,5043,False
+Tennessee’s 3rd district,Keith Sweitzer,IND,1990,False
+Tennessee’s 4th district,Scott DesJarlais,REP,223802,True
+Tennessee’s 4th district,Christopher Hale,DEM,111908,False
+Tennessee’s 5th district,Jim Cooper,DEM,252155,True
+Tennessee’s 6th district,John Rose,REP,257572,True
+Tennessee’s 6th district,Christopher Finley,DEM,83852,False
+Tennessee’s 6th district,Christopher Monday,IND,8154,False
+Tennessee’s 7th district,Mark Green,REP,245188,True
+Tennessee’s 7th district,Kiran Sreepada,DEM,95839,False
+Tennessee’s 7th district,Ronald Brown,IND,7603,False
+Tennessee’s 7th district,Scott Vieira,IND,2005,False
+Tennessee’s 8th district,David Kustoff,REP,227216,True
+Tennessee’s 8th district,Erika Pearson,DEM,97890,False
+Tennessee’s 8th district,James Hart,IND,3763,False
+Tennessee’s 8th district,Jon Dillard,IND,2984,False
+Tennessee’s 9th district,Steve Cohen,DEM,187905,True
+Tennessee’s 9th district,Charlotte Bergmann,REP,48818,False
+Tennessee’s 9th district,Dennis Clark,IND,3962,False
+Tennessee’s 9th district,Bobby Lyons,IND,2192,False
+Texas’s 1st district,Louie Gohmert,REP,219726,True
+Texas’s 1st district,Hank Gilbert,DEM,83016,False
+Texas’s 2nd district,Dan Crenshaw,REP,192828,True
+Texas’s 2nd district,Sima Ladjevardian,DEM,148374,False
+Texas’s 2nd district,Elliott Scheirman,LIB,5524,False
+Texas’s 2nd district,Tommy Wakely,GRN,0,False
+Texas’s 3rd district,Van Taylor,REP,230512,True
+Texas’s 3rd district,Lulu Seikaly,DEM,179458,False
+Texas’s 3rd district,Christopher Claytor,LIB,8621,False
+Texas’s 4th district,Pat Fallon,REP,253837,True
+Texas’s 4th district,Russell Foster,DEM,76326,False
+Texas’s 4th district,Lou Antonelli,LIB,6334,False
+Texas’s 4th district, Write-ins,WRI,1306,False
+Texas’s 5th district,Lance Gooden,REP,173836,True
+Texas’s 5th district,Carolyn Salter,DEM,100743,False
+Texas’s 5th district,Kevin Hale,LIB,5834,False
+Texas’s 6th district,Ron Wright,REP,179507,True
+Texas’s 6th district,Stephen Daniel,DEM,149530,False
+Texas’s 6th district,Melanie Black,LIB,10955,False
+Texas’s 7th district,Lizzie Fletcher,DEM,159529,True
+Texas’s 7th district,Wesley Hunt,REP,149054,False
+Texas’s 7th district,Shawn Kelly,LIB,5542,False
+Texas’s 8th district,Kevin Brady,REP,277327,True
+Texas’s 8th district,Elizabeth Hernandez,DEM,97409,False
+Texas’s 8th district,Chris Duncan,LIB,7735,False
+Texas’s 9th district,Al Green,DEM,172938,True
+Texas’s 9th district,Johnny Teague,REP,49575,False
+Texas’s 9th district,Jose Sosa,LIB,6594,False
+Texas’s 10th district,Michael McCaul,REP,217216,True
+Texas’s 10th district,Mike Siegel,DEM,187686,False
+Texas’s 10th district,Roy Eriksen,LIB,8992,False
+Texas’s 11th district,August Pfluger,REP,232568,True
+Texas’s 11th district,Jon Mark Hogg,DEM,53394,False
+Texas’s 11th district,Wacey Cody,LIB,5811,False
+Texas’s 12th district,Kay Granger,REP,233853,True
+Texas’s 12th district,Lisa Welch,DEM,121250,False
+Texas’s 12th district,Trey Holcomb,LIB,11918,False
+Texas’s 13th district,Ronny Jackson,REP,217124,True
+Texas’s 13th district,Gus Trujillo,DEM,50477,False
+Texas’s 13th district,Jack Westbrook,LIB,5907,False
+Texas’s 14th district,Randy Weber,REP,190541,True
+Texas’s 14th district,Adrienne Bell,DEM,118574,False
+Texas’s 15th district,Vicente Gonzalez,DEM,115605,True
+Texas’s 15th district,Monica De La Cruz-Hernandez,REP,109017,False
+Texas’s 15th district,Ross Leone,LIB,4295,False
+Texas’s 16th district,Veronica Escobar,DEM,154108,True
+Texas’s 16th district,Irene Armendariz-Jackson,REP,84006,False
+Texas’s 17th district,Pete Sessions,REP,171390,True
+Texas’s 17th district,Rick Kennedy,DEM,125565,False
+Texas’s 17th district,Ted Brown,LIB,9918,False
+Texas’s 18th district,Sheila Jackson Lee,DEM,180952,True
+Texas’s 18th district,Wendell Champion,REP,58033,False
+Texas’s 18th district,Luke Spencer,LIB,4514,False
+Texas’s 18th district,Vince Duncan,IND,3396,False
+Texas’s 19th district,Jodey Arrington,REP,198198,True
+Texas’s 19th district,Tom Watson,DEM,60583,False
+Texas’s 19th district,Joe Burnes,LIB,6271,False
+Texas’s 20th district,Joaquin Castro,DEM,175078,True
+Texas’s 20th district,Mauro Garza,REP,89628,False
+Texas’s 20th district,Jeffrey Blunt,LIB,6017,False
+Texas’s 21st district,Chip Roy,REP,235740,True
+Texas’s 21st district,Wendy Davis,DEM,205780,False
+Texas’s 21st district,Arthur DiBianca,LIB,8666,False
+Texas’s 22nd district,Troy Nehls,REP,210259,True
+Texas’s 22nd district,Sri Kulkarni,DEM,181998,False
+Texas’s 22nd district,Joseph LeBlanc,LIB,15791,False
+Texas’s 23rd district,Tony Gonzales,REP,149395,True
+Texas’s 23rd district,Gina Ortiz Jones,DEM,137693,False
+Texas’s 23rd district,Beto Villela,LIB,8369,False
+Texas’s 24th district,Beth Van Duyne,REP,167910,True
+Texas’s 24th district,Candace Valenzuela,DEM,163326,False
+Texas’s 24th district,Darren Hamilton,LIB,5647,False
+Texas’s 24th district,Stephen Kuzmich,IND,4229,False
+Texas’s 24th district,Mark Bauer,IND,2909,False
+Texas’s 25th district,Roger Williams,REP,220088,True
+Texas’s 25th district,Julie Oliver,DEM,165697,False
+Texas’s 25th district,Bill Kelsey,LIB,7738,False
+Texas’s 26th district,Michael Burgess,REP,261963,True
+Texas’s 26th district,Carol Iannuzzi,DEM,161009,False
+Texas’s 26th district,Mark Boler,LIB,9243,False
+Texas’s 27th district,Michael Cloud,REP,172305,True
+Texas’s 27th district,Ricardo De La Fuente,DEM,95466,False
+Texas’s 27th district,Phil Gray,LIB,5482,False
+Texas’s 28th district,Henry Cuellar,DEM,137494,True
+Texas’s 28th district,Sandra Whitten,REP,91925,False
+Texas’s 28th district,Bekah Congdon,LIB,6425,False
+Texas’s 29th district,Sylvia Garcia,DEM,111305,True
+Texas’s 29th district,Jaimy Blanco,REP,42840,False
+Texas’s 29th district,Phil Kurtz,LIB,2328,False
+Texas’s 30th district,Eddie Bernice Johnson,DEM,204928,True
+Texas’s 30th district,Tre Pennie,REP,48685,False
+Texas’s 30th district,Eric Williams,IND,10851,False
+Texas’s 31st district,John Carter,REP,212695,True
+Texas’s 31st district,Donna Imam,DEM,176293,False
+Texas’s 31st district,Clark Patterson,LIB,8922,False
+Texas’s 31st district, Write-ins,WRI,177,False
+Texas’s 32nd district,Colin Allred,DEM,178542,True
+Texas’s 32nd district,Genevieve Collins,REP,157867,False
+Texas’s 32nd district,Christy Mowrey Peterson,LIB,4946,False
+Texas’s 32nd district,Jason Sigmon,IND,2332,False
+Texas’s 33rd district,Marc Veasey,DEM,105317,True
+Texas’s 33rd district,Fabian Vasquez,REP,39638,False
+Texas’s 33rd district,Carlos Quintanilla,IND,8071,False
+Texas’s 33rd district,Jason Reeves,LIB,2586,False
+Texas’s 33rd district,Rene Welton,IND,1994,False
+Texas’s 34th district,Filemon Vela,DEM,111439,True
+Texas’s 34th district,Rey Gonzalez,REP,84119,False
+Texas’s 34th district,Anthony Cristo,LIB,3222,False
+Texas’s 34th district,Chris Royal,IND,2247,False
+Texas’s 35th district,Lloyd Doggett,DEM,176373,True
+Texas’s 35th district,Jenny Sharon,REP,80795,False
+Texas’s 35th district,Mark Loewe,LIB,7393,False
+Texas’s 35th district,Jason Mata,IND,5236,False
+Texas’s 36th district,Brian Babin,REP,222712,True
+Texas’s 36th district,Rashad Lewis,DEM,73418,False
+Texas’s 36th district,Chad Abbey,LIB,4848,False
+Texas’s 36th district,Hal Ridley,GRN,1571,False
+Utah’s 1st district,Blake Moore,REP,237988,True
+Utah’s 1st district,Darren Parry,DEM,104194,False
+Utah’s 1st district, Write-ins,WRI,169,False
+Utah’s 2nd district,Chris Stewart,REP,208997,True
+Utah’s 2nd district,Kael Weston,DEM,129762,False
+Utah’s 2nd district,Robert Latham,LIB,15465,False
+Utah’s 3rd district,John Curtis,REP,246674,True
+Utah’s 3rd district,Devin Thorpe,DEM,96067,False
+Utah’s 3rd district,Daniel Cummings,CST,8889,False
+Utah’s 3rd district,Thomas McNeill,UU,7040,False
+Utah’s 3rd district, Write-ins,WRI,257,False
+Utah’s 4th district,Burgess Owens,REP,179688,True
+Utah’s 4th district,Ben McAdams,DEM,175923,False
+Utah’s 4th district,John Molnar,LIB,13053,False
+Utah’s 4th district,Jonia Broderick,UU,8037,False
+Utah’s 4th district, Write-ins,WRI,29,False
+Vermont at large,Peter Welch,DEM,238827,True
+Vermont at large,Miram Berry,REP,95830,False
+Vermont at large,Peter Becker,IND,8065,False
+Vermont at large,Marcia Horne,IND,4334,False
+Vermont at large,Christopher Helali,COM,3432,False
+Vermont at large,Shawn Orr,IND,1926,False
+Vermont at large,Jerry Trudell,IND,1881,False
+Vermont at large, Write-ins,WRI,544,False
+Virginia’s 1st district,Rob Wittman,REP,260614,True
+Virginia’s 1st district,Qasim Rashid,DEM,186923,False
+Virginia’s 2nd district,Elaine Luria,DEM,185505,True
+Virginia’s 2nd district,Scott Taylor,REP,164925,False
+Virginia’s 2nd district,David Foster,IND,9163,False
+Virginia’s 3rd district,Bobby Scott,DEM,233326,True
+Virginia’s 3rd district,John Collick,REP,107299,False
+Virginia’s 4th district,Donald McEachin,DEM,241142,True
+Virginia’s 4th district,Leon Benjamin,REP,149625,False
+Virginia’s 5th district,Bob Good,REP,210988,True
+Virginia’s 5th district,Cameron Webb,DEM,190315,False
+Virginia’s 6th district,Ben Cline,REP,246606,True
+Virginia’s 6th district,Nicholas Betts,DEM,134729,False
+Virginia’s 7th district,Abigail Spanberger,DEM,230893,True
+Virginia’s 7th district,Nick Freitas,REP,222623,False
+Virginia’s 8th district,Donald Beyer,DEM,301454,True
+Virginia’s 8th district,Jeff Jordan,REP,95365,False
+Virginia’s 9th district,Morgan Griffith,REP,271851,True
+Virginia’s 10th district,Jennifer Wexton,DEM,268734,True
+Virginia’s 10th district,Aliscia Andrews,REP,206253,False
+Virginia’s 11th district,Gerry Connolly,DEM,280725,True
+Virginia’s 11th district,Manga Anantatmula,REP,111380,False
+Washington’s 1st district,Suzan DelBene,DEM,249944,True
+Washington’s 1st district,Jeffrey Beeler,REP,176407,False
+Washington’s 1st district, Write-ins,WRI,511,False
+Washington’s 2nd district,Rick Larsen,DEM,255252,True
+Washington’s 2nd district,Timothy Hazelo,REP,148384,False
+Washington’s 2nd district, Write-ins,WRI,962,False
+Washington’s 3rd district,Jaime Herrera Beutler,REP,235579,True
+Washington’s 3rd district,Carolyn Long,DEM,181347,False
+Washington’s 3rd district, Write-ins,WRI,977,False
+Washington’s 4th district,Dan Newhouse,REP,202108,True
+Washington’s 4th district,Douglas McKinley,DEM,102667,False
+Washington’s 4th district, Write-ins,WRI,488,False
+Washington’s 5th district,Cathy McMorris Rodgers,REP,247815,True
+Washington’s 5th district,Dave Wilson,DEM,155737,False
+Washington’s 5th district, Write-ins,WRI,808,False
+Washington’s 6th district,Derek Kilmer,DEM,247429,True
+Washington’s 6th district,Elizabeth Kreiselmaier,REP,168783,False
+Washington’s 6th district, Write-ins,WRI,1004,False
+Washington’s 7th district,Pramila Jayapal,DEM,387109,True
+Washington’s 7th district,Craig Keller,REP,78240,False
+Washington’s 7th district, Write-ins,WRI,1113,False
+Washington’s 8th district,Kim Schrier,DEM,213123,True
+Washington’s 8th district,Jesse Jensen,REP,198423,False
+Washington’s 8th district, Write-ins,WRI,566,False
+Washington’s 9th district,Adam Smith,DEM,258771,True
+Washington’s 9th district,Doug Basler,REP,89697,False
+Washington’s 9th district, Write-ins,WRI,582,False
+Washington’s 10th district,Marilyn Strickland,DEM,167937,True
+Washington’s 10th district,Beth Doglio,DEM,121040,False
+Washington’s 10th district, Write-ins,WRI,51430,False
+West Virginia’s 1st district,David McKinley,REP,180488,True
+West Virginia’s 1st district,Natalie Cline,DEM,81177,False
+West Virginia’s 1st district, Write-ins,WRI,0,False
+West Virginia’s 2nd district,Alex Mooney,REP,172195,True
+West Virginia’s 2nd district,Cathy Kunkel,DEM,100799,False
+West Virginia’s 3rd district,Carol Miller,REP,161585,True
+West Virginia’s 3rd district,Hilary Turner,DEM,64927,False
+West Virginia’s 3rd district, Write-ins,WRI,13,False
+Wisconsin’s 1st district,Bryan Steil,REP,238271,True
+Wisconsin’s 1st district,Roger Polack,DEM,163170,False
+Wisconsin’s 2nd district,Mark Pocan,DEM,318523,True
+Wisconsin’s 2nd district,Peter Theron,REP,138306,False
+Wisconsin’s 3rd district,Ron Kind,DEM,199870,True
+Wisconsin’s 3rd district,Derrick Van Orden,REP,189524,False
+Wisconsin’s 4th district,Gwen Moore,DEM,232668,True
+Wisconsin’s 4th district,Tim Rogers,REP,70769,False
+Wisconsin’s 4th district,Robert Raymond,IND,7911,False
+Wisconsin’s 5th district,Scott Fitzgerald,REP,265434,True
+Wisconsin’s 5th district,Tom Palzewicz,DEM,175902,False
+Wisconsin’s 6th district,Glenn Grothman,REP,238874,True
+Wisconsin’s 6th district,Jessica King,DEM,164239,False
+Wisconsin’s 6th district, Write-ins,WRI,220,False
+Wisconsin’s 7th district,Tom Tiffany,REP,252048,True
+Wisconsin’s 7th district,Tricia Zunker,DEM,162741,False
+Wisconsin’s 8th district,Mike Gallagher,REP,268173,True
+Wisconsin’s 8th district,Amanda Stuck,DEM,149558,False
+Wyoming at large,Liz Cheney,REP,185732,True
+Wyoming at large,Lynnette Grey Bull,DEM,66576,False
+Wyoming at large,Richard Brubaker,LIB,10154,False
+Wyoming at large,Jeffrey Haggit,CST,7905,False
+Alabama’s 1st district,Jerry Carl,REP,211825,True
+Alabama’s 1st district,James Averhart,DEM,116949,False
+Alabama’s 2nd district,Barry Moore,REP,197996,True
+Alabama’s 2nd district,Phyllis Harvey-Hall,DEM,105286,False
+Alabama’s 2nd district, Write-ins,WRI,287,False
+Alabama’s 3rd district,Mike Rogers,REP,217384,True
+Alabama’s 3rd district,Adia Winfrey,DEM,104595,False
+Alabama’s 4th district,Robert Aderholt,REP,261553,True
+Alabama’s 4th district,Rick Neighbors,DEM,56237,False
+Alabama’s 5th district,Mo Brooks,REP,253094,True
+Alabama’s 6th district,Gary Palmer,REP,274160,True
+Alabama’s 6th district, Write-ins,WRI,8101,False
+Alabama’s 7th district,Terri Sewell,DEM,225742,True
+Alaska at large,Don Young,REP,192126,True
+Alaska at large,Alyse Galvin,DEM,159856,False
+Alaska at large, Write-ins,WRI,1183,False
+Arizona’s 1st district,Tom O'Halleran,DEM,188469,True
+Arizona’s 1st district,Tiffany Shedd,REP,176709,False
+Arizona’s 2nd district,Ann Kirkpatrick,DEM,209945,True
+Arizona’s 2nd district,Brandon Martin,REP,170975,False
+Arizona’s 2nd district, Write-ins,WRI,134,False
+Arizona’s 3rd district,Raul Grijalva,DEM,174243,True
+Arizona’s 3rd district,Daniel Wood,REP,95594,False
+Arizona’s 4th district,Paul Gosar,REP,278002,True
+Arizona’s 4th district,Delina DiSanto,DEM,120484,False
+Arizona’s 4th district, Write-ins,WRI,137,False
+Arizona’s 5th district,Andy Biggs,REP,262414,True
+Arizona’s 5th district,Joan Greene,DEM,183171,False
+Arizona’s 5th district, Write-ins,WRI,72,False
+Arizona’s 6th district,David Schweikert,REP,217783,True
+Arizona’s 6th district,Hiral Tipirneni,DEM,199644,False
+Arizona’s 7th district,Ruben Gallego,DEM,165452,True
+Arizona’s 7th district,Joshua Barnett,REP,50226,False
+Arizona’s 7th district, Write-ins,WRI,54,False
+Arizona’s 8th district,Debbie Lesko,REP,251633,True
+Arizona’s 8th district,Michael Muscato,DEM,170816,False
+Arizona’s 8th district, Write-ins,WRI,18,False
+Arizona’s 9th district,Greg Stanton,DEM,217094,True
+Arizona’s 9th district,Dave Giles,REP,135180,False
+Arkansas’s 1st district,Rick Crawford,REP,237596,True
+Arkansas’s 2nd district,French Hill,REP,184093,True
+Arkansas’s 2nd district,Joyce Elliott,DEM,148410,False
+Arkansas’s 3rd district,Steve Womack,REP,214960,True
+Arkansas’s 3rd district,Celeste Williams,DEM,106325,False
+Arkansas’s 3rd district,Mike Kalagias,LIB,12977,False
+Arkansas’s 4th district,Bruce Westerman,REP,191617,True
+Arkansas’s 4th district,William Hanson,DEM,75750,False
+Arkansas’s 4th district,Frank Gilbert,LIB,7668,False
+California’s 10th district,Josh Harder,DEM,166865,True
+California’s 10th district,Ted Howze,REP,135629,False
+California’s 11th district,Mark DeSaulnier,DEM,271063,True
+California’s 11th district,Nisha Sharma,REP,100293,False
+California’s 12th district,Nancy Pelosi,DEM,281776,True
+California’s 12th district,Shahid Buttar,DEM,81174,False
+California’s 13th district,Barbara Lee,DEM,327863,True
+California’s 13th district,Nikka Piterman,REP,34955,False
+California’s 14th district,Jackie Speier,DEM,278227,True
+California’s 14th district,Ran Petel,REP,72684,False
+California’s 15th district,Eric Swalwell,DEM,242991,True
+California’s 15th district,Alison Hayden,REP,99710,False
+California’s 16th district,Jim Costa,DEM,128690,True
+California’s 16th district,Kevin Cookingham,REP,88039,False
+California’s 17th district,Ro Khanna,DEM,212137,True
+California’s 17th district,Ritesh Tandon,REP,85199,False
+California’s 18th district,Anna Eshoo,DEM,217377,True
+California’s 18th district,Rishi Kumar,DEM,126750,False
+California’s 19th district,Zoe Lofgren,DEM,224385,True
+California’s 19th district,Justin Aguilera,REP,88642,False
+California’s 1st district,Doug LaMalfa,REP,204190,True
+California’s 1st district,Audrey Denney,DEM,154073,False
+California’s 20th district,Jimmy Panetta,DEM,236896,True
+California’s 20th district,Jeff Gorman,REP,71658,False
+California’s 22nd district,Devin Nunes,REP,170888,True
+California’s 22nd district,Phil Arballo,DEM,144251,False
+California’s 23rd district,Kevin McCarthy,REP,190222,True
+California’s 23rd district,Kim Mangone,DEM,115896,False
+California’s 24th district,Salud Carbajal,DEM,212564,True
+California’s 24th district,Andy Caldwell,REP,149781,False
+California’s 26th district,Julia Brownley,DEM,208856,True
+California’s 26th district,Ronda Baldwin-Kennedy,REP,135877,False
+California’s 27th district,Judy Chu,DEM,221411,True
+California’s 27th district,Johnny Nalbandian,REP,95907,False
+California’s 28th district,Adam Schiff,DEM,244271,True
+California’s 28th district,Eric Early,REP,91928,False
+California’s 29th district,Tony Cardenas,DEM,119420,True
+California’s 29th district,Angelica Duenas,DEM,91524,False
+California’s 2nd district,Jared Huffman,DEM,294435,True
+California’s 2nd district,Dale Mensing,REP,94320,False
+California’s 30th district,Brad Sherman,DEM,240038,True
+California’s 30th district,Mark Reed,REP,105426,False
+California’s 31st district,Pete Aguilar,DEM,175315,True
+California’s 31st district,Agnes Gibboney,REP,110735,False
+California’s 32nd district,Grace Napolitano,DEM,172942,True
+California’s 32nd district,Joshua Scott,REP,86818,False
+California’s 33rd district,Ted Lieu,DEM,257094,True
+California’s 33rd district,James Bradley,REP,123334,False
+California’s 34th district,Jimmy Gomez,DEM,108792,True
+California’s 34th district,David Kim,DEM,96554,False
+California’s 35th district,Norma Torres,DEM,169405,True
+California’s 35th district,Mike Cargile,REP,74941,False
+California’s 36th district,Raul Ruiz,DEM,185051,True
+California’s 36th district,Erin Cruz,REP,121640,False
+California’s 37th district,Karen Bass,DEM,254916,True
+California’s 37th district,Errol Webber,REP,41705,False
+California’s 38th district,Linda Sanchez,DEM,190467,True
+California’s 38th district,Michael Tolar,DEM,65739,False
+California’s 3rd district,John Garamendi,DEM,176036,True
+California’s 3rd district,Tamika Hamilton,REP,145941,False
+California’s 40th district,Lucille Roybal-Allard,DEM,135572,True
+California’s 40th district,C. Antonio Delgado,REP,50809,False
+California’s 41st district,Mark Takano,DEM,167938,True
+California’s 41st district,Aja Smith,REP,94289,False
+California’s 42nd district,Ken Calvert,REP,210074,True
+California’s 42nd district,Liam O'Mara,DEM,157667,False
+California’s 43rd district,Maxine Waters,DEM,199210,True
+California’s 43rd district,Joe Collins,REP,78688,False
+California’s 44th district,Nanette Barragan,DEM,139661,True
+California’s 44th district,Analilia Joya,DEM,66375,False
+California’s 45th district,Katie Porter,DEM,221843,True
+California’s 45th district,Greg Raths,REP,193096,False
+California’s 46th district,Lou Correa,DEM,157803,True
+California’s 46th district,James Waters,REP,71716,False
+California’s 47th district,Alan Lowenthal,DEM,197028,True
+California’s 47th district,John Briscoe,REP,114371,False
+California’s 48th district,Michelle Steel,REP,201738,True
+California’s 48th district,Harley Rouda,DEM,193362,False
+California’s 49th district,Mike Levin,DEM,205349,True
+California’s 49th district,Brian Maryott,REP,181157,False
+California’s 4th district,Tom McClintock,REP,247291,True
+California’s 4th district,Brynne Kennedy,DEM,194731,False
+California’s 50th district,Darrell Issa,REP,195510,True
+California’s 50th district,Ammar Campa-Najjar,DEM,166859,False
+California’s 51st district,Juan Vargas,DEM,165596,True
+California’s 51st district,Juan Hidalgo,REP,76841,False
+California’s 52nd district,Scott Peters,DEM,244145,True
+California’s 52nd district,Jim DeBello,REP,152350,False
+California’s 53rd district,Sara Jacobs,DEM,199244,True
+California’s 53rd district,Georgette Gomez,DEM,135614,False
+California’s 5th district,Mike Thompson,DEM,271233,True
+California’s 5th district,Scott Giblin,REP,85227,False
+California’s 6th district,Doris Matsui,DEM,229648,True
+California’s 6th district,Christine Bish,REP,83466,False
+California’s 7th district,Ami Bera,DEM,217416,True
+California’s 7th district,Buzz Patterson,REP,166549,False
+California’s 8th district,Jay Obernolte,REP,158711,True
+California’s 8th district,Christine Bubser,DEM,124400,False
+California’s 9th district,Jerry McNerney,DEM,174252,True
+California’s 9th district,Tony Amador,REP,128358,False
+Colorado’s 1st district,Diana DeGette,DEM,331621,True
+Colorado’s 1st district,Shane Bolling,REP,105955,False
+Colorado’s 1st district,Kyle Furey,LIB,8749,False
+Colorado’s 1st district,Paul Fiorino,UTY,2524,False
+Colorado’s 1st district,Jan Kok,APV,1441,False
+Colorado’s 2nd district,Joe Neguse,DEM,316925,True
+Colorado’s 2nd district,Charlie Winn,REP,182547,False
+Colorado’s 2nd district,Thom Atkinson,LIB,13657,False
+Colorado’s 2nd district,Gary Swing,BFP,2534,False
+Colorado’s 3rd district,Lauren Boebert,REP,220634,True
+Colorado’s 3rd district,Diane Mitsch Bush,DEM,194122,False
+Colorado’s 3rd district,John Keil,LIB,10298,False
+Colorado’s 3rd district,Christopher Milton,UTY,4265,False
+Colorado’s 4th district,Ken Buck,REP,285606,True
+Colorado’s 4th district,Ike McCorkle,DEM,173945,False
+Colorado’s 4th district,Bruce Griffith,LIB,11026,False
+Colorado’s 4th district,Laura Ireland,UTY,4530,False
+Colorado’s 5th district,Doug Lamborn,REP,249013,True
+Colorado’s 5th district,Jillian Freeland,DEM,161600,False
+Colorado’s 5th district,Ed Duffett,LIB,14777,False
+Colorado’s 5th district,Marcus Murphy,UNA,3708,False
+Colorado’s 5th district,Rebecca Keltie,UTY,3309,False
+Colorado’s 6th district,Jason Crow,DEM,250314,True
+Colorado’s 6th district,Steve House,REP,175192,False
+Colorado’s 6th district,Norm Olsen,LIB,9083,False
+Colorado’s 6th district,Jaimie Kulikowski,UTY,3884,False
+Colorado’s 7th district,Ed Perlmutter,DEM,250525,True
+Colorado’s 7th district,Casper Stockham,REP,159301,False
+Colorado’s 7th district,Ken Biles,LIB,11510,False
+Colorado’s 7th district,David Olszta,UTY,2355,False
+Connecticut’s 1st district,John Larson,DEM,222668,True
+Connecticut’s 1st district,Mary Fay,REP,122111,False
+Connecticut’s 1st district,Tom McCormick,GRN,4458,False
+Connecticut’s 2nd district,Joe Courtney,DEM,217982,True
+Connecticut’s 2nd district,Justin Anderson,REP,140340,False
+Connecticut’s 2nd district,Cassandra Martineau,GRN,4949,False
+Connecticut’s 2nd district,Daniel Reale,LIB,3901,False
+Connecticut’s 3rd district,Rosa DeLauro,DEM,203265,True
+Connecticut’s 3rd district,Margaret Streicker,REP,137596,False
+Connecticut’s 3rd district,Justin Paglino,GRN,5240,False
+Connecticut’s 4th district,Jim Himes,DEM,223832,True
+Connecticut’s 4th district,Jonathan Riddle,REP,130627,False
+Connecticut’s 4th district,Brian Merlen,IP,5656,False
+Connecticut’s 4th district, Write-ins,WRI,10,False
+Connecticut’s 5th district,Jahana Hayes,DEM,192484,True
+Connecticut’s 5th district,David Sullivan,REP,151988,False
+Connecticut’s 5th district,Bruce Walczak,IP,5052,False
+United States’s 0th district,The Democratic candidate,DEM,77138263,True
+United States’s 0th district,The Republican candidate,REP,72550972,False
+United States’s 0th district, Others,OTH,2883083,False
+California’s 21st district,David Valadao,REP,85928,True
+California’s 21st district,TJ Cox,DEM,84406,False
+California’s 25th district,Mike Garcia,REP,169638,True
+California’s 25th district,Christy Smith,DEM,169305,False
+California’s 39th district,Young Kim,REP,173946,True
+California’s 39th district,Gil Cisneros,DEM,169837,False

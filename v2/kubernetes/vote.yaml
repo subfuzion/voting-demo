@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vote
+  template:
+    metadata:
+      labels:
+        app: vote
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: vote
+          image: gcr.io/voting-app/vote
+          ports:
+            - containerPort: 8080
+              name: vote-port
+          env:
+            - name: PORT
+              value: "8080"
+            - name: DATABASE_URI
+              value: "mongodb://database:27017"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote
+spec:
+  type: ClusterIP
+  selector:
+    app: vote
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

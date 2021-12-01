@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RUN vote" type="NodeJSConfigurationType" path-to-js-file="server.js" working-dir="$PROJECT_DIR$/src/vote">
+    <envs>
+      <env name="PGHOST" value="localhost" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>
