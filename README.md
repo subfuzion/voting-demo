@@ -242,5 +242,10 @@ VOTE_PORT=8080
 export HOST=localhost
 export PORT=5000
 export VOTE=http://localhost:8080
+
 (cd src/web; python app.py)
+
+# with reloading
+hupper -m waitress --port $PORT src.web.app:app
 ```
+

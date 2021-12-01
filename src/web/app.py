@@ -32,16 +32,18 @@ def handle_vote():
         voter_id = hex(random.getrandbits(64))[2:-1]
 
     vote = None
+    state = ""
+    county = ""
 
-    # TODO: update UI and replace mock data with form data
-    # (currently only using vote ("a" or "b") for party.
     if request.method == "POST":
         vote = request.form["vote"]
+        county = request.form["county"]
+        state = request.form["state"]
         data = {
             "voter": {
                 "voter_id": voter_id,
-                "county": "Alameda",
-                "state": "California"
+                "county": county,
+                "state": state
             },
             "candidate": {
                 "name": "panther",
@@ -58,6 +60,9 @@ def handle_vote():
         option_b=option_b,
         hostname=hostname,
         vote=vote,
+        voter_id=voter_id,
+        state=state,
+        county=county
     ))
     resp.set_cookie("voter_id", voter_id)
     return resp
@@ -78,8 +83,27 @@ def handle_results():
     #         }
     #     }
     # }
+    # TODO unsure if duplication of nested keys intentional.
     r = requests.get(api + "/tally/candidates")
-    resp = make_response(r.json())
+    candidateTallies = r.json()["results"]["candidateTallies"]
+
+    # Flatten results (see TODO)
+    tally = {}
+    for key in candidateTallies:
+        tally[key] = candidateTallies[key]["votes"]
+
+    # Sort results in order of votes, desc
+    # TODO Should this be part of the API?
+    ordered_tally = {k: v for k, v in sorted(tally.items(), key=lambda item: item[1], reverse=True)}
+
+    # Get highest voted
+    winner = max(tally, key=tally.get)
+
+    resp = make_response(render_template(
+        "tally.html",
+        winner=winner,
+        results=ordered_tally,
+    ))
     return resp
 
 

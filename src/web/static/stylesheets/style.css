@@ -133,3 +133,15 @@ button.b {
     width: 50%;
     height: 100%;
 }
+
+#choice label { 
+    font-size: 0.5em;
+    display:inline-block;
+}
+#choice input { 
+    display:block;
+    width: 100%;
+}
+#voter-info { 
+    display: inline-block;
+}
