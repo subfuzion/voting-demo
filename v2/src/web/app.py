@@ -21,8 +21,8 @@ hostname = socket.gethostname()
 api = os.getenv("VOTE", "http://vote")
 
 # data for rendering UI
-option_a = os.getenv("OPTION_A", "Tabs")
-option_b = os.getenv("OPTION_B", "Spaces")
+option_a = os.getenv("OPTION_A", "Daffy Duck")
+option_b = os.getenv("OPTION_B", "Mickey Mouse")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -46,8 +46,8 @@ def handle_vote():
                 "state": state
             },
             "candidate": {
-                "name": "panther",
-                "party": vote
+                "name": vote,
+                "party": "blue"
             }
         }
         app.logger.info(f"submit vote: {data}")

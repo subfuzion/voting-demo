@@ -2,8 +2,8 @@
   <configuration default="false" name="TEST vote" type="mocha-javascript-test-runner">
     <node-interpreter>project</node-interpreter>
     <node-options />
-    <mocha-package>$PROJECT_DIR$/src/vote/node_modules/mocha</mocha-package>
-    <working-directory>$PROJECT_DIR$/src/vote</working-directory>
+    <mocha-package>$PROJECT_DIR$/v2/src/vote/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$/v2/src/vote</working-directory>
     <pass-parent-env>true</pass-parent-env>
     <envs>
       <env name="VOTE_HOST" value="localhost" />
@@ -12,7 +12,7 @@
     <ui>tdd</ui>
     <extra-mocha-options>--bail</extra-mocha-options>
     <test-kind>DIRECTORY</test-kind>
-    <test-directory>$PROJECT_DIR$/src/vote/test</test-directory>
+    <test-directory>$PROJECT_DIR$/v2/src/vote/test</test-directory>
     <recursive>false</recursive>
     <method v="2" />
   </configuration>

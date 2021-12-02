@@ -8,7 +8,7 @@
             <option value="mongo" />
           </list>
         </option>
-        <option name="sourceFilePath" value="tests/docker-compose.mongo.test.yaml" />
+        <option name="sourceFilePath" value="v2/tests/docker-compose.mongo.test.yaml" />
         <option name="upDetach" value="false" />
       </settings>
     </deployment>

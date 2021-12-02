@@ -8,7 +8,7 @@
             <option value="postgres" />
           </list>
         </option>
-        <option name="sourceFilePath" value="tests/docker-compose.postgres.test.yaml" />
+        <option name="sourceFilePath" value="v2/tests/docker-compose.postgres.test.yaml" />
         <option name="upDetach" value="false" />
       </settings>
     </deployment>
