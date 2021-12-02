@@ -1,0 +1,40 @@
+version: '2.4'
+
+networks:
+
+  test_net:
+    driver: bridge
+
+  data_net:
+    driver: bridge
+
+services:
+
+  database:
+    image: mongo:5.0
+    networks:
+      - data_net
+
+  api:
+    build: .
+    image: api
+    environment:
+      - DATABASE_NAME=vote_test_db
+      - PORT=3000
+    networks:
+      - test_net
+      - data_net
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+
+  sut:
+    image: api
+    entrypoint: npm test
+    environment:
+      - SERVICE_NAME=api
+    networks:
+      - test_net
+    depends_on:
+      - api

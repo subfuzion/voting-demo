@@ -5,7 +5,7 @@ containerized applications on Google Cloud.
 
 - **web** - Web frontend (Python Flask app)
 - **vote** - Vote API microservice (Node.js Express app)
-- **database** - Backend (Postgres SQL database or Mongo NoSQL database)
+- **database** - Backend (Postgres SQL database)
 
 ![](images/voting-app.png)
 

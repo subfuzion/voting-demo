@@ -1,0 +1,27 @@
+{
+  "name": "@subfuzion/vote-database",
+  "version": "2.1.0",
+  "description": "Database package for voting demo app",
+  "main": "index.js",
+  "author": "Tony Pujals <tonypujals@google.com> (https://twitter.com/tonypujals)",
+  "license": {
+    "type": "Apache-2.0",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0"
+  },
+  "repository": "https://github.com/subfuzion/voting-demo.git",
+  "scripts": {
+    "test": "mocha test/*test.js --ui tdd"
+  },
+  "engines": {
+    "node": ">=v16.0.0"
+  },
+  "dependencies": {
+    "mongodb": "^4.1.1",
+    "pg": "^8.7.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.0",
+    "nanoid": "^3.1.23"
+  }
+}
