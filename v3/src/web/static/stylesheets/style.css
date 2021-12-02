@@ -29,14 +29,6 @@ button i {
     margin-top: 3px;
 }
 
-button.a {
-    background-color: #1aaaf8;
-}
-
-button.b {
-    background-color: #00cbca;
-}
-
 #tip {
     text-align: center;
     color: #c0c9ce;
@@ -103,22 +95,6 @@ button.b {
     padding-left: 50px;
 }
 
-#choice button.a:hover {
-    background-color: #1488c6;
-}
-
-#choice button.b:hover {
-    background-color: #00a2a1;
-}
-
-#choice button.a:focus {
-    background-color: #1488c6;
-}
-
-#choice button.b:focus {
-    background-color: #00a2a1;
-}
-
 #background-stats {
     z-index: 1;
     height: 100%;
@@ -138,7 +114,7 @@ button.b {
     font-size: 0.5em;
     display:inline-block;
 }
-#choice input { 
+#choice select { 
     display:block;
     width: 100%;
 }

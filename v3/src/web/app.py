@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import random
@@ -21,8 +22,16 @@ hostname = socket.gethostname()
 api = os.getenv("VOTE", "http://vote")
 
 # data for rendering UI
-option_a = os.getenv("OPTION_A", "Daffy Duck")
-option_b = os.getenv("OPTION_B", "Mickey Mouse")
+# TODO API Driven
+election = "Daffy Duck vs Mickey Mouse"
+candidates = {
+    "daffy": {"id": "daffy", "name": "Daffy Duck", "party": "blue", "color": "#1aaaf8"},
+    "mickey": {"id": "mickey", "name": "Mickey Mouse", "party": "green", "color": "#00cbca"}
+}
+state_county = {
+    "California": ["Fresno", "Alameda", "Sacramento"],
+    "Arizona": ["La Paz", "Maricopa", "Mohave"],
+}
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -37,39 +46,56 @@ def handle_vote():
 
     if request.method == "POST":
         vote = request.form["vote"]
-        county = request.form["county"]
-        state = request.form["state"]
+        state = request.form["state"] if "state" in request.form else None
+        county = request.form["county"] if "county" in request.form else None
+
+        party = candidates[vote]["party"]
+
         data = {
-            "voter": {
-                "voter_id": voter_id,
-                "county": county,
-                "state": state
-            },
-            "candidate": {
-                "name": vote,
-                "party": "blue"
-            }
+            "voter": {"voter_id": voter_id, "county": county, "state": state},
+            "candidate": {"name": vote, "party": party},
         }
         app.logger.info(f"submit vote: {data}")
         r = requests.post(api + "/vote", json=data)
         app.logger.info(f"vote api: status code: {r.status_code}")
 
-    resp = make_response(render_template(
-        "index.html",
-        option_a=option_a,
-        option_b=option_b,
-        hostname=hostname,
-        vote=vote,
-        voter_id=voter_id,
-        state=state,
-        county=county
-    ))
+    resp = make_response(
+        render_template(
+            "index.html",
+            election=election,
+            candidates=candidates.values(),
+            hostname=hostname,
+            vote=vote,
+            voter_id=voter_id,
+            state=state,
+            county=county,
+        )
+    )
     resp.set_cookie("voter_id", voter_id)
     return resp
 
 
 @app.route("/tally/candidates", methods=["GET"])
 def handle_results():
+    r = requests.get(api + "/tally/candidates")
+    winner, results = process_results(r.json()["results"])
+
+    resp = make_response(
+        render_template(
+            "tally.html",
+            election=election,
+            winner=candidates[winner]["name"],
+            results=results,
+        )
+    )
+    return resp
+
+
+def process_results(tallies):
+    """
+    For candidateTallies, return a winner and the results.
+    TODO could the API do this for us?
+    """
     # Expect this shape:
     # {
     #     "candidateTallies": {
@@ -83,28 +109,35 @@ def handle_results():
     #         }
     #     }
     # }
-    # TODO unsure if duplication of nested keys intentional.
-    r = requests.get(api + "/tally/candidates")
-    candidateTallies = r.json()["results"]["candidateTallies"]
-
-    # Flatten results (see TODO)
     tally = {}
-    for key in candidateTallies:
-        tally[key] = candidateTallies[key]["votes"]
+
+    # Flatten results of tallies for candidates
+    for key in tallies["candidateTallies"]:
+        tally[key] = tallies["candidateTallies"][key]["votes"]
+
+    if len(tally) == 0:
+        return "No winner yet", {}
 
     # Sort results in order of votes, desc
-    # TODO Should this be part of the API?
-    ordered_tally = {k: v for k, v in sorted(tally.items(), key=lambda item: item[1], reverse=True)}
+    ordered_tally = {
+        k: v for k, v in sorted(tally.items(), key=lambda item: item[1], reverse=True)
+    }
 
     # Get highest voted
     winner = max(tally, key=tally.get)
+    return winner, ordered_tally
 
-    resp = make_response(render_template(
-        "tally.html",
-        winner=winner,
-        results=ordered_tally,
-    ))
-    return resp
+
+# Powers State dropdown
+@app.route("/data/state/", methods=["GET"])
+def get_states():
+    return make_response(json.dumps(list(state_county.keys())))
+
+
+# Powers County dropdown
+@app.route("/data/state/<state>", methods=["GET"])
+def get_counties(state):
+    return make_response(json.dumps(state_county[state]))
 
 
 def handle_signal(sig, frame):
