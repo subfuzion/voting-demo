@@ -14,8 +14,9 @@
   button.{{c.id}} { 
     background-color: {{c.color}};
   }
-  #choice button.{{c.id}}:hover, #choice button.{{c.id}}:focus { 
-    background-color: {{c.color}}  contrast(60%));
+  button.{{c.id}}:hover, button.{{c.id}}:focus { 
+    background-color: {{c.color}};
+    filter: brightness(60%);
   }
   {% endfor %}
 </style>
