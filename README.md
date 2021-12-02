@@ -15,8 +15,12 @@ several versions.
 
 - [v1](./v1) contains two services:
   - `frontend` - voting API (Node.js)
-  - `backend` - database (Mongo)
+  - `backend` - database (MongoDB)
 - [v2](./v2) restructures the app to three services:
+  - `web` - web UI (using Python / Flask app)
+  - `vote` - voting API (Node.js)
+  - `database` - database (MongoDB)
+- [v3](./v2) updates the web UI and uses a relational database:
   - `web` - web UI (using Python / Flask app)
   - `vote` - voting API (Node.js)
   - `database` - database (Postgres)
