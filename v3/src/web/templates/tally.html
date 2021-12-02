@@ -14,13 +14,16 @@
     <h3>Results of {{election}}</h3>
     <h2 id="winner">Winner: {{winner}}</h2>
 
+    {% if results %}
     <h3>Results</h3>
       {%for value in results%}
       <p>{{value}}: {{results[value]}} votes</p>
       {% endfor %}
 
+    <div>Thank you for voting!<br>
+    {% endif %}
+    Back to <a href="/">voting</a>.</div>
 
-    <div>Thank you for voting!<br>Back to <a href="/">voting</a>.</div>
   </div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>

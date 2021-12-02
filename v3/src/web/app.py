@@ -84,7 +84,7 @@ def handle_results():
         render_template(
             "tally.html",
             election=election,
-            winner=candidates[winner]["name"],
+            winner=winner,
             results=results,
         )
     )
@@ -125,7 +125,8 @@ def process_results(tallies):
 
     # Get highest voted
     winner = max(tally, key=tally.get)
-    return winner, ordered_tally
+    winner_name = candidates[winner]["name"]
+    return winner_name, ordered_tally
 
 
 # Powers State dropdown
