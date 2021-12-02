@@ -10,9 +10,7 @@
   "repository": "https://github.com/subfuzion/voting-demo.git",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --ui tdd",
-    "docker-test": "docker compose -f ./docker-compose.test.yml run sut",
-    "docker-down": "docker compose -f ./docker-compose.test.yml down"
+    "test": "mocha --ui tdd"
   },
   "engines": {
     "node": ">=v16.0.0"
@@ -23,8 +21,7 @@
     "body-parser": "~1.19.0",
     "debug": "~4.3.2",
     "express": "~4.17.1",
-    "morgan": "~1.10.0",
-    "prom-client": "^14.0.1"
+    "morgan": "~1.10.0"
   },
   "devDependencies": {
     "mocha": "^9.1.0"

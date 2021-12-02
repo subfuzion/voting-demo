@@ -21,5 +21,4 @@ deploy:
       - kubernetes/database.yaml
       - kubernetes/vote.yaml
       - kubernetes/web.yaml
-      - kubernetes/podmonitor.yaml
       - kubernetes/web-external.yaml

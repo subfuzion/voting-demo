@@ -1,16 +1,7 @@
 const Database = require('@subfuzion/vote-database').Database;
 const express = require('express');
 const http = require('http');
-const metrics = require('prom-client');
 const morgan = require('morgan');
-
-// Enable default prometheus-compatible metrics collection
-const register = metrics.register;
-metrics.collectDefaultMetrics();
-console.log(`Collecting metrics for ${metrics.collectDefaultMetrics.metricsList}`);
-const voteCounter = new metrics.Counter({
-  name: 'vote_received_counter', help: 'Number of vote requests received',
-});
 
 
 // Create a database connection config object initialized with the defaults:
@@ -48,7 +39,6 @@ function error(...v) {
 // vote route handler
 app.post('/vote', async (req, res) => {
   try {
-    voteCounter.inc();
     let v = req.body
     let result = await db.updateVote(v);
     info(`posted vote: ${JSON.stringify(result)}`);

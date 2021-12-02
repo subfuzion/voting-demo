@@ -14,12 +14,12 @@ services:
     build: src/web
     image: web
     environment:
-      - PORT=80
-      - VOTE=http://vote:8080
+      - PORT=8080
+      - VOTE=http://vote:3000
     networks:
       web_net:
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - vote
 
@@ -27,13 +27,13 @@ services:
     build: src/vote
     image: vote
     environment:
-      - PORT=8080
+      - PORT=3000
       - DATABASE_NAME=database
     networks:
       - web_net
       - backend_net
     ports:
-      - "8080"
+      - "3000:3000"
     depends_on:
       - database
 
@@ -42,4 +42,4 @@ services:
     networks:
       - backend_net
     ports:
-      - "27017"
+      - "27017:27017"

@@ -61,9 +61,9 @@ Ensure the following environment variables are set:
 - **CLUSTER_ID** set to your cluster
 
 ```text
-export PROJECT_ID=my-project
+export PROJECT_ID=autopilot-demo
 export REGION=region
-export CLUSTER_ID=my-cluster
+export CLUSTER_ID=autopilot-demo-cluster-v2
 ```
 
 Get authorization to access your project.

@@ -1,5 +1,4 @@
 flask
 paste
-prometheus-flask-exporter
 requests
 waitress

@@ -19,7 +19,7 @@ variable to the cluster name you want to use.
 
 ```text
 PROJECT_ID=autopilot-demo
-CLUSTER_NAME=autopilot-demo-cluster
+CLUSTER_NAME=autopilot-demo-cluster-v1
 ```
 
 2. **Create a custom gcloud configuration for this demo and log in.**
