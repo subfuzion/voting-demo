@@ -14,7 +14,7 @@ from waitress import serve
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 host = os.getenv("HOST", "0.0.0.0")
 port = os.getenv("PORT", "8080")
